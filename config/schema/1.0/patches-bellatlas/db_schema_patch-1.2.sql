@@ -316,9 +316,9 @@ ALTER TABLE `images`
 ALTER TABLE `images` 
   ADD COLUMN `defaultDisplay` INT NULL AFTER `dynamicProperties`;
 
-
+# bellatlas: sourceIdentifier already exists
 ALTER TABLE `omexsiccatititles` 
-  ADD COLUMN `sourceIdentifier` VARCHAR(150) NULL AFTER `source`,
+  MODIFY `sourceIdentifier` VARCHAR(150) NULL AFTER `source`,
   ADD COLUMN `recordID` VARCHAR(45) NULL AFTER `lasteditedby`;
 
 
@@ -466,6 +466,8 @@ CREATE TABLE `omoccurpaleo` (
 #DROP COLUMN `latestEonOrHighestEonothem`,
 #DROP COLUMN `earliestEonOrLowestEonothem`;
 
+# bellatlas: inconsistent utf8_unicode_ci collation
+ALTER TABLE paleochronostratigraphy CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE `omoccurpaleogts` (
   `gtsid` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -559,9 +561,6 @@ CREATE TABLE `omoccurresource` (
 );
 
 ALTER TABLE `omoccurdeterminations` 
-  DROP FOREIGN KEY `FK_omoccurdets_tid`;
-  
-ALTER TABLE `omoccurdeterminations` 
   CHANGE COLUMN `scientificNameAuthorship` `scientificNameAuthorship` VARCHAR(100) NULL DEFAULT NULL AFTER `sciname`,
   CHANGE COLUMN `tidinterpreted` `tidInterpreted` INT(10) UNSIGNED NULL DEFAULT NULL ,
   CHANGE COLUMN `iscurrent` `isCurrent` INT(2) NULL DEFAULT 0 ,
@@ -570,6 +569,14 @@ ALTER TABLE `omoccurdeterminations`
   CHANGE COLUMN `initialtimestamp` `initialTimestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ,
   ADD COLUMN `family` VARCHAR(150) NULL AFTER `dateIdentifiedInterpreted`,
   ADD COLUMN `taxonRemarks` VARCHAR(45) NULL AFTER `identificationRemarks`;
+
+# bellatlas: key, not foreign key
+ALTER TABLE `omoccurdeterminations` 
+  DROP KEY `FK_omoccurdets_tid`;
+
+UPDATE omoccurdeterminations
+  SET tidInterpreted = NULL
+  WHERE tidInterpreted = 0;
 
 ALTER TABLE `omoccurdeterminations` 
   ADD CONSTRAINT `FK_omoccurdets_tid`  FOREIGN KEY (`tidInterpreted`)  REFERENCES `taxa` (`TID`);
@@ -640,6 +647,9 @@ ALTER TABLE `uploadtaxa`
 
 ALTER TABLE `users` 
   ADD COLUMN `dynamicProperties` TEXT NULL AFTER `usergroups`;
+
+# bellatlas: delete duplicates
+DELETE FROM userroles WHERE userroleid IN (1814, 1781);
 
 ALTER TABLE `userroles` 
   ADD UNIQUE INDEX `Unique_userroles` (`uid` ASC, `role` ASC, `tablename` ASC, `tablepk` ASC);
