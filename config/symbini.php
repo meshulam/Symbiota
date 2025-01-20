@@ -1,10 +1,12 @@
 <?php
-/* bellatlas: site-specific file, in upstream's .gitignore */
+/* bellatlas: site-specific file, in upstream's .gitignore
+ * Values here may be overridden by /etc/bellatlas/symbini_local.php
+ */
+
 $DEFAULT_LANG = 'en';			//Default language
-$DEFAULT_PROJ_ID = 0;
+$DEFAULT_PROJ_ID = 1;
 $DEFAULTCATID = 0;
-$DEFAULT_TITLE = '';
-$EXTENDED_LANG = 'en';		//Add all languages you want to support separated by commas (e.g. en,es); currently supported languages: en,es
+$DEFAULT_TITLE = 'Bell Atlas';
 $TID_FOCUS = '';
 $ADMIN_EMAIL = '';			//This is the email address used to contact the primary on this portal
 $SYSTEM_EMAIL = ''; 	//This email address is used for system notifications (password reset requests, etc...) ex: noreply@yourdomain.edu
@@ -14,8 +16,8 @@ $SECURITY_KEY = '';				//Typically a UUID used to verify access to certain web s
 
 $SERVER_HOST = '';				//fully qualified domain name or IP address of the server. e.g. 'symbiota.org' or 'localhost'
 $CLIENT_ROOT = '';				//URL path to project root folder (relative path w/o domain, e.g. '/seinet')
-$SERVER_ROOT = '/var/www';				//Full path to Symbiota project root folder
-$TEMP_DIR_ROOT = $SERVER_ROOT . '/temp';				//Must be writable by Apache; will use system default if not specified
+$SERVER_ROOT = '/var/www';		//Full path to Symbiota project root folder
+$TEMP_DIR_ROOT = '/var/staging/';	//Must be writable by Apache; will use system default if not specified
 $LOG_PATH = $SERVER_ROOT . '/content/logs';					//Must be writable by Apache; will use <SYMBIOTA_ROOT>/temp/logs if not specified
 
 //Path to CSS files
@@ -26,8 +28,10 @@ $PUBLIC_IMAGE_UPLOAD_ROOT = '/content/imglib';
 
 //the root for the collection image directory
 $IMAGE_DOMAIN = '';				//Domain path to images, if different from portal
-$IMAGE_ROOT_URL = '';				//URL path to images
-$IMAGE_ROOT_PATH = '';			//Writable path to images, especially needed for downloading images
+$IMAGE_ROOT_URL = 'https://s3.msi.umn.edu/mbaenrms3fs/images/'; //URL path to images
+$IMAGE_ROOT_PATH = 's3://mbaenrms3fs/images/';                  //Writable path to images, especially needed for downloading images
+$IMAGE_S3_ROOT_URL = 'https://s3.msi.umn.edu';                  //root URL of s3
+$IMAGE_S3_CRED_PATH = '';         //set in symbini_local
 
 //Pixel width of web images
 $IMG_WEB_WIDTH = 1400;
@@ -37,7 +41,7 @@ $IMG_FILE_SIZE_LIMIT = 300000;		//Files above this size limit and still within p
 $IPLANT_IMAGE_IMPORT_PATH = '';		//Path used to map/import images uploaded to the iPlant image server (e.g. /home/shared/project-name/--INSTITUTION_CODE--/, the --INSTITUTION_CODE-- text will be replaced with collection's institution code)
 
 //$USE_IMAGE_MAGICK = 0;		//1 = ImageMagick resize images, given that it's installed (faster, less memory intensive)
-$TESSERACT_PATH = ''; 			//Needed for OCR function in the occurrence editor page
+$TESSERACT_PATH = '/usr/bin/tesseract'; 			//Needed for OCR function in the occurrence editor page
 $NLP_LBCC_ACTIVATED = 0;
 $NLP_SALIX_ACTIVATED = 0;
 
@@ -46,13 +50,13 @@ $OCCURRENCE_MOD_IS_ACTIVE = 1;
 $FLORA_MOD_IS_ACTIVE = 1;
 $KEY_MOD_IS_ACTIVE = 1;
 
-//Configurations for publishing to GBIF
+//Configurations for publishing to GBIF (set in symbini_local.php)
 $GBIF_USERNAME = '';                //GBIF username which portal will use to publish
 $GBIF_PASSWORD = '';                //GBIF password which portal will use to publish
 $GBIF_ORG_KEY = '';                 //GBIF organization key for organization which is hosting this portal
 
 //Misc variables
-$DEFAULT_TAXON_SEARCH = 2;			//Default taxonomic search type: 1 = Any Name, 2 = Scientific Name, 3 = Family, 4 = Taxonomic Group, 5 = Common Name
+$DEFAULT_TAXON_SEARCH = 1;			//Default taxonomic search type: 1 = Any Name, 2 = Scientific Name, 3 = Family, 4 = Taxonomic Group, 5 = Common Name
 
 $GOOGLE_MAP_KEY = '';				//Needed for Google Map; get from Google
 $MAPBOX_API_KEY = '';
@@ -88,23 +92,65 @@ $RIGHTS_TERMS = array(
 );
 
  // Should public users be able to create accounts?
-$SHOULD_BE_ABLE_TO_CREATE_PUBLIC_USER = true;
-// end Should public users be able to create accounts?
+ $SHOULD_BE_ABLE_TO_CREATE_PUBLIC_USER = true;
+ // end Should public users be able to create accounts?
 
-$SYMBIOTA_LOGIN_ENABLED = true;
+ $SYMBIOTA_LOGIN_ENABLED = true;
 
-$SHOULD_INCLUDE_CULTIVATED_AS_DEFAULT=false;
-$AUTH_PROVIDER = 'oid';
-$LOGIN_ACTION_PAGE = 'openIdAuth.php';
-$SHOULD_USE_HARVESTPARAMS = false;
+ $SHOULD_INCLUDE_CULTIVATED_AS_DEFAULT=false;
+ $AUTH_PROVIDER = 'oid';
+ $LOGIN_ACTION_PAGE = 'openIdAuth.php';
+ $SHOULD_USE_HARVESTPARAMS = false;
 
-$SHOULD_USE_MINIMAL_MAP_HEADER = false;
+ $SHOULD_USE_MINIMAL_MAP_HEADER = false;
 
-$COOKIE_SECURE = false;
-if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
-	header('strict-transport-security: max-age=600');
-	$COOKIE_SECURE = true;
-}
+ $COOKIE_SECURE = false;
+ if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
+	 header('strict-transport-security: max-age=600');
+	 $COOKIE_SECURE = true;
+ }
+
+// TODO: bellatlas below
+$ALLOW_SELF_CREATED_ACCOUNTS = 0; //TODO mbaenrm Allow new users to create their own accounts.
+$CSS_VERSION_LOCAL = '20170414';		//Changing this variable will force a refresh of main.css styles within users browser cache for all pages
+
+//Individual page menu and navigation crumbs
+//Menu variables turn on and off the display of left menu
+//Crumb variables allow the customization of the bread crumbs. A crumb variable with an empty value will cause crumbs to disappear
+//Variable name should include path to file separated by underscores and then the file name ending with "Menu" or "Crumbs"
+//checklists/
+	$checklists_checklistMenu = 0;
+	//$checklists_checklistCrumbs = "<a href='../index.php'>Home</a> &gt;&gt; <a href='index.php'>Checklists</a> &gt;&gt; ";
+//collections/
+	$collections_indexMenu = 0;
+	$collections_harvestparamsMenu = 0;
+	//$collections_harvestparamsCrumbs = "<a href='index.php'>Collections</a> &gt;&gt; ";
+	$collections_listMenu = 0;
+	$collections_checklistMenu = 0;
+	$collections_download_downloadMenu = 0;
+	$collections_maps_indexMenu = 0;
+
+//ident/
+	$ident_keyMenu = 0;
+	$ident_tools_chardeficitMenu = 0;
+	$ident_tools_massupdateMenu = 0;
+	$ident_tools_editorMenu = 0;
+
+//taxa/
+	$taxa_indexMenu = 0;
+	$taxa_admin_tpeditorMenu = 0;
+
+//loans/
+	$collections_loans_indexCrumbs = 0;
+
+//agents/
+    $agents_indexMenu = TRUE;
+    $agent_indexCrumbs = array();
+    array_push($agent_indexCrumbs,"<a href='$CLIENT_ROOT/index.php'>Home</a>");
+    array_push($agent_indexCrumbs,"<a href='$CLIENT_ROOT/agents/index.php'>Agents</a>");
+
+// Override global variables above with env-specific values
+include_once('/etc/bellatlas/symbini_local.php');
 
 //Base code shared by all pages; leave as is
 include_once('symbbase.php');
