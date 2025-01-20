@@ -12,6 +12,7 @@
 <link href="<?= $CSS_BASE_PATH ?>/symbiota/header.css?ver=<?= $CSS_VERSION ?>" type="text/css" rel="stylesheet">
 <link href="<?= $CSS_BASE_PATH ?>/symbiota/footer.css?ver=<?= $CSS_VERSION ?>" type="text/css" rel="stylesheet">
 <link href="<?= $CSS_BASE_PATH ?>/symbiota/main.css?ver=<?= $CSS_VERSION ?>" type="text/css" rel="stylesheet">
+<link href="<?= $CSS_BASE_PATH ?>/umn.css?ver=<?= $CSS_VERSION ?>" type="text/css" rel="stylesheet">
 <link href="<?= $CSS_BASE_PATH ?>/symbiota/customizations.css?ver=<?= $CSS_VERSION ?>" type="text/css" rel="stylesheet">
 
 <script src="<?= $CLIENT_ROOT ?>/js/symb/lang.js" type="text/javascript"></script>

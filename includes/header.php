@@ -7,9 +7,28 @@ $SHOULD_USE_HARVESTPARAMS = $SHOULD_USE_HARVESTPARAMS ?? false;
 $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '/collections/search/index.php';
 ?>
 <div class="header-wrapper">
+	<div class="umnhf" id="umnhf-h" role="banner">
+		<a class="screen-reader-only" href="#end-nav"><?= $LANG['H_SKIP_NAV'] ?></a>
+		<div class="printer"><div class="left"></div><div class="right"><strong>University of Minnesota</strong><br />https://www.umn.edu/<br />612-625-5000</div></div>
+		<div class="umnhf" id="umnhf-h-mast">
+			<a class="umnhf" id="umnhf-h-logo" href="https://twin-cities.umn.edu/"><span>Go to the U of M home page</span></a>
+			<ul class="umnhf" id="umnhf-h-ql">
+				<li><a href="http://onestop.umn.edu/">One Stop</a></li>
+				<li class="umnhf"><a href="https://www.myu.umn.edu/">MyU <span></span>: For Students, Faculty, and Staff</a></li>
+			</ul>
+			<!-- Button below is for dropdown toggle, only visible on mobile screens. If using
+			a non-dropdown version you can delete this tag -->
+			<button class="umnhf" id="umnhf-m-search">Search</button>
+		</div>
+		<form class="umnhf" id="umnhf-h-search" action="https://www.bellmuseum.umn.edu/" method="get" title="Search the Bell Museum Website" role="search">
+			<label class="umnhf" for="umnhf-h-st" for="s">Search the Bell Museum Website</label>
+			<input class="umnhf" id="umnhf-h-st" type="text" name="s" id="s" value="" placeholder="search the bell">
+			<input aria-hidden="true" type="hidden" name="search-type" value="normal">
+			<input class="umnhf" id="umnhf-h-sb" type="submit" value="">
+		</form>
+	</div>
 	<header>
 		<div class="top-wrapper">
-			<a class="screen-reader-only" href="#end-nav"><?= $LANG['H_SKIP_NAV'] ?></a>
 			<nav class="top-login" aria-label="horizontal-nav">
 				<?php
 				if ($USER_DISPLAY_NAME) {
@@ -30,9 +49,6 @@ $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '
 					<?php
 				} else {
 					?>
-					<span id="contactUs">
-						<button class="button button-tertiary bottom-breathing-room-rel left-breathing-room-rel" onclick="window.location.href='#'"><?= $LANG['H_CONTACT_US'] ?></button>
-					</span>
 					<span id="login">
 						<form name="loginForm" method="post" action="<?= $CLIENT_ROOT . "/profile/index.php" ?>">
 							<input name="refurl" type="hidden" value="<?= htmlspecialchars($_SERVER['SCRIPT_NAME'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . "?" . htmlspecialchars($_SERVER['QUERY_STRING'], ENT_QUOTES) ?>">
@@ -44,14 +60,8 @@ $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '
 				?>
 			</nav>
 			<div class="top-brand">
-				<a href="<?= $CLIENT_ROOT ?>">
-					<div class="image-container">
-						<img src="<?= $CLIENT_ROOT ?>/images/layout/logo_symbiota.png" alt="Symbiota logo">
-					</div>
-				</a>
 				<div class="brand-name">
-					<h1>Symbiota Brand New Portal</h1>
-					<h2>Redesigned by the Symbiota Support Hub</h2>
+					<h1><a href="<?= $CLIENT_ROOT ?>">Minnesota Biodiversity Atlas</a></h1>
 				</div>
 			</div>
 		</div>
@@ -78,23 +88,18 @@ $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '
 						</a>
 					</li>
 					<li>
-						<a href="<?= $CLIENT_ROOT ?>/checklists/index.php">
-							<?= $LANG['H_INVENTORIES'] ?>
-						</a>
-					</li>
-					<li>
 						<a href="<?= $CLIENT_ROOT ?>/imagelib/search.php">
 							<?= $LANG['H_IMAGES'] ?>
 						</a>
 					</li>
 					<li>
-						<a href="<?= $CLIENT_ROOT ?>/includes/usagepolicy.php">
-							<?= $LANG['H_DATA_USAGE'] ?>
+						<a href="<?= $CLIENT_ROOT ?>/taxa/taxonomy/taxonomydisplay.php">
+							Taxonomy
 						</a>
 					</li>
 					<li>
-						<a href="https://symbiota.org/docs" target="_blank" rel="noopener noreferrer">
-							<?= $LANG['H_HELP'] ?>
+						<a href="<?= $CLIENT_ROOT ?>/checklists/index.php">
+							Checklists
 						</a>
 					</li>
 					<li>
@@ -103,31 +108,19 @@ $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '
 						</a>
 					</li>
 					<li>
-						<a href="#">Example Dropdown</a>
+						<a href="#">Extras</a>
 						<ul>
 							<li>
-								<a href="#">Link 1</a>
+								<a href="<?= $CLIENT_ROOT ?>/includes/usagepolicy.php">
+									<?= $LANG['H_DATA_USAGE'] ?>
+								</a>
 							</li>
 							<li>
-								<a href="#">Link 2</a>
-							</li>
-							<li>
-								<a href="#">Sub Menu</a>
-								<ul>
-									<li>
-										<a href="#">Link 3</a>
-									</li>
-								</ul>
+								<a href="https://symbiota.org/docs" target="_blank" rel="noopener noreferrer">
+									<?= $LANG['H_HELP'] ?>
+								</a>
 							</li>
 						</ul>
-					</li>
-					<li id="lang-select-li">
-						<label for="language-selection"><?= $LANG['H_SELECT_LANGUAGE'] ?>: </label>
-						<select oninput="setLanguage(this)" id="language-selection" name="language-selection">
-							<option value="en">English</option>
-							<option value="es" <?= ($LANG_TAG=='es'?'SELECTED':'') ?>>Español</option>
-							<option value="fr" <?= ($LANG_TAG=='fr'?'SELECTED':'') ?>>Français</option>
-						</select>
 					</li>
 				</ul>
 			</nav>
