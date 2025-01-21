@@ -454,8 +454,8 @@ ALTER TABLE `omcollections`
   ADD COLUMN `recordID` VARCHAR(45) NULL AFTER `dwcTermJson`;
 
 
-ALTER TABLE `omoccurdeterminations` 
-  DROP FOREIGN KEY `FK_omoccurdets_idby`;
+-- ALTER TABLE `omoccurdeterminations` 
+--   DROP FOREIGN KEY `FK_omoccurdets_idby`;
 
 ALTER TABLE `omoccurdeterminations` 
   DROP INDEX `FK_omoccurdets_idby_idx` ;
@@ -869,7 +869,12 @@ ALTER TABLE `taxa`
 
 UPDATE IGNORE taxa SET author = "" WHERE author IS NULL;
 
+-- Drop index first since truncating author below causes uniqueness failures
 ALTER TABLE `taxa` 
+  DROP INDEX `sciname_unique`;
+
+-- bellatlas: some authors violate length constraint due to multibyte chars entered in non-strict mode. Just truncate
+ALTER IGNORE TABLE `taxa` 
   CHANGE COLUMN `Author` `author` VARCHAR(150) NOT NULL DEFAULT '';
 
 UPDATE taxa SET kingdomName = "" WHERE kingdomName IS NULL;
@@ -880,8 +885,6 @@ ALTER TABLE `taxa`
   CHANGE COLUMN `kingdomName` `kingdomName` VARCHAR(45) NOT NULL DEFAULT '' ,
   CHANGE COLUMN `rankID` `rankID` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0 ;
 
-ALTER TABLE `taxa` 
-  DROP INDEX `sciname_unique`;
 
 # Following statement is the default unique index in the taxa table to support a multi-kingdom portal 
 # If UNIQUE INDEX fails, run following query below to identify duplicate records. Duplicates can be deleted, or you can apply the alternate index that supports the existance of homonyms 
