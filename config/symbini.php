@@ -91,63 +91,23 @@ $RIGHTS_TERMS = array(
 	'CC BY-NC-SA (Attribution-NonCommercial-ShareAlike)' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
 );
 
- // Should public users be able to create accounts?
- $SHOULD_BE_ABLE_TO_CREATE_PUBLIC_USER = true;
- // end Should public users be able to create accounts?
+// Should public users be able to create accounts?
+$SHOULD_BE_ABLE_TO_CREATE_PUBLIC_USER = false;
 
- $SYMBIOTA_LOGIN_ENABLED = true;
+$SYMBIOTA_LOGIN_ENABLED = true;
 
- $SHOULD_INCLUDE_CULTIVATED_AS_DEFAULT=false;
- $AUTH_PROVIDER = 'oid';
- $LOGIN_ACTION_PAGE = 'openIdAuth.php';
- $SHOULD_USE_HARVESTPARAMS = false;
+$SHOULD_INCLUDE_CULTIVATED_AS_DEFAULT=false;
+$AUTH_PROVIDER = 'oid';
+$LOGIN_ACTION_PAGE = 'openIdAuth.php';
+$SHOULD_USE_HARVESTPARAMS = false;
 
- $SHOULD_USE_MINIMAL_MAP_HEADER = false;
+$SHOULD_USE_MINIMAL_MAP_HEADER = false;
 
- $COOKIE_SECURE = false;
- if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
-	 header('strict-transport-security: max-age=600');
-	 $COOKIE_SECURE = true;
- }
-
-// TODO: bellatlas below
-$ALLOW_SELF_CREATED_ACCOUNTS = 0; //TODO mbaenrm Allow new users to create their own accounts.
-$CSS_VERSION_LOCAL = '20170414';		//Changing this variable will force a refresh of main.css styles within users browser cache for all pages
-
-//Individual page menu and navigation crumbs
-//Menu variables turn on and off the display of left menu
-//Crumb variables allow the customization of the bread crumbs. A crumb variable with an empty value will cause crumbs to disappear
-//Variable name should include path to file separated by underscores and then the file name ending with "Menu" or "Crumbs"
-//checklists/
-	$checklists_checklistMenu = 0;
-	//$checklists_checklistCrumbs = "<a href='../index.php'>Home</a> &gt;&gt; <a href='index.php'>Checklists</a> &gt;&gt; ";
-//collections/
-	$collections_indexMenu = 0;
-	$collections_harvestparamsMenu = 0;
-	//$collections_harvestparamsCrumbs = "<a href='index.php'>Collections</a> &gt;&gt; ";
-	$collections_listMenu = 0;
-	$collections_checklistMenu = 0;
-	$collections_download_downloadMenu = 0;
-	$collections_maps_indexMenu = 0;
-
-//ident/
-	$ident_keyMenu = 0;
-	$ident_tools_chardeficitMenu = 0;
-	$ident_tools_massupdateMenu = 0;
-	$ident_tools_editorMenu = 0;
-
-//taxa/
-	$taxa_indexMenu = 0;
-	$taxa_admin_tpeditorMenu = 0;
-
-//loans/
-	$collections_loans_indexCrumbs = 0;
-
-//agents/
-    $agents_indexMenu = TRUE;
-    $agent_indexCrumbs = array();
-    array_push($agent_indexCrumbs,"<a href='$CLIENT_ROOT/index.php'>Home</a>");
-    array_push($agent_indexCrumbs,"<a href='$CLIENT_ROOT/agents/index.php'>Agents</a>");
+$COOKIE_SECURE = false;
+if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
+	header('strict-transport-security: max-age=600');
+	$COOKIE_SECURE = true;
+}
 
 // Override global variables above with env-specific values
 include_once('/etc/bellatlas/symbini_local.php');
