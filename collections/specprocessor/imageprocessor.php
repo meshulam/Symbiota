@@ -716,6 +716,13 @@ if($spprid) $specManager->setProjVariables($spprid);
 											<input name="collid" type="hidden" value="<?php echo $collid; ?>" />
 											<input name="projtype" type="hidden" value="<?php echo $projectType; ?>" />
 											<input name="tabindex" type="hidden" value="0" />
+											<?php
+												// mbaenrm
+												if (str_starts_with($specManager->getSourcePath(), 'local:')){
+													echo '<input id="fileupload" type="file" name="imageFiles[]" accept=".jpg, .jpeg" multiple="multiple"/>';
+													echo '<br/><br/>';
+												}
+											?>
 											<input name="submitaction" type="submit" value="Process <?php echo ($projectType=='idigbio'?'Output File':'Images') ?>" />
 										</div>
 									</fieldset>

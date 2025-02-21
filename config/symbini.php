@@ -18,7 +18,7 @@ $SERVER_HOST = '';				//fully qualified domain name or IP address of the server.
 $CLIENT_ROOT = '';				//URL path to project root folder (relative path w/o domain, e.g. '/seinet')
 $SERVER_ROOT = '/var/www';		//Full path to Symbiota project root folder
 $TEMP_DIR_ROOT = '/var/staging/';	//Must be writable by Apache; will use system default if not specified
-$LOG_PATH = $SERVER_ROOT . '/content/logs';					//Must be writable by Apache; will use <SYMBIOTA_ROOT>/temp/logs if not specified
+$LOG_PATH = '/var/log/symbiota';					//Must be writable by Apache; will use <SYMBIOTA_ROOT>/temp/logs if not specified
 
 //Path to CSS files
 $CSS_BASE_PATH = $CLIENT_ROOT . '/css';
@@ -30,8 +30,9 @@ $PUBLIC_IMAGE_UPLOAD_ROOT = '/content/imglib';
 $IMAGE_DOMAIN = '';				//Domain path to images, if different from portal
 $IMAGE_ROOT_URL = 'https://s3.msi.umn.edu/mbaenrms3fs/images/'; //URL path to images
 $IMAGE_ROOT_PATH = 's3://mbaenrms3fs/images/';                  //Writable path to images, especially needed for downloading images
-$IMAGE_S3_ROOT_URL = 'https://s3.msi.umn.edu';                  //root URL of s3
-$IMAGE_S3_CRED_PATH = '';         //set in symbini_local
+$IMAGE_S3_ACCESS_KEY_ID = '';
+$IMAGE_S3_ACCESS_KEY_SECRET = '';
+$S3CMD_CONFIG_PATH = '';
 
 //Pixel width of web images
 $IMG_WEB_WIDTH = 1400;

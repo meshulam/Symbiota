@@ -76,7 +76,7 @@ $statusStr = "";
 						$imageProcessor = new ImageLocalProcessor();
 
 						$imageProcessor->setLogMode(3);
-						$logPath = $SERVER_ROOT . (substr($SERVER_ROOT, -1) == '/' ? '' : '/') . 'content/logs/imageprocessing';
+						$logPath = $LOG_PATH . 'imageprocessing/';
 						if(!file_exists($logPath)) mkdir($logPath);
 						$imageProcessor->setLogPath($logPath);
 						$logFile = $collid.'_'.$specManager->getInstitutionCode();
@@ -102,6 +102,7 @@ $statusStr = "";
 						$imageProcessor->setLgProcessingCode($_POST['createlgimg']);
 						$imageProcessor->setCreateNewRec($_POST['createnewrec']);
 						$imageProcessor->setImgExists($_POST['imgexists']);
+						$imageProcessor->setUploadedFileList($_FILES['imageFiles']);  // mbaenrm
 						$imageProcessor->setKeepOrig(0);
 						$imageProcessor->setCustomStoredProcedure($specManager->getCustomStoredProcedure());
 						$imageProcessor->setSkeletalFileProcessing($_POST['skeletalFileProcessing']);
