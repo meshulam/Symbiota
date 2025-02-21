@@ -1707,6 +1707,7 @@ class ImageLocalProcessor {
 			$this->logOrEcho('Cleaning house...'.date('Y-m-d h:i:s A'));
 			$collString = implode(',',$this->collProcessedArr);
 			$occurMain->setCollidStr($collString);
+			// TODO: takes ~15s
 			if(!$occurMain->generalOccurrenceCleaning()){
 				$errorArr = $occurMain->getErrorArr();
 				foreach($errorArr as $errorStr){
@@ -1715,6 +1716,7 @@ class ImageLocalProcessor {
 			}
 
 			$this->logOrEcho('SKIP Protecting sensitive species...'.date('Y-m-d h:i:s A'));
+			// TODO: takes over 1 minute, investigate
 			//$protectCnt = $occurMain->protectRareSpecies();
 			//$this->logOrEcho($protectCnt.' records protected',1);
 
