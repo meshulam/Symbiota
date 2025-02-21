@@ -562,10 +562,6 @@ class ImageLocalProcessor {
 	}
 
 	private function getTargetPathFrag($catalogNumber){
-		if($this->s3Target){
-			// S3 doesn't have performance limitatations when there are many files in the same 'directory,' so skip creating sub-paths
-			return $this->targetPathFrag;
-		}
 		$targetFolder = '';
 		if(strlen($catalogNumber) > 3){
 			$folderName = $catalogNumber;
@@ -580,7 +576,7 @@ class ImageLocalProcessor {
 		}
 		if(!$targetFolder) $targetFolder = date('Ym').'/';
 		$targetPath = $this->targetPathFrag.$targetFolder;
-		if(!file_exists($this->targetPathBase.$targetPath)){
+		if(!$this->s3Target && !file_exists($this->targetPathBase.$targetPath)){
 			if(!mkdir($this->targetPathBase.$targetPath)){
 				$this->logOrEcho('ERROR: unable to create new folder ('.$this->targetPathBase.$targetPath.') ');
 			}
