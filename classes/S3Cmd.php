@@ -25,6 +25,12 @@ class S3Cmd
 		return ($return_code === 0);
 	}
 
+	/** equivalent to builtin unlink() */
+	public static function unlink($s3URI):bool{
+		list($return_code, $stdout, $stderr) = self::run(array('del', $s3URI));
+		return ($return_code === 0);
+	}
+
 	/**
 	 * $args: array of strings, s3cmd subcommand and args
 	 * returns: array($return_code, $stdout, $stderr)

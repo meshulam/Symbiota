@@ -649,7 +649,7 @@ class ImageShared{
 					//Delete image from server
 					$imgDelPath = str_replace($this->imageRootUrl,$this->imageRootPath,$imgUrl);
 					if(substr($imgDelPath,0,4) != 'http'){
-						if(!unlink($imgDelPath)){
+						if(!self::unlink($imgDelPath)){
 							$this->errArr[] = 'WARNING: Deleted records from database successfully but FAILED to delete image from server (path: '.$imgDelPath.')';
 						}
 					}
@@ -660,7 +660,7 @@ class ImageShared{
 							$imgThumbnailUrl = substr($imgThumbnailUrl,strlen($domain));
 						}
 						$imgTnDelPath = str_replace($this->imageRootUrl,$this->imageRootPath,$imgThumbnailUrl);
-						if(file_exists($imgTnDelPath) && substr($imgTnDelPath,0,4) != 'http') unlink($imgTnDelPath);
+						if(substr($imgTnDelPath,0,4) != 'http') self::unlink($imgTnDelPath);
 					}
 
 					//Delete large version of image
@@ -669,7 +669,7 @@ class ImageShared{
 							$imgOriginalUrl = substr($imgOriginalUrl,strlen($domain));
 						}
 						$imgOriginalDelPath = str_replace($this->imageRootUrl,$this->imageRootPath,$imgOriginalUrl);
-						if(file_exists($imgOriginalDelPath) && substr($imgOriginalDelPath,0,4) != 'http') unlink($imgOriginalDelPath);
+						if(substr($imgOriginalDelPath,0,4) != 'http') self::unlink($imgOriginalDelPath);
 					}
 				}
 			}
@@ -1112,11 +1112,25 @@ class ImageShared{
 	}
 
 	/** S3-aware version of copy() builtin */
-	private static function copy($source, $dest) {
+	private static function copy($source, $dest){
 		if(str_starts_with($dest, 's3://')) {
 			return S3Cmd::copyTo($source, $dest);
 		}
 		return copy($source, $dest);
+	}
+
+	/** S3-aware version of unlink() builtin */
+	private static function unlink($filename){
+		if(str_starts_with($filename, 's3://')){
+			if(str_starts_with($filename, $GLOBALS['IMAGE_ROOT_PATH'])){
+				// only delete S3 objects in this app's configured bucket/path
+				return S3Cmd::unlink($filename);
+			}
+		}
+		else if(file_exists($imgTnDelPath)){
+			return unlink($filename);
+		}
+		return false;
 	}
 
 	public static function getImgDim($imgUrl){
