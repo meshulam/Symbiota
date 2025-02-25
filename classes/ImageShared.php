@@ -1,6 +1,7 @@
 <?php
 include_once('OccurrenceUtilities.php');
 include_once('UuidFactory.php');
+include_once('S3Cmd.php');
 
 class ImageShared{
 
@@ -63,6 +64,7 @@ class ImageShared{
 	private $activeImgId = 0;
 	private $errArr = array();
 	private $context = null;
+	private $s3SourceUploaded = false;
 
 	public function __construct($conn = null){
 		if($conn){
@@ -149,6 +151,7 @@ class ImageShared{
 		$this->sortOccurrence = 5;
 
 		$this->activeImgId = 0;
+		$this->s3SourceUploaded = false;
 
 		unset($this->errArr);
 		$this->errArr = array();
@@ -157,7 +160,25 @@ class ImageShared{
 
 	public function uploadImage($imgFile = 'imgfile'){
 		if($this->targetPath){
-			if(file_exists($this->targetPath)){
+			if(str_starts_with($this->targetPath, 's3://')) {
+				// mbaenrm S3 upload support
+				$tmpFileName = $_FILES[$imgFile]['tmp_name'];
+				$imgFileName = basename($_FILES[$imgFile]['name']);
+				$fileName = $this->cleanFileName($imgFileName);
+
+				$this->sourcePath = $tmpFileName;
+
+				$dest = $this->targetPath.$fileName.$this->imgExt;
+				if(S3Cmd::copyTo($tmpFileName, $dest)) {
+					$this->imgName = $fileName;
+					$this->s3SourceUploaded = true; // signal for cleaning up temp file at the end of processImage()
+					return true;
+				}
+				else{
+					$this->errArr[] = 'FATAL ERROR: unable to move image to target ('.$this->targetPath.$fileName.$this->imgExt.')';
+				}
+			}
+			else if(file_exists($this->targetPath)){
 				$imgFileName = basename($_FILES[$imgFile]['name']);
 				$fileName = $this->cleanFileName($imgFileName);
 				if(move_uploaded_file($_FILES[$imgFile]['tmp_name'], $this->targetPath.$fileName.$this->imgExt)){
@@ -329,7 +350,7 @@ class ImageShared{
 
 		$path .= $subPath;
 		$url .= $subPath;
-		if(!file_exists($path)){
+		if(!str_starts_with($path, 's3://') && !file_exists($path)){
 			if(!mkdir( $path, 0777, true )){
 				$this->errArr[] = 'FATAL ERROR: Unable to create directory: '.$path;
 				//trigger_error('Unable to create directory: '.$path,E_USER_ERROR);
@@ -371,7 +392,7 @@ class ImageShared{
 				else{
 					if($this->sourceWidth < ($this->lgPixWidth*1.2)){
 						//Image width is small enough to serve as large image
-						if(copy($this->sourcePath,$this->targetPath.$this->imgName.'_lg'.$this->imgExt, $this->context)){
+						if(self::copy($this->sourcePath,$this->targetPath.$this->imgName.'_lg'.$this->imgExt, $this->context)){
 							$this->imgLgUrl = $this->imgName.'_lg'.$this->imgExt;
 						}
 					}
@@ -403,6 +424,10 @@ class ImageShared{
 				$this->imgWebUrl = $this->imgName.'.jpg';
 			}
 		}
+		if($this->s3SourceUploaded){
+			// for s3 targets, we can safely delete the temp file after processing
+			unlink($this->sourcePath);
+		}
 
 		$status = $this->insertImage();
 		return $status;
@@ -414,17 +439,31 @@ class ImageShared{
 		if($this->sourcePath){
 			if(!$qualityRating) $qualityRating = $this->jpgCompression;
 
+			$imgTargetPath = $targetPathOverride;
+			if(empty($imgTargetPath)) $imgTargetPath = $this->targetPath.$this->imgName.$subExt.$this->imgExt;
+
+			$outPath = $imgTargetPath;
+			if(str_starts_with($imgTargetPath, 's3://')){
+				// write to temp file and copy to S3 as separate step below
+				$outPath = sys_get_temp_dir() . '/temp-' . basename($targetPath);
+			}
+
 			if($USE_IMAGE_MAGICK) {
 				// Use ImageMagick to resize images
-				$status = $this->createNewImageImagick($subExt,$targetWidth,$qualityRating,$targetPathOverride);
+				$status = $this->createNewImageImagick($subExt,$targetWidth,$qualityRating,$outPath);
 			}
 			elseif(extension_loaded('gd') && function_exists('gd_info')) {
 				// GD is installed and working
-				$status = $this->createNewImageGD($subExt,$targetWidth,$qualityRating,$targetPathOverride);
+				$status = $this->createNewImageGD($subExt,$targetWidth,$qualityRating,$outPath);
 			}
 			else{
 				// Neither ImageMagick nor GD are installed
 				$this->errArr[] = 'ERROR: No appropriate image handler for image conversions';
+			}
+
+			if($status && str_starts_with($imgTargetPath, 's3://')){
+				S3Cmd::copyTo($outPath, $imgTargetPath);
+				unlink($outPath);
 			}
 		}
 		else{
@@ -1070,6 +1109,14 @@ class ImageShared{
 		//Test to see if file is an image
 		//if(!@exif_imagetype($uri)) $exists = false;
 		return $exists;
+	}
+
+	/** S3-aware version of copy() builtin */
+	private static function copy($source, $dest) {
+		if(str_starts_with($dest, 's3://')) {
+			return S3Cmd::copyTo($source, $dest);
+		}
+		return copy($source, $dest);
 	}
 
 	public static function getImgDim($imgUrl){
