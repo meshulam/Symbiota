@@ -3,50 +3,49 @@
 include_once('/etc/bellatlas/symbini_local.php');
 
 class MySQLiConnectionFactory {
-	/* In symbini_local.php:
-	$DB_SERVERS = array(
-		array(
-			'type' => 'readonly',
-			'host' => 'localhost',
-			'username' => 'symbiota_ro',
-			'password' => 'pw',
-			'database' => 'symbiota',
-			'port' => '3306',
-			'charset' => 'utf8'
-		),
-		array(
-			'type' => 'write',
-			'host' => 'localhost',
-			'username' => 'symbiota_rw',
-			'password' => 'pw',
-			'database' => 'symbiota',
-			'port' => '3306',
-			'charset' => 'utf8'
-		),
-	);
-	*/
+	private static function getServerDef($type) {
+		if($type == 'readonly'){
+			return array(
+				'type' => 'readonly',
+				'host' => $GLOBALS['DB_HOST'],
+				'username' => $GLOBALS['DB_RO_USERNAME'],
+				'password' => $GLOBALS['DB_RO_PASSWORD'],
+				'database' => $GLOBALS['DB_DATABASE'],
+				'port' => $GLOBALS['DB_PORT'],
+				'ssl' => $GLOBALS['DB_SSL'],
+			);
+		}
+		if($type == 'write'){
+			return array(
+				'type' => 'write',
+				'host' => $GLOBALS['DB_HOST'],
+				'username' => $GLOBALS['DB_RW_USERNAME'],
+				'password' => $GLOBALS['DB_RW_PASSWORD'],
+				'database' => $GLOBALS['DB_DATABASE'],
+				'port' => $GLOBALS['DB_PORT'],
+				'ssl' => $GLOBALS['DB_SSL'],
+			);
+		}
+	}
 
 	public static function getCon($type) {
-		// Figure out which connections are open, automatically opening any connections
-		// which are failed or not yet opened but can be (re)established.
-		global $DB_SERVERS;
-		for ($i = 0, $n = count($DB_SERVERS); $i < $n; $i++) {
-			$server = $DB_SERVERS[$i];
-			if($server['type'] == $type){
-				try{
-					$connection = new mysqli($server['host'], $server['username'], $server['password'], $server['database'], $server['port']);
-					if(isset($server['charset']) && $server['charset']) {
-						if(!$connection->set_charset($server['charset'])){
-							throw new Exception('Error loading character set '.$server['charset'].': '.$connection->error);
-						}
-					}
-					return $connection;
-				}
-				catch(Exception $e){
-					echo $e->getMessage();
-					return null;
-				}
+		$server = self::getServerDef($type);
+
+		if ($server){
+			$connection = mysqli_init();
+			if($server['ssl']) {
+				$caCertPath = $GLOBALS['CA_CERT_PATH'];
+
+				$connection->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+				$connection->ssl_set(NULL, NULL, $caCertPath, NULL, NULL);
 			}
+			if (!$connection->real_connect($server['host'], $server['username'], $server['password'], $server['database'], $server['port'])) {
+				throw new Exception('error connecting to DB: '.mysqli_connect_errno().mysqli_connect_error());
+			};
+			if(!$connection->set_charset('utf8')){
+				throw new Exception('Error loading character set utf8: '.$mysqli->error);
+			}
+			return $connection;
 		}
 	}
 }
