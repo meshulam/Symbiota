@@ -526,14 +526,14 @@ CREATE TABLE `omoccuraccess` (
   `frontendGuid` VARCHAR(45) NULL,
   `initialTimestamp` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`occurAccessID`)
-) ENGINE = MyISAM;
+);
 
 CREATE TABLE `omoccuraccesslink` (
   `occurAccessID` BIGINT(20) UNSIGNED NOT NULL,
   `occid` INT UNSIGNED NOT NULL,
   `initialTimestamp` TIMESTAMP NULL DEFAULT current_timestamp,
   PRIMARY KEY (`occurAccessID`, `occid`)
-) ENGINE = MyISAM;
+);
 
 CREATE TABLE `omoccuraccesssummary` (
   `oasid` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,

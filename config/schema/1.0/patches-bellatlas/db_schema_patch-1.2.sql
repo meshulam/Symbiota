@@ -172,8 +172,7 @@ CREATE TABLE `geographicpolygon` (
   `geoJSON` LONGTEXT NULL,
   `initialTimestamp` TIMESTAMP NULL DEFAULT current_timestamp,
   PRIMARY KEY (`geoThesID`),
-  SPATIAL INDEX `IX_geopoly_polygon` (`footprintPolygon` ASC))
-  ENGINE = MyISAM;
+  SPATIAL INDEX `IX_geopoly_polygon` (`footprintPolygon`));
 
 ALTER TABLE `lkupstateprovince` 
   CHANGE COLUMN `abbrev` `abbrev` VARCHAR(3) NULL DEFAULT NULL ;
