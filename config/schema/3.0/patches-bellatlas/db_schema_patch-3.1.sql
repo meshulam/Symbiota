@@ -124,8 +124,8 @@ UPDATE `omoccurassociations`
 
 
 # Corrects an issue with db_schema-3.0.sql. Will fail when udating 1.x schemas, thus ignore
-ALTER IGNORE TABLE `omoccurdeterminations` 
-  CHANGE COLUMN `identificationID` `sourceIdentifier` VARCHAR(45) NULL DEFAULT NULL ;
+-- ALTER IGNORE TABLE `omoccurdeterminations` 
+--   CHANGE COLUMN `identificationID` `sourceIdentifier` VARCHAR(45) NULL DEFAULT NULL ;
 
 
 # Needed to ensure basisOfRecord values are tagged correctly based on collection type (aka collType field)
@@ -139,6 +139,11 @@ ALTER TABLE `omoccurrences`
 
 #Standardize naming of indexes within occurrence table 
 SET FOREIGN_KEY_CHECKS=0;
+
+ALTER TABLE `omoccurrences`
+  DROP CONSTRAINT `FK_omoccurrences_collid`,
+  DROP CONSTRAINT `FK_omoccurrences_tid`,
+  DROP CONSTRAINT `FK_omoccurrences_uid`;
 
 ALTER TABLE `omoccurrences` 
   DROP INDEX `Index_collid`,
@@ -204,6 +209,11 @@ ALTER TABLE `omoccurrences`
   ADD INDEX `IX_occurrences_recordEnteredBy` (`recordEnteredBy` ASC),
   ADD INDEX `IX_occurrences_dateEntered` (`dateEntered` ASC),
   ADD INDEX `IX_occurrences_dateLastModified` (`dateLastModified` ASC);
+
+ALTER TABLE `omoccurrences`
+  ADD CONSTRAINT `FK_omoccurrences_collid` FOREIGN KEY (`collid`) REFERENCES `omcollections` (`collID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_omoccurrences_tid` FOREIGN KEY (`tidInterpreted`) REFERENCES `taxa` (`tid`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_omoccurrences_uid` FOREIGN KEY (`observerUid`) REFERENCES `users` (`uid`);
 
 SET FOREIGN_KEY_CHECKS=1; 
 

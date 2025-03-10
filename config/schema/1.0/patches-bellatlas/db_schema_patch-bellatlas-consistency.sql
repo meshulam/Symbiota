@@ -27,4 +27,4 @@ UPDATE omoccurrences SET eventDate = NULL WHERE YEAR(eventDate) < 1000;
 UPDATE omoccurrences SET eventDate = CONCAT(YEAR(eventDate), '-01-01') WHERE MONTH(eventDate) = 0;
 UPDATE omoccurrences SET eventDate = CONCAT(YEAR(eventDate), '-', MONTH(eventDate), '-01') WHERE DAY(eventDate) = 0;
 
-UPDATE omoccurdeterminations SET initialTimestamp = CURRENT_TIMESTAMP WHERE YEAR(initialTimestamp) < 1000;
+UPDATE omoccurdeterminations SET initialTimestamp = '2000-01-01 00:00:00' WHERE YEAR(initialTimestamp) < 1000;
