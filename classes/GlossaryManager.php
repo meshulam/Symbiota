@@ -1313,7 +1313,7 @@ class GlossaryManager extends Manager {
 		$sql = 'SELECT DISTINCT t.tid, t.sciname, v.vernacularname '.
 			'FROM glossarytaxalink g INNER JOIN taxa t ON g.tid = t.TID '.
 			'LEFT JOIN taxavernaculars v ON t.TID = v.TID '.
-			'ORDER BY t.rankid, t.SciName, v.VernacularName ';
+			'ORDER BY t.SciName, v.VernacularName ';
 		if($rs = $this->conn->query($sql)){
 			while($r = $rs->fetch_object()){
 				$sciname = $r->sciname;
