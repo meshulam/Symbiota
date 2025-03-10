@@ -6,6 +6,7 @@ class OccurrenceListManager extends OccurrenceManager{
 
 	private $recordCount = 0;
 	private $sortArr = array();
+	private $noResultsReason = null;
 
  	public function __construct(){
  		parent::__construct();
@@ -26,6 +27,11 @@ class OccurrenceListManager extends OccurrenceManager{
 		$occArr = array();
 		$sqlWhere = $this->getSqlWhere();
 		if(!$this->recordCount || $this->reset) $this->setRecordCnt($sqlWhere);
+		// mbaenrm - stopgap to prevent mysql from executing large queries that require sorting on unindexed fields
+		if($this->recordCount > 100000){
+			$this->noResultsReason = 'Your query returned too many results. Filter by collection, taxa, or other criteria to further limit your search.';
+			return $returnArr;
+		}
 		$sql = 'SELECT o.occid, c.collid, c.institutioncode, c.collectioncode, c.collectionname, c.icon, o.institutioncode AS instcodeoverride, o.collectioncode AS collcodeoverride, '.
 			'o.catalognumber, o.family, o.sciname, o.scientificnameauthorship, o.tidinterpreted, o.recordedby, o.recordnumber, o.eventdate, '.
 			'o.country, o.stateprovince, o.county, o.locality, o.decimallatitude, o.decimallongitude, o.localitysecurity, o.localitysecurityreason, '.
@@ -138,6 +144,10 @@ class OccurrenceListManager extends OccurrenceManager{
 
 	public function getRecordCnt(){
 		return $this->recordCount;
+	}
+
+	public function getNoResultsReason(){
+		return $this->noResultsReason;
 	}
 
 	public function addSort($field,$direction){

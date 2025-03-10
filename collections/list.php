@@ -357,7 +357,11 @@ $_SESSION['citationvar'] = $searchVar;
 						echo '<hr/>';
 					}
 					else {
-						echo '<div><h3>' . $LANG['NO_RESULTS'] . '</h3>';
+						if($reason = $collManager->getNoResultsReason()) {
+							echo '<div><h3>'.$reason.'</h3>';
+						} else {
+							echo '<div><h3>'.$LANG['NO_RESULTS'].'</h3>';
+						}
 						$tn = $collManager->getTaxaSearchStr();
 						if ($p = strpos($tn, ';')) {
 							$tn = substr($tn, 0, $p);
