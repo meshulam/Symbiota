@@ -445,12 +445,12 @@ else{
 	<link href="<?= $CSS_BASE_PATH ?>/symbiota/variables.css" type="text/css" rel="stylesheet">
 	<?php
 	//include_once($SERVER_ROOT.'/includes/head.php');
-    if($crowdSourceMode == 1){
+	if($crowdSourceMode == 1){
 		?>
 		<link href="includes/config/occureditorcrowdsource.css?ver=5" type="text/css" rel="stylesheet" id="editorCssLink" />
 		<?php
-    }
-    else{
+	}
+	else{
 		?>
 		<link href="<?= $CSS_BASE_PATH ?>/symbiota/collections/editor/occurrenceeditor.css?ver=9" type="text/css" rel="stylesheet" id="editorCssLink" >
 		<?php
@@ -494,15 +494,15 @@ else{
 		});
 
 		function requestImage(){
-            $.ajax({
-                type: "POST",
-                url: 'rpc/makeactionrequest.php',
-                data: { <?php echo ' occid: '.$occManager->getOccId(); ?>, requesttype: 'Image' },
-                success: function( response ) {
-                   $('div#imagerequestresult').html(response);
-                }
-            });
-        }
+			$.ajax({
+				type: "POST",
+				url: 'rpc/makeactionrequest.php',
+				data: { <?php echo ' occid: '.$occManager->getOccId(); ?>, requesttype: 'Image' },
+				success: function( response ) {
+				   $('div#imagerequestresult').html(response);
+				}
+			});
+		}
 	</script>
 	<script src="../../js/symb/collections.coordinateValidation.js?ver=2" type="text/javascript"></script>
 	<script src="../../js/symb/wktpolygontools.js?ver=2" type="text/javascript"></script>
@@ -532,6 +532,9 @@ else{
 		}
 		.fieldDiv{
 			display: inline;
+		}
+		.field-div{
+			margin-right: 1em;
 		}
 
 		.editimg{ width: 15px; }
@@ -1414,6 +1417,8 @@ else{
 												<a href="#" onclick="return dwcDoc('fieldnumber')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
 												<input type="text" name="fieldnumber" maxlength="45" value="<?php echo array_key_exists('fieldnumber',$occArr)?$occArr['fieldnumber']:''; ?>" onchange="fieldChanged('fieldnumber');" />
 											</div>
+										</div>
+										<div style="padding:3px;clear:both;">
 											<div id="languageDiv" class="field-div">
 												<?php echo $LANG['LANGUAGE']; ?>
 												<a href="#" onclick="return dwcDoc('language')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
@@ -1428,6 +1433,11 @@ else{
 												<?php echo $LANG['DUPLICATE_COUNT']; ?>
 												<a href="#" onclick="return dwcDoc('duplicatequantity')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
 												<input type="text" name="duplicatequantity" value="<?php echo array_key_exists('duplicatequantity',$occArr)?$occArr['duplicatequantity']:''; ?>" onchange="fieldChanged('duplicatequantity');" />
+											</div>
+											<div id="storageLocationDiv" class="field-div">
+												<?php echo $LANG['STORAGE_LOCATION']; ?>
+												<a href="#" onclick="return dwcDoc('storageLocation')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
+												<input type="text" name="storagelocation" value="<?php echo array_key_exists('storagelocation',$occArr)?$occArr['storagelocation']:''; ?>" onchange="fieldChanged('storagelocation');" />
 											</div>
 										</div>
 										<div style="padding:3px;clear:both;">

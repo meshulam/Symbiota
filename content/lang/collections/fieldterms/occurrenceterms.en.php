@@ -88,5 +88,6 @@ $LANG['INSTITUTION_CODE'] = 'Institution Code (override)';
 $LANG['COLLECTION_CODE'] = 'Collection Code (override)';
 $LANG['OWNER_INSTITUTION_CODE'] = 'Owner Code (override)';
 $LANG['PROCESSING_STATUS'] = 'Processing Status';
+$LANG['STORAGE_LOCATION'] = 'Storage Location';
 
 ?>
