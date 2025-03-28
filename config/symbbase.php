@@ -1,6 +1,7 @@
 <?php
 header('X-Frame-Options: DENY');
-session_cache_limiter('private');
+header('Cache-control: private'); // IE 6 FIX
+session_cache_limiter(''); // Don't automatically set cache headers
 date_default_timezone_set('America/Phoenix');
 $CODE_VERSION = '3.1.8';
 
