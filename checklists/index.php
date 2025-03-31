@@ -28,15 +28,6 @@ $clManager->setProj($pid);
 			font-size: 1rem;
 			text-decoration: none;
 		}
-		.checklist-header {
-			display: flex;
-			margin-bottom: 0;
-			align-items: center;
-			gap: 0.5rem;
-		}
-		.checklist-ul {
-			margin-top: 0;
-		}
 	</style>
 </head>
 <body>
@@ -50,11 +41,13 @@ $clManager->setProj($pid);
 	</div>
 	<div role="main" id="innertext">
 		<h1 class="page-heading"><?= $LANG['SPECIES_INVENTORIES']; ?></h1>
-        <div style="margin:20px;">
+        <div>
 			<?php
             $researchArr = $clManager->getChecklists();
 			if($researchArr){
 				foreach($researchArr as $pid => $projArr){
+					// mbaenrm: Hide checklists that aren't in a project
+					if($projArr['name'] == 'Miscellaneous Inventories') continue;
 					?>
 					<h2 class="checklist-header">
 						<?php
@@ -72,10 +65,16 @@ $clManager->setProj($pid);
 						}
 						?>
 					</h2>
+					<?php
+					  if (!empty($projArr['description'])) {
+						// description can contain html from tiny editor, so don't escape output
+						echo $projArr['description'];
+					  }
+					?>
 					<ul class="checklist-ul">
 						<?php
 						foreach($projArr['clid'] as $clid => $clName){
-							echo '<li><a href="checklist.php?clid=' . htmlspecialchars($clid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '&pid=' . htmlspecialchars($pid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">' . htmlspecialchars($clName, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '</a></li>';
+							echo '<li><a href="checklist.php?clid=' . htmlspecialchars($clid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '&pid=' . htmlspecialchars($pid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">' . $clName . '</a></li>';
 						}
 						?>
 					</ul>

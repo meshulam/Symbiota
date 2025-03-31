@@ -685,7 +685,7 @@ class ChecklistManager extends Manager{
 	//Checklist index page functions
 	public function getChecklists($limitToKey=false){
 		$retArr = Array();
-		$sql = 'SELECT p.pid, p.projname, p.ispublic, c.clid, c.name, c.access, c.defaultSettings, c.latCentroid
+		$sql = 'SELECT p.pid, p.projname, p.ispublic, p.fulldescription, c.clid, c.name, c.access, c.defaultSettings, c.latCentroid
 			FROM fmchecklists c LEFT JOIN fmchklstprojlink cpl ON c.clid = cpl.clid
 			LEFT JOIN fmprojects p ON cpl.pid = p.pid
 			WHERE c.type != "excludespp" AND ((c.access LIKE "public%") ';
@@ -716,6 +716,7 @@ class ChecklistManager extends Manager{
 			}
 			if($row->latCentroid) $retArr[$pid]['displayMap'] = 1;
 			$retArr[$pid]['name'] = $this->cleanOutStr($projName);
+			$retArr[$pid]['description'] = $row->fulldescription;
 			$retArr[$pid]['clid'][$row->clid] = $this->cleanOutStr($row->name).($row->access=='private'?' (Private)':'');
 		}
 		$rs->free();
