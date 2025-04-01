@@ -869,9 +869,9 @@ ALTER TABLE `taxa`
 
 UPDATE IGNORE taxa SET Author = "" WHERE Author IS NULL;
 
--- Drop index first since truncating author below causes uniqueness failures
-ALTER TABLE `taxa` 
-  DROP INDEX IF EXISTS `sciname_unique`;
+-- Removed index in initial DB
+-- ALTER TABLE `taxa` 
+--   DROP INDEX `sciname_unique`;
 
 -- bellatlas: some authors violate length constraint due to multibyte chars entered in non-strict mode. Just truncate
 ALTER TABLE `taxa`
@@ -884,19 +884,6 @@ UPDATE taxa SET rankID = 0 WHERE rankID IS NULL;
 ALTER TABLE `taxa` 
   CHANGE COLUMN `kingdomName` `kingdomName` VARCHAR(45) NOT NULL DEFAULT '' ,
   CHANGE COLUMN `rankID` `rankID` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0 ;
-
-
-# Following statement is the default unique index in the taxa table to support a multi-kingdom portal 
-# If UNIQUE INDEX fails, run following query below to identify duplicate records. Duplicates can be deleted, or you can apply the alternate index that supports the existance of homonyms 
-# Duplicate check: SELECT sciname, rankID, kingdomName, count(*) as cnt FROM taxa GROUP BY sciname, rankID, kingdomName HAVING cnt > 1
--- ALTER TABLE `taxa` 
---   ADD UNIQUE INDEX `UQ_taxa_sciname` (`sciName` ASC, `rankId` ASC, `kingdomName` ASC);
-
-# The default UNIQUE INDEX applied above supports cross-kingdom homonyms
-# Alternate UNIQUE INDEX that support homonyms within a single kingdom (not recommended) 
-ALTER TABLE `taxa` ADD UNIQUE INDEX `UQ_taxa_sciname` (`sciName` ASC, `author` ASC, `rankId` ASC, `kingdomName` ASC)
-# Alternate more restrictive UNIQUE INDEX that can be used for a single kingdom portal. Cross-kingdom homonyms are not supported
-#  ALTER TABLE `taxa` ADD UNIQUE INDEX `UQ_taxa_sciname` (`sciName` ASC, `rankId` ASC)
   
 ALTER TABLE `taxstatus` 
   CHANGE COLUMN `taxonomicSource` `taxonomicSource` VARCHAR(500) NULL DEFAULT NULL;
@@ -1002,9 +989,9 @@ ALTER TABLE `uploadspectemp`
   ADD COLUMN `observeruid` INT NULL AFTER `language`,
   ADD COLUMN `dateEntered` DATETIME NULL AFTER `recordEnteredBy`,
   ADD COLUMN `eventID` VARCHAR(45) NULL AFTER `fieldnumber`,
-  CHANGE COLUMN `taxonRemarks` `taxonRemarks` VARCHAR(2000) NULL DEFAULT NULL ,
-  CHANGE COLUMN `identificationReferences` `identificationReferences` VARCHAR(2000) NULL DEFAULT NULL ,
-  CHANGE COLUMN `identificationRemarks` `identificationRemarks` VARCHAR(2000) NULL DEFAULT NULL ,
+  CHANGE COLUMN `taxonRemarks` `taxonRemarks` text,
+  CHANGE COLUMN `identificationReferences` `identificationReferences` text,
+  CHANGE COLUMN `identificationRemarks` `identificationRemarks` text,
   CHANGE COLUMN `establishmentMeans` `establishmentMeans` VARCHAR(150) NULL DEFAULT NULL,
   CHANGE COLUMN `disposition` `disposition` varchar(250) NULL DEFAULT NULL,
   CHANGE COLUMN `LatestDateCollected` `eventDate2` DATE NULL DEFAULT NULL AFTER `eventDate`;
@@ -1236,3 +1223,16 @@ ALTER TABLE `omcollpublications`
 
 ALTER TABLE `omcollpuboccurlink` 
   RENAME TO  `deprecated_omcollpuboccurlink` ;
+
+
+# Following statement is the default unique index in the taxa table to support a multi-kingdom portal 
+# If UNIQUE INDEX fails, run following query below to identify duplicate records. Duplicates can be deleted, or you can apply the alternate index that supports the existance of homonyms 
+# Duplicate check: SELECT sciname, rankID, kingdomName, count(*) as cnt FROM taxa GROUP BY sciname, rankID, kingdomName HAVING cnt > 1
+-- ALTER TABLE `taxa` 
+--   ADD UNIQUE INDEX `UQ_taxa_sciname` (`sciName` ASC, `rankId` ASC, `kingdomName` ASC);
+
+# The default UNIQUE INDEX applied above supports cross-kingdom homonyms
+# Alternate UNIQUE INDEX that support homonyms within a single kingdom (not recommended) 
+ALTER TABLE `taxa` ADD UNIQUE INDEX `UQ_taxa_sciname` (`sciName` ASC, `author` ASC, `rankId` ASC, `kingdomName` ASC)
+# Alternate more restrictive UNIQUE INDEX that can be used for a single kingdom portal. Cross-kingdom homonyms are not supported
+#  ALTER TABLE `taxa` ADD UNIQUE INDEX `UQ_taxa_sciname` (`sciName` ASC, `rankId` ASC)

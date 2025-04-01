@@ -18,12 +18,15 @@ zcat /var/staging/db/symbiota1-finalbackup.sql.gz \
   | sed 's/UNIQUE KEY `sciname_unique`.*$//' \
   | mysql --defaults-file=$CONFIG --init-command="SET SESSION FOREIGN_KEY_CHECKS=0;" $DB
 
-echo `date` " - applying patches"
-
-mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_git/config/schema/1.0/patches-bellatlas/db_schema_patch-bellatlas-consistency.sql
-mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_git/config/schema/1.0/patches-bellatlas/db_schema_patch-1.2.sql
-mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_git/config/schema/1.0/patches-bellatlas/db_schema_patch-3.0.sql
-mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_git/config/schema/3.0/patches-bellatlas/db_schema_patch-3.1.sql
-mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_git/config/schema/3.0/patches-bellatlas/db_schema_patch-bellatlas-custom.sql
+echo `date` " - applying bellatlas-consistency"
+mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_dev/config/schema/1.0/patches-bellatlas/db_schema_patch-bellatlas-consistency.sql
+echo `date` " - applying patch 1.2"
+mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_dev/config/schema/1.0/patches-bellatlas/db_schema_patch-1.2.sql
+echo `date` " - applying patch 3.0"
+mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_dev/config/schema/1.0/patches-bellatlas/db_schema_patch-3.0.sql
+echo `date` " - applying patch 3.1"
+mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_dev/config/schema/3.0/patches-bellatlas/db_schema_patch-3.1.sql
+echo `date` " - applying patch bellatlas-custom"
+mysql --defaults-file=$CONFIG $DB < /var/mbaenrm/symbiota_dev/config/schema/3.0/patches-bellatlas/db_schema_patch-bellatlas-custom.sql
 
 echo `date` " - Done!"
