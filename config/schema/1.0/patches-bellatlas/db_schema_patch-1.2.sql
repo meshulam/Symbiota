@@ -465,9 +465,6 @@ CREATE TABLE `omoccurpaleo` (
 #DROP COLUMN `latestEonOrHighestEonothem`,
 #DROP COLUMN `earliestEonOrLowestEonothem`;
 
-# bellatlas: inconsistent utf8_unicode_ci collation
-ALTER TABLE paleochronostratigraphy CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 CREATE TABLE `omoccurpaleogts` (
   `gtsid` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `gtsterm` VARCHAR(45) NOT NULL,

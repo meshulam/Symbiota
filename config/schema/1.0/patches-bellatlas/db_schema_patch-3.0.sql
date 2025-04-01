@@ -871,7 +871,7 @@ UPDATE IGNORE taxa SET Author = "" WHERE Author IS NULL;
 
 -- Drop index first since truncating author below causes uniqueness failures
 ALTER TABLE `taxa` 
-  DROP INDEX `sciname_unique`;
+  DROP INDEX IF EXISTS `sciname_unique`;
 
 -- bellatlas: some authors violate length constraint due to multibyte chars entered in non-strict mode. Just truncate
 ALTER TABLE `taxa`
