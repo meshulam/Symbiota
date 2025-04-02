@@ -18,7 +18,7 @@ $clManager->setProj($pid);
 <!DOCTYPE html>
 <html lang="<?php echo $LANG_TAG ?>">
 <head>
-	<title><?php echo $DEFAULT_TITLE . $LANG['SPECIES_INVENTORIES']; ?></title>
+	<title><?php echo $DEFAULT_TITLE . ' - ' . $LANG['SPECIES_INVENTORIES']; ?></title>
 	<?php
 	include_once($SERVER_ROOT.'/includes/head.php');
 	include_once($SERVER_ROOT.'/includes/googleanalytics.php');

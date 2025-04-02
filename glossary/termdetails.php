@@ -99,7 +99,7 @@ if($glossId){
 <!DOCTYPE html>
 <html lang="<?php echo $LANG_TAG ?>">
 <head>
-	<title><?php echo $DEFAULT_TITLE . $LANG['G_MGMNT']; ?></title>
+	<title><?php echo $DEFAULT_TITLE . ' - ' . $LANG['G_MGMNT']; ?></title>
 	<link href="<?php echo $CSS_BASE_PATH; ?>/jquery-ui.css" type="text/css" rel="stylesheet">
 	<?php
 	include_once($SERVER_ROOT.'/includes/head.php');

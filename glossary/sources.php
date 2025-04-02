@@ -18,7 +18,7 @@ $sourceArr = $glosManager->getTaxonSources($tid);
 <!DOCTYPE html>
 <html lang="<?php echo $LANG_TAG ?>">
 <head>
-	<title><?php echo $DEFAULT_TITLE . $LANG['G_SOURCES']; ?></title>
+	<title><?php echo $DEFAULT_TITLE . ' - ' . $LANG['G_SOURCES']; ?></title>
 	<link href="<?= $CSS_BASE_PATH ?>/jquery-ui.css" type="text/css" rel="stylesheet">
 	<?php
 	include_once($SERVER_ROOT.'/includes/head.php');
