@@ -1,14 +1,12 @@
 /* Header
 ========================================================================== */
 .header-wrapper {
-  padding: 20px;
   background-color: var(--menu-top-bg-color);
   z-index: 10;
 }
 
 header {
   display: grid;
-  gap: 2rem;
   place-items: center;
   color: var(--header-font-color);
   min-width: 0;
@@ -21,8 +19,8 @@ header {
 }
 
 .top-login {
-  padding-bottom: 20px;
-  padding-right: 1rem;
+  margin: 1rem;
+  display: flex;
 }
 
 .top-login > .button {
@@ -38,21 +36,12 @@ nav.top-login > span > form{
 
 }
 
-#profile, #contactUs{
-  float: left;
-}
-
-#login, #logout {
-  float: right;
-}
-
 .top-brand {
-  /* align a and brand-name */
-  clear: both;
-  padding-top: 0.5rem;
   grid-column: 1;
   display: flex;
-  align-items: stretch;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .top-brand img {
@@ -64,10 +53,8 @@ nav.top-login > span > form{
 }
 
 .top-brand .brand-name {
-  margin-left: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   justify-content: center;
 }
 
@@ -147,7 +134,7 @@ header a:hover {
   height: 2px;
   position: relative;
   width: 24px;
-  font-size: 4rem;
+  font-size: 1.5rem;
 }
 
 .hamb-line::before,
@@ -290,11 +277,7 @@ ul.menu > ul li{
     min-width: 0;
     z-index: 10;
   }
-  .header-wrapper {
-    padding: 0;
-  }
   header {
-    gap: 0;
     grid-template-areas:
       "top"
       "menu";
@@ -317,10 +300,10 @@ ul.menu > ul li{
     padding: 1rem 0;
   }
 
-  .top-login {
+  {{/* .top-login {
     display: grid;
     grid-template-columns: auto auto auto auto;
-  }
+  } */}}
 
   .top-brand {
     grid-area: brand;

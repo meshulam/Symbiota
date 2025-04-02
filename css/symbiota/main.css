@@ -576,7 +576,6 @@ table.styledtable tr.alt td {
 .welcome-text {
   display: flex;
   align-items: center;
-  margin-left: 1rem;
 }
 
 .page-heading {
