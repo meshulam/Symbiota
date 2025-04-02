@@ -70,21 +70,6 @@ header('Content-Type: text/html; charset=' . $CHARSET);
 				Minnesota to assist in the protection, conservation, preservation, and enhancement
 				of the state's air, water, land, fish, wildlife, and other natural resources.
 			</p>
-			<div style="width:100%;display:flex;flex-wrap:wrap">
-				<img src="<?= $CLIENT_ROOT ?>/images/umn/Bell-logo.png" style="display:inline-block;width:300px;margin:auto;"/>
-				<img src="<?= $CLIENT_ROOT ?>/images/umn/enrtf_logo.jpg" style="display:inline-block;width:200px;margin:auto;"/>
-			</div>
-			<div>
-				<a href="<?= $CLIENT_ROOT ?>/collections/index.php" >
-					<img src="<?= $CLIENT_ROOT ?>/images/umn/BiodiversityAtlas_search.jpg" style="margin-top:0px;border:black solid 1px;"/>
-				</a>
-				<a href="<?= $CLIENT_ROOT ?>/collections/map/mapinterface.php" target="_blank">
-					<img src="<?= $CLIENT_ROOT ?>/images/umn/BiodiversityAtlas_Maps.jpg" style="margin-top:5px;border:black solid 1px;"/>
-				</a>
-				<a href="<?= $CLIENT_ROOT ?>/imagelib/search.php" >
-					<img src="<?= $CLIENT_ROOT ?>/images/umn/BiodiversityAtlas_Image.jpg" style="margin-top: 5px;border:black solid 1px;"/>
-				</a>
-			</div>
 		</div>
 	</main>
 	<?php

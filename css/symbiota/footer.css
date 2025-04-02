@@ -3,7 +3,12 @@
 footer {
   text-align: center;
   background-color: var(--footer-bg-color);
-  padding: 2rem 0;
+  padding: 1rem 0;
+}
+
+footer .footer-content {
+  max-width: var(--max-innertext-width);
+  margin: auto;
 }
 
 .logo-gallery {
@@ -13,8 +18,7 @@ footer {
   /* column-gap: 3rem; */
   align-items: center;
   margin: 0 auto;
-  padding: 2rem 0;
-  max-width: var(--max-innertext-width);
+  padding: 1rem 0;
 }
 
 .logo-gallery img {
@@ -32,9 +36,5 @@ footer {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     column-gap: 3rem;
     justify-content: center;
-  }
-
-  footer p {
-    margin: 2px;
   }
 }
