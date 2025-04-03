@@ -14,7 +14,7 @@
  * importimage (default = false): 0 = image URLs NOT included for ingestion, 1 = image URLs included for ingestion
  */
 
-date_default_timezone_set('America/Phoenix');
+date_default_timezone_set('America/Chicago');
 include_once('../../config/symbini.php');
 require_once($SERVER_ROOT.'/classes/SpecUploadBase.php');
 require_once($SERVER_ROOT.'/classes/SpecUploadFile.php');

@@ -13,7 +13,7 @@
  * 
  */
 
-date_default_timezone_set('America/Phoenix');
+date_default_timezone_set('America/Chicago');
 include_once('../config/symbini.php');
 require_once($SERVER_ROOT.'/classes/APIOccurEditor.php');
 

@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set('America/Phoenix');
+date_default_timezone_set('America/Chicago');
 
 require_once('ImageBatchConf.php');
 if(file_exists('../../../config/symbini.php')){

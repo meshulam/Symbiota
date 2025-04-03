@@ -173,7 +173,7 @@ class DwcArchiverPublisher extends DwcArchiverCore{
 			//pubDate
 			//$dsStat = stat($this->targetPath.$instCode.'_DwC-A.zip');
 			$pubDateTitleElem = $newDoc->createElement('pubDate');
-			$pubDateTitleElem->appendChild($newDoc->createTextNode(date("D, d M Y H:i:s")));
+			$pubDateTitleElem->appendChild($newDoc->createTextNode(date('r')));
 			$itemElem->appendChild($pubDateTitleElem);
 			$itemArr[$title] = $itemElem;
 
