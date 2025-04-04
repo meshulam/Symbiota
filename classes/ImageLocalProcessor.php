@@ -1711,10 +1711,10 @@ class ImageLocalProcessor {
 				}
 			}
 
-			$this->logOrEcho('SKIP Protecting sensitive species...'.date('Y-m-d h:i:s A'));
+			$this->logOrEcho('Protecting sensitive species...'.date('Y-m-d h:i:s A'));
 			// TODO: takes over 1 minute, investigate
-			//$protectCnt = $occurMain->protectRareSpecies();
-			//$this->logOrEcho($protectCnt.' records protected',1);
+			$protectCnt = $occurMain->protectRareSpecies();
+			$this->logOrEcho($protectCnt.' records protected',1);
 
 			$this->logOrEcho('Updating statistics...'.date('Y-m-d h:i:s A'));
 			foreach($this->collProcessedArr as $collid){
