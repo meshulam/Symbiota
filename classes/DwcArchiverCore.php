@@ -1745,9 +1745,11 @@ class DwcArchiverCore extends Manager{
 					else $r['typeStatus'] = 'Other material';
 				}
 				elseif ($this->schemaType == 'backup') unset($r['collID']);
+				// mbaenrm: Temporarily disable linked data, these N+1 queries drastically slow down archive generation
 
-				if ($ocnStr = $dwcOccurManager->getAdditionalCatalogNumberStr($r['occid'])) $r['otherCatalogNumbers'] = $ocnStr;
-				if ($this->schemaType != 'coge') {
+				// if ($ocnStr = $dwcOccurManager->getAdditionalCatalogNumberStr($r['occid'])) $r['otherCatalogNumbers'] = $ocnStr;
+				// if ($this->schemaType != 'coge') {
+				if (false) { //mbaenrm
 					if ($exsArr = $dwcOccurManager->getExsiccateArr($r['occid'])) {
 						$exsStr = $exsArr['exsStr'];
 						if (isset($r['occurrenceRemarks']) && $r['occurrenceRemarks']) $exsStr = $r['occurrenceRemarks'] . '; ' . $exsStr;
