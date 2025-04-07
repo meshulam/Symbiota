@@ -48,7 +48,7 @@ class OccurrenceExsiccatae {
 
 	public function getTitleArr($searchTerm, $specimenOnly, $imagesOnly, $collId, $sortBy){
 		$retArr = array();
-		$sql = 'SELECT DISTINCT et.ometid, et.title, et.editor, et.exsrange, et.abbreviation ';
+		$sql = 'SELECT DISTINCT et.ometid, et.title, et.editor, et.exsrange, et.abbreviation, et.startdate ';
 		$sqlWhere = '';
 		if($specimenOnly){
 			if($imagesOnly){
@@ -73,7 +73,7 @@ class OccurrenceExsiccatae {
 		if($searchTerm){
 			$sqlWhere .= ($sqlWhere?'AND ':'WHERE ').'et.title LIKE "%'.$searchTerm.'%" OR et.abbreviation LIKE "%'.$searchTerm.'%" OR et.editor LIKE "%'.$searchTerm.'%" ';
 		}
-		$sql .= $sqlWhere.'ORDER BY '.($sortBy?"IFNULL(et.abbreviation,et.title)":"et.title").', et.startdate';
+		$sql .= $sqlWhere.'ORDER BY '.($sortBy?"et.abbreviation, ":"").' et.title, et.startdate';
 		//echo $sql;
 		if($rs = $this->conn->query($sql)){
 			while($r = $rs->fetch_object()){
@@ -94,13 +94,13 @@ class OccurrenceExsiccatae {
 		if($ometid){
 			//Grab all numbers for that exsiccati title; only show number that have occid links
 			$sql = 'SELECT DISTINCT en.omenid, en.exsnumber, en.notes, o.occid, o.catalognumber, o.sciname, '.
-				'CONCAT(o.recordedby," (",IFNULL(o.recordnumber,"s.n."),") ",IFNULL(o.eventDate,"date unknown")) as collector '.
+				'CONCAT(o.recordedby," (",IFNULL(o.recordnumber,"s.n."),") ",IFNULL(o.eventDate,"date unknown")) as collector, ol.ranking '.
 				'FROM omexsiccatinumbers en '.($specimenOnly || $imagesOnly?'INNER':'LEFT').' JOIN omexsiccatiocclink ol ON en.omenid = ol.omenid '.
 				($specimenOnly || $imagesOnly?'INNER':'LEFT').' JOIN omoccurrences o ON ol.occid = o.occid ';
 			if($imagesOnly) $sql .= 'INNER JOIN images i ON o.occid = i.occid ';
 			$sql .= 'WHERE en.ometid = '.$ometid.' ';
 			if($collid) $sql .= 'AND o.collid = '.$collid.' ';
-			$sql .= 'ORDER BY en.exsnumber+1,en.exsnumber,ol.ranking';
+			$sql .= 'ORDER BY en.exsnumber,ol.ranking';
 			if($rs = $this->conn->query($sql)){
 				while($r = $rs->fetch_object()){
 					if(!array_key_exists($r->omenid,$retArr)){

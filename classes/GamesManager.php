@@ -213,7 +213,7 @@ class GamesManager extends Manager{
 			}
 
 			//Grab images, first pass
-			$sqlImg = 'SELECT DISTINCT i.url, ts.tidaccepted FROM images i INNER JOIN taxstatus ts ON i.tid = ts.tid '.
+			$sqlImg = 'SELECT DISTINCT i.url, ts.tidaccepted, i.sortsequence FROM images i INNER JOIN taxstatus ts ON i.tid = ts.tid '.
 				'WHERE ts.tidaccepted IN('.$tidStr.') AND i.occid IS NULL '.
 				'ORDER BY i.sortsequence';
 			//echo $sql;
@@ -237,7 +237,7 @@ class GamesManager extends Manager{
 			//For taxa without 5 images, look for images linked to children taxa
 			if(count($tidComplete) < count($retArr)){
 				$newTidStr = implode(',',array_keys(array_diff_key($retArr,$tidComplete)));
-				$sqlImg2 = 'SELECT DISTINCT i.url, ts.parenttid FROM images i INNER JOIN taxstatus ts ON i.tid = ts.tid '.
+				$sqlImg2 = 'SELECT DISTINCT i.url, ts.parenttid, i.sortsequence FROM images i INNER JOIN taxstatus ts ON i.tid = ts.tid '.
 					'WHERE ts.parenttid IN('.$newTidStr.') AND i.occid IS NULL '.
 					'ORDER BY i.sortsequence';
 				$rsImg2 = $this->conn->query($sqlImg2);

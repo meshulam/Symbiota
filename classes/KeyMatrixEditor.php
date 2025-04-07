@@ -21,7 +21,7 @@ class KeyMatrixEditor extends KeyManager{
 
 	public function getCharList($tidFilter){
 		$retArr = Array();
-		$sql = 'SELECT DISTINCT ch.headingName, c.cid, c.charName '.
+		$sql = 'SELECT DISTINCT ch.headingName, c.cid, c.charName, c.hid, c.sortSequence '.
 			'FROM kmcharacters c INNER JOIN kmchartaxalink ctl ON c.cid = ctl.cid '.
 			'LEFT JOIN kmcharheading ch ON c.hid = ch.hid '.
 			'LEFT JOIN kmchardependance cd ON c.cid = cd.cid '.

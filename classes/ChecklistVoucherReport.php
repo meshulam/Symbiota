@@ -367,7 +367,7 @@ class ChecklistVoucherReport extends ChecklistVoucherAdmin {
 					FROM taxa t INNER JOIN taxstatus ts ON t.tid = ts.tid
 					INNER JOIN fmchklsttaxalink ctl ON ctl.tid = t.tid
 					WHERE (ts.taxauthid = 1) AND (ctl.clid IN('.$clidStr.'))
-					ORDER BY ctl.familyoverride, ts.family, t.sciName';
+					ORDER BY family, scientificNameBase';
 				header ('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 				header ('Content-Type: text/csv');
 				header ('Content-Disposition: attachment; filename="'.$fileName.'"');
