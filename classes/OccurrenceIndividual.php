@@ -913,9 +913,9 @@ class OccurrenceIndividual extends Manager{
 	public function getAccessStats(){
 		$retArr = Array();
 		if(isset($GLOBALS['STORE_STATISTICS'])){
-			$sql = 'SELECT year(s.accessdate) as accessdate, s.accesstype, s.cnt
+			$sql = 'SELECT year(s.accessdate) as accessdate, s.accesstype, sum(s.cnt)
 				FROM omoccuraccesssummary s INNER JOIN omoccuraccesssummarylink l ON s.oasid = l.oasid
-				WHERE (l.occid = ?) GROUP BY s.accessdate, s.accesstype';
+				WHERE (l.occid = ?) GROUP BY accessdate, s.accesstype';
 			if($stmt = $this->conn->prepare($sql)){
 				$stmt->bind_param('i', $this->occid);
 				$stmt->execute();
