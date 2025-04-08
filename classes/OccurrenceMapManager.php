@@ -214,14 +214,14 @@ class OccurrenceMapManager extends OccurrenceManager {
 		if($this->searchTermArr){
 			if(array_key_exists('clid',$this->searchTermArr) && $this->searchTermArr['clid']){
 				if(isset($this->searchTermArr['cltype']) && $this->searchTermArr['cltype'] == 'all'){
-					$sqlWhere .= ($sqlWhere ? ' AND' : ' WHERE' ) . "(ST_Within(p.point,GeomFromText('".$this->getClFootprintWkt()." '))) ";
+					$sqlWhere .= ($sqlWhere ? ' AND' : ' WHERE' ) . "(ST_Within(p.point,ST_GeomFromText('".$this->getClFootprintWkt()." '))) ";
 				}
 				else{
 					//$sqlWhere .= "AND (v.clid IN(".$this->searchTermArr['clid'].")) ";
 				}
 			}
 			elseif(array_key_exists("polycoords",$this->searchTermArr)){
-				$sqlWhere .= ($sqlWhere ? ' AND' : ' WHERE' ) . " (ST_Within(p.point,GeomFromText('".$this->searchTermArr["polycoords"]." '))) ";
+				$sqlWhere .= ($sqlWhere ? ' AND' : ' WHERE' ) . " (ST_Within(p.point,ST_GeomFromText('".$this->searchTermArr["polycoords"]." '))) ";
 			}
 		}
 		//Check and exclude records with sensitive species protections

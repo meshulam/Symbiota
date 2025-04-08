@@ -553,7 +553,7 @@ class ChecklistManager extends Manager{
 			if($this->clMetadata['dynamicsql']){
 				$sql = 'SELECT o.decimallatitude, o.decimallongitude FROM omoccurrences o ';
 				if($this->clMetadata['footprintwkt'] && substr($this->clMetadata['footprintwkt'],0,7) == 'POLYGON'){
-					$sql .= 'INNER JOIN omoccurpoints p ON o.occid = p.occid WHERE (ST_Within(p.point,GeomFromText("'.$this->clMetadata['footprintwkt'].'"))) ';
+					$sql .= 'INNER JOIN omoccurpoints p ON o.occid = p.occid WHERE (ST_Within(p.point,ST_GeomFromText("'.$this->clMetadata['footprintwkt'].'"))) ';
 				}
 				else{
 					$voucherManager = new ChecklistVoucherAdmin();
