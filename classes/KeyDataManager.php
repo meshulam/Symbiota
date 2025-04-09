@@ -346,7 +346,7 @@ class KeyDataManager extends Manager {
 							'FROM taxstatus ts1 INNER JOIN taxstatus ts2 ON ts1.tidaccepted = ts2.tidaccepted '.
 							'INNER JOIN images i ON ts2.tid = i.tid '.
 							'WHERE i.sortsequence < 500 AND (i.thumbnailurl IS NOT NULL) AND ts1.taxauthid = 1 AND ts2.taxauthid = 1 AND (ts1.parenttid IN('.implode(',',$missingArr).')) '.
-							'GROUP BY ts1.tid) i2 ON i.imgid = i2.imgid';
+							'GROUP BY ts1.parenttid) i2 ON i.imgid = i2.imgid';
 						//echo $sql;
 						$rs2 = $this->conn->query($sql2);
 						while($r2 = $rs2->fetch_object()){
