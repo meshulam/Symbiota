@@ -103,6 +103,7 @@ if($collid){
 							<input type="checkbox" onclick="toggleFieldDiv('eventdatediv')" /> <?php echo $LANG['COLLECTION_DATE']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('labelprojectdiv')" /> <?php echo $LANG['LABEL_PROJECT']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('processingstatusdiv')" /> <?php echo $LANG['PROCESSING_STATUS']; ?><br/>
+							<input type="checkbox" onclick="toggleFieldDiv('storagelocationdiv')" CHECKED /> <?php echo $LANG['STORAGE_LOCATION']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('languagediv')" /> <?php echo $LANG['LANGUAGE']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('exsiccatadiv')" /> <?php echo $LANG['EXSICCATA']; ?><br/>
 							<div style="text-decoration: underline"><?php echo $LANG['CATNUM_MATCH']; ?>:</div>
@@ -158,8 +159,8 @@ if($collid){
 							</div>
 						</div>
 						<div class="flex-form">
-							<div id="countrydiv" style="display:none;float:left;margin:3px;">
-								<label for="fcountry"><?php echo $LANG['COUNTRY']; ?></label><br/>
+							<div id="countrydiv" style="display:none;">
+								<label for="fcountry"><?php echo $LANG['COUNTRY']; ?></label>
 								<input id="fcountry" name="country" type="text" value="" autocomplete="off" />
 							</div>
 							<div id="statediv">
@@ -171,25 +172,29 @@ if($collid){
 								<input id="fcounty" name="county" type="text" autocomplete="off" value="" />
 							</div>
 						</div>
-						<div >
-							<div id="recordedbydiv" style="display:none;float:left;margin:3px;">
-								<label for="frecordedby"><?php echo $LANG['COLLECTOR']; ?></label><br/>
+						<div class="flex-form">
+							<div id="recordedbydiv" style="display:none;">
+								<label for="frecordedby"><?php echo $LANG['COLLECTOR']; ?></label>
 								<input id="frecordedby" name="recordedby" type="text" value="" />
 							</div>
-							<div id="recordnumberdiv" style="display:none;float:left;margin:3px;">
-								<label for="frecordnumber"><?php echo $LANG['COLLECTOR_NO']; ?></label><br/>
+							<div id="recordnumberdiv" style="display:none;">
+								<label for="frecordnumber"><?php echo $LANG['COLLECTOR_NO']; ?></label>
 								<input id="frecordnumber" name="recordnumber" type="text" value="" />
 							</div>
-							<div id="eventdatediv" style="display:none;float:left;margin:3px;">
-								<label><?php echo $LANG['DATE']; ?></label><br/>
+							<div id="eventdatediv" style="display:none;">
+								<label><?php echo $LANG['DATE']; ?></label>
 								<input id="feventdate" name="eventdate" type="text" value="" onchange="eventDateChanged(this)" />
 							</div>
-							<div id="labelprojectdiv" style="display:none;float:left;margin:3px;">
-								<label><?php echo $LANG['LABEL_PROJECT']; ?></label><br/>
+							<div id="storagelocationdiv">
+								<label><?php echo $LANG['STORAGE_LOCATION']; ?>:</label>
+								<input id="fstoragelocation" name="storagelocation" type="text" value="" />
+							</div>
+							<div id="labelprojectdiv" style="display:none;">
+								<label><?php echo $LANG['LABEL_PROJECT']; ?></label>
 								<input id="flabelproject" name="labelproject" type="text" value="" />
 							</div>
-							<div id="processingstatusdiv" style="display:none;float:left;margin:3px">
-								<label><?php echo $LANG['PROCESSING_STATUS']; ?></label><br/>
+							<div id="processingstatusdiv" style="display:none;">
+								<label><?php echo $LANG['PROCESSING_STATUS']; ?></label>
 								<select id="fprocessingstatus" name="processingstatus" style="margin-top:4px;width:150px">
 									<option value=""></option>
 									<option>unprocessed</option>
@@ -203,8 +208,8 @@ if($collid){
 									<option>closed</option>
 								</select>
 							</div>
-							<div id="languagediv" style="display:none;float:left;margin:3px;">
-								<label><?php echo $LANG['LANGUAGE']; ?></label><br/>
+							<div id="languagediv" style="display:none;">
+								<label><?php echo $LANG['LANGUAGE']; ?></label>
 								<select id="flanguage" name="language" style="margin-top:4px">
 									<option value=""></option>
 									<?php
@@ -230,14 +235,14 @@ if($collid){
 
 						<div class="flex-form">
 
-							<div style="float:left;">
+							<div >
 								<label for="fcatalognumber">
 									<?php echo $LANG['CATALOGNUMBER']; ?>:
 								</label>
 								<input id="fcatalognumber" name="catalognumber" type="text" style="border-color:green;" />
 							</div>
-							<div id="othercatalognumbersdiv" style="display:none;float:left;margin-left:3px;">
-								<label><?php echo $LANG['OTHER_CAT_NUMS']; ?></label><br/>
+							<div id="othercatalognumbersdiv" style="display:none;">
+								<label><?php echo $LANG['OTHER_CAT_NUMS']; ?>:</label>
 								<input id="fothercatalognumbers" name="othercatalognumbers" type="text" value="" />
 							</div>
 							<div>
