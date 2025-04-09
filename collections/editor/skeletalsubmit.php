@@ -91,13 +91,13 @@ if($collid){
 							<legend><?php echo $LANG['OPTIONS']; ?></legend>
 							<div style="float:right;"><a href="#" onclick="hideOptions()" style="color:red" ><?php echo $LANG['X_CLOSE']; ?></a></div>
 							<div style="text-decoration: underline"><?php echo $LANG['FIELD_DISPLAY']; ?>:</div>
-							<input type="checkbox" onclick="toggleFieldDiv('othercatalognumbersdiv')" /> <?php echo $LANG['OTHER_CAT_NUMS']; ?><br/>
+							<input type="checkbox" onclick="toggleFieldDiv('othercatalognumbersdiv')" CHECKED /> <?php echo $LANG['OTHER_CAT_NUMS']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('authordiv')" CHECKED /> <?php echo $LANG['AUTHOR']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('familydiv')" CHECKED /> <?php echo $LANG['FAMILY']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('localitysecuritydiv')" CHECKED /> <?php echo $LANG['LOCALITY_SECURITY']; ?><br/>
-							<input type="checkbox" onclick="toggleFieldDiv('countrydiv')" /> <?php echo $LANG['COUNTRY']; ?><br/>
+							<input type="checkbox" onclick="toggleFieldDiv('countrydiv')" CHECKED /> <?php echo $LANG['COUNTRY']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('statediv')" CHECKED /> <?php echo $LANG['STATE_PROVINCE']; ?><br/>
-							<input type="checkbox" onclick="toggleFieldDiv('countydiv')" CHECKED /> <?php echo $LANG['COUNTY_PARISH']; ?><br/>
+							<input type="checkbox" onclick="toggleFieldDiv('countydiv')" /> <?php echo $LANG['COUNTY_PARISH']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('recordedbydiv')" /> <?php echo $LANG['COLLECTOR']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('recordnumberdiv')" /> <?php echo $LANG['COLLECTOR_NO']; ?><br/>
 							<input type="checkbox" onclick="toggleFieldDiv('eventdatediv')" /> <?php echo $LANG['COLLECTION_DATE']; ?><br/>
@@ -159,7 +159,7 @@ if($collid){
 							</div>
 						</div>
 						<div class="flex-form">
-							<div id="countrydiv" style="display:none;">
+							<div id="countrydiv">
 								<label for="fcountry"><?php echo $LANG['COUNTRY']; ?></label>
 								<input id="fcountry" name="country" type="text" value="" autocomplete="off" />
 							</div>
@@ -167,7 +167,7 @@ if($collid){
 								<label for="fstateprovince"><?php echo $LANG['STATE_PROVINCE']; ?>:</label>
 								<input id="fstateprovince" name="stateprovince" type="text" value="" autocomplete="off" onchange="localitySecurityCheck(this.form)" />
 							</div>
-							<div id="countydiv">
+							<div id="countydiv" style="display:none;">
 								<label for="fcounty"><?php echo $LANG['COUNTY_PARISH']; ?>:</label>
 								<input id="fcounty" name="county" type="text" autocomplete="off" value="" />
 							</div>
@@ -241,7 +241,7 @@ if($collid){
 								</label>
 								<input id="fcatalognumber" name="catalognumber" type="text" style="border-color:green;" />
 							</div>
-							<div id="othercatalognumbersdiv" style="display:none;">
+							<div id="othercatalognumbersdiv">
 								<label><?php echo $LANG['OTHER_CAT_NUMS']; ?>:</label>
 								<input id="fothercatalognumbers" name="othercatalognumbers" type="text" value="" />
 							</div>

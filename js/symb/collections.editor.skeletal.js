@@ -175,8 +175,7 @@ function submitDefaultForm(f){
 				listElem.insertBefore(newDiv,listElem.childNodes[0]);
 
 				incrementCount();
-				catalognumber: $( "#fcatalognumber" ).val("");
-				othercatalognumbers: $( "#fothercatalognumbers" ).val("");
+				$("#defaultform")[0].reset(); // mbaenrm: clear form after submit
 			}
 			else{
 				if(retObj.error){
