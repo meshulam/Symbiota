@@ -372,7 +372,7 @@ class TaxonProfile extends Manager {
 						$retArr[$indexKey][$rowArr['tdbid']]['source'] = $rowArr['source'];
 						$retArr[$indexKey][$rowArr['tdbid']]['url'] = $rowArr['sourceurl'];
 					}
-					$retArr[$indexKey][$rowArr['tdbid']]['desc'][$rowArr['tdsid']] = ($rowArr['displayheader'] && $rowArr['heading']?'<b>'.$rowArr['heading'].'</b>: ':'').$rowArr['statement'];
+					$retArr[$indexKey][$rowArr['tdbid']]['desc'][$rowArr['tdsid']] = ($rowArr['displayheader'] && $rowArr['heading']?'<b>'.$rowArr['heading'].'</b>: ':'').$rowArr['statement'].'<br />';
 					$usedCaptionArr[$rowArr['caption']] = $rowArr['tdbid'];
 				}
 			}
