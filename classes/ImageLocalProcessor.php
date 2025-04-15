@@ -53,6 +53,7 @@ class ImageLocalProcessor {
 	private $mdOutputFH;
 	private $logPath;
 	private $errorMessage;
+	private $errorArr = array();
 
 	private $sourceGdImg;
 	private $sourceImagickImg;
@@ -216,7 +217,15 @@ class ImageLocalProcessor {
 		}
 		$this->updateCollectionStats();
 
-		$this->logOrEcho('Image upload process finished! ('.date('Y-m-d h:i:s A').") \n");
+		if (empty($this->errorArr)) {
+			$this->logOrEcho('Image upload process finished! ('.date('Y-m-d h:i:s A').") \n");
+		} else {
+			$this->logOrEcho('<strong style="color:red;">Upload completed with errors:</strong>');
+
+			foreach($this->errorArr as $sourceFile => $msg){
+				$this->logOrEcho("$sourceFile: $msg", 1);
+			}
+		}
 		if($this->logMode == 1) echo '</ul>';
 	}
 
@@ -316,6 +325,7 @@ class ImageLocalProcessor {
 	private function processUploads(){
 		$this->sourcePathBase = ''; // The "local:" spec is not part of the path imageProcessor must use so clear it.
 		$this->logOrEcho('Processing ' . count($this->uploadedFileList["name"]) . ' uploaded image files . . .');
+
 		for ($i=0; $i<count($this->uploadedFileList["name"]); $i++) {
 			$tmpFilePath = $this->uploadedFileList["tmp_name"][$i]; // Absolute path to uploaded temp file, usually in /var/tmp. Filename is arbitrary
 			$sourceFileName = $this->uploadedFileList["name"][$i];        // Filename as originally uploaded from the client
@@ -326,28 +336,33 @@ class ImageLocalProcessor {
 
 				if($fileExt == '.jpg' || $fileExt == '.jpeg'){
 					if(stripos($sourceFileName,$this->tnSourceSuffix.'.jp')){
-						$this->logOrEcho("File skipped, filename appears to be a thumbnail: $sourceFileName", 1);
-						return false;
+						$this->logOrEcho("File skipped, filename appears to be a thumbnail", 1);
+						$this->errorArr[$sourceFileName] = 'Filename appears to be a thumbnail';
+						continue;
 					}
 
 					$catalogNumber = $this->getPrimaryKey($sourceFileName);
 					if(!$catalogNumber){
 						$this->logOrEcho('File skipped, unable to extract specimen identifier', 1);
-						return false;
+						$this->errorArr[$sourceFileName] = 'unable to extract specimen identifier';
+						continue;
 					}
 					$targetPathFrag = $this->getTargetPathFrag($catalogNumber);
 
 					$occid = $this->getOccid($catalogNumber);
 					if($occid === false){
 						$this->logOrEcho('No occurrence found for catalog number ('.$catalogNumber.')', 1);
-						return false;
+						$this->errorArr[$sourceFileName] = "No occurrence found for catalog number ($catalogNumber)";
+						continue;
 					}
 
 					$targetFileName = $this->prepTarget($this->targetPathBase.$targetPathFrag, $sourceFileName, $occid);
 
 					if(!$targetFileName){
-						$this->logOrEcho('No target filename for ('.$this->targetPathBase.$targetPathFrag.' , '.$sourceFileName.')', 1);
-						return false;
+						$msg = 'No target filename for ('.$this->targetPathBase.$targetPathFrag.' , '.$sourceFileName.')';
+						$this->logOrEcho($msg, 1);
+						$this->errorArr[$sourceFileName] = $msg;
+						continue;
 					}
 
 					$sourceArr = array();
@@ -358,9 +373,13 @@ class ImageLocalProcessor {
 						$this->recordImageMetadata($imgArr, $targetPathFrag);
 						if(!in_array($this->activeCollid,$this->collProcessedArr)) $this->collProcessedArr[] = $this->activeCollid;
 					}
+					else{
+						$this->errorArr[$sourceFileName] = 'Error processing/resizing image';
+					}
 				}
 				else{
-					$this->logOrEcho("ERROR: File skipped, not a supported image file: $sourceFileName", 1);
+					$this->logOrEcho('ERROR: File skipped, not a supported image file', 1);
+					$this->errorArr[$sourceFileName] = 'Not a supported image file';
 				}
 				if (is_file($tmpFilePath)) {
 					// Should be cleaned up by processImageFile
@@ -370,6 +389,7 @@ class ImageLocalProcessor {
 			}
 			else{
 				$this->logOrEcho("ERROR: File not found on disk: $tmpFilePath", 1);
+				$this->errorArr[$sourceFileName] = "Uploaded temp file not found on disk: $tmpFilePath";
 			}
 		}
 		$this->logOrEcho('Finished processing ' . count($this->uploadedFileList["name"]) . ' original image files. ('. date('Y-m-d h:i:s A') . ')');
