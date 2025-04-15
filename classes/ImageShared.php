@@ -415,6 +415,7 @@ class ImageShared{
 					}
 				}
 				elseif($this->imgLgUrl) $this->imgWebUrl = $this->imgLgUrl;
+				elseif($this->s3SourceUploaded) $this->imgWebUrl = $this->imgName.$this->imgExt;
 				else $this->imgWebUrl = basename($this->sourcePath);
 			}
 			else{
@@ -1109,6 +1110,14 @@ class ImageShared{
 		//Test to see if file is an image
 		//if(!@exif_imagetype($uri)) $exists = false;
 		return $exists;
+	}
+
+	/** S3-aware version of file_exists() builtin */
+	private static function destFileExists($path) {
+		if(str_starts_with($path, 's3://')) {
+			return S3Cmd::exists($path);
+		}
+		return file_exists($path);
 	}
 
 	/** S3-aware version of copy() builtin */
