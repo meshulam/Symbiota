@@ -83,7 +83,7 @@ const HTML_SPECIAL_CHARS_FLAGS = ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE;
 $CSS_VERSION = '16';
 
 // mbaenrm: CSRFProtector library
-include_once($SERVER_ROOT.'/libs/csrfp/csrf/csrfprotector.php');
-csrfProtector::init();
+//include_once($SERVER_ROOT.'/libs/csrfp/csrf/csrfprotector.php');
+//csrfProtector::init();
 
 ?>
