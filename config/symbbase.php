@@ -7,7 +7,12 @@ $CODE_VERSION = '3.1.8';
 
 set_include_path(get_include_path() . PATH_SEPARATOR . $SERVER_ROOT . PATH_SEPARATOR . $SERVER_ROOT.'/config/' . PATH_SEPARATOR . $SERVER_ROOT.'/classes/');
 
-session_start(array('gc_maxlifetime'=>3600,'cookie_path'=>$CLIENT_ROOT,'cookie_secure'=>(isset($COOKIE_SECURE)&&$COOKIE_SECURE?true:false),'cookie_httponly'=>true));
+session_start(array(
+	'gc_maxlifetime'=>3600,
+	'cookie_path'=>(empty($CLIENT_ROOT) ? '/' : $CLIENT_ROOT),
+	'cookie_secure'=>(isset($COOKIE_SECURE)&&$COOKIE_SECURE?true:false),
+	'cookie_httponly'=>true,
+));
 
 include_once($SERVER_ROOT.'/classes/Encryption.php');
 include_once($SERVER_ROOT.'/classes/ProfileManager.php');
