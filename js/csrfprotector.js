@@ -303,6 +303,7 @@ function csrfprotector_init() {
 	// Add the token to those which does not contain GET query parameter(s)
 	//==================================================================
 
+	/* mbaenrm: not protecting GETs so we can skip this 
 	for (var i = 0; i < document.links.length; i++) {
 		document.links[i].addEventListener("mousedown", function (event) {
 			var href = event.target.href;
@@ -339,6 +340,7 @@ function csrfprotector_init() {
 			}
 		});
 	}
+	*/
 }
 
 window.addEventListener("DOMContentLoaded", function () {
