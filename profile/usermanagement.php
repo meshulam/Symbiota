@@ -750,6 +750,9 @@ if($IS_ADMIN){
 				<a id="userlist"></a>
 				<?php
 				$users = $userManager->getUsers($searchTerm);
+				echo '<div class="bottom-breathing-room-rel">'.count($users).' users';
+				if ($searchTerm) echo ' <a href="usermanagement.php">Show all</a>';
+				echo '</div>';
 				foreach($users as $id => $name){
 					echo '<div><a href="usermanagement.php?userid=' . htmlspecialchars($id, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">' . htmlspecialchars($name, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '</a></div>';
 				}
