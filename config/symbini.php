@@ -8,8 +8,8 @@ $DEFAULT_PROJ_ID = 1;
 $DEFAULTCATID = 0;
 $DEFAULT_TITLE = 'Bell Atlas';
 $TID_FOCUS = '';
-$ADMIN_EMAIL = '';			//This is the email address used to contact the primary on this portal
-$SYSTEM_EMAIL = ''; 	//This email address is used for system notifications (password reset requests, etc...) ex: noreply@yourdomain.edu
+$ADMIN_EMAIL = '_';			//This is the email address used to contact the primary on this portal
+$SYSTEM_EMAIL = 'noreply@bellatlas.umn.edu'; 	//This email address is used for system notifications (password reset requests, etc...) ex: noreply@yourdomain.edu
 $CHARSET = 'UTF-8';					//ISO-8859-1 or UTF-8
 $PORTAL_GUID = '';				//Typically a UUID
 $SECURITY_KEY = '';				//Typically a UUID used to verify access to certain web service
@@ -93,7 +93,7 @@ $RIGHTS_TERMS = array(
 );
 
 // Should public users be able to create accounts?
-$SHOULD_BE_ABLE_TO_CREATE_PUBLIC_USER = false;
+$SHOULD_BE_ABLE_TO_CREATE_PUBLIC_USER = true;
 
 $SYMBIOTA_LOGIN_ENABLED = true;
 
