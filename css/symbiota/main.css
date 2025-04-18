@@ -450,7 +450,8 @@ button.inverse-color {
 }
 
 .button-tertiary {
-  background-color: transparent;
+  background-color: var(--body-bg-color);
+  color: var(--darkest-color);
   border: 1px solid var(--bright-color);
   padding: 0.5rem 0.9rem;
 }
