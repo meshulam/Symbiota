@@ -226,10 +226,14 @@ $(document).ready(function() {
 		}
 	}, { autoFocus: true });
 
-	$("#catalognumber").keydown(function(evt) {
-		var evt = (evt) ? evt : ((event) ? event : null);
-		if (evt.keyCode == 13) return false;
-	});
+	function ignoreEnterKey(evt) {
+		if (evt && evt.keyCode === 13) {
+			return false;
+		}
+	}
+	$("#catalognumber").keydown(ignoreEnterKey);
+	// mbaenrm: Additional identifiers- prevent submitting form when using barcode scanner to enter identifiers
+	$("#identifierDiv input").keydown(ignoreEnterKey); 
 
 	if (document.getElementById('hostDiv')) {
 		$("#quickhost").autocomplete({
