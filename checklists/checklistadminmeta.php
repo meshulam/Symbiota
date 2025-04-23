@@ -21,6 +21,7 @@ $dynamPropsArr = array();
 if(isset($clArray['dynamicProperties']) && $clArray['dynamicProperties']){
 	$dynamPropsArr = json_decode($clArray['dynamicProperties'], true);
 }
+$canCreate = isset($GLOBALS['USER_RIGHTS']['ClCreate']) || $IS_ADMIN;
 ?>
 <script type="text/javascript" src="../js/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
@@ -135,7 +136,7 @@ if(isset($clArray['dynamicProperties']) && $clArray['dynamicProperties']){
 	}
 </script>
 <?php
-if(!$clid){
+if(!$clid && $canCreate){
 	?>
 	<div style="float:right;">
 		<a href="#" onclick="toggle('checklistDiv')" title="<?php echo htmlspecialchars($LANG['CREATE_CHECKLIST'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE); ?>"><img src="../images/add.png" style="width:1.5em;" /></a>
@@ -387,7 +388,11 @@ if(!$clid){
 			<div style="margin:10px;">
 				<div><?php echo $LANG['NO_CHECKLISTS']; ?></div>
 				<div class="top-breathing-room-rel">
+				<?php if($canCreate) { ?>
 					<a href="#" onclick="toggle('checklistDiv')"><?php echo htmlspecialchars($LANG['CLICK_TO_CREATE'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE);?></a>
+				<?php } else { ?>
+					Interested in creating your own checklists? Email us at museum-atlas@umn.edu
+				<?php } ?>
 				</div>
 			</div>
 			<?php
