@@ -353,7 +353,7 @@ class OccurrenceImport extends UtilitiesFileImport{
 		}
 		elseif($this->importType == self::IMPORT_MATERIAL_SAMPLE){
 			$fieldArr = array('sampleType', 'ms_catalogNumber', 'guid', 'sampleCondition', 'disposition', 'preservationType', 'preparationDetails', 'preparationDate',
-				'preparedByUid', 'individualCount', 'sampleSize', 'storageLocation', 'remarks');
+				'preparedBy', 'individualCount', 'sampleSize', 'storageLocation', 'remarks');
 		}
 		sort($fieldArr);
 		foreach($fieldArr as $field){

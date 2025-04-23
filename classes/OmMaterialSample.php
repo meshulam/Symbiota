@@ -20,7 +20,7 @@ class OmMaterialSample{
 		}
 		else $this->conn = MySQLiConnectionFactory::getCon('write');
 		$this->schemaMap = array('sampleType' => 's', 'catalogNumber' => 's', 'guid' => 's', 'sampleCondition' => 's', 'disposition' => 's', 'preservationType' => 's',
-			'preparationDetails' => 's', 'preparationDate' => 's', 'preparedByUid' => 'i', 'individualCount' => 'i', 'sampleSize' => 's', 'storageLocation' => 's', 'remarks' => 's');
+			'preparationDetails' => 's', 'preparationDate' => 's', 'preparedBy' => 's', 'individualCount' => 'i', 'sampleSize' => 's', 'storageLocation' => 's', 'remarks' => 's');
 	}
 
 	function __destruct(){
@@ -29,8 +29,8 @@ class OmMaterialSample{
 
 	public function getMaterialSampleArr(){
 		$retArr = array();
-		$sql = 'SELECT m.matSampleID, m.'.implode(', m.', array_keys($this->schemaMap)).', CONCAT_WS(", ",u.lastname,u.firstname) as preparedBy, m.dynamicFields, m.recordID, m.initialTimestamp
-			FROM ommaterialsample m LEFT JOIN users u ON m.preparedByUid = u.uid WHERE m.occid = '.$this->occid;
+		$sql = 'SELECT m.matSampleID, m.'.implode(', m.', array_keys($this->schemaMap)).', m.dynamicFields, m.recordID, m.initialTimestamp
+			FROM ommaterialsample m WHERE m.occid = '.$this->occid;
 		if($rs = $this->conn->query($sql)){
 			while($r = $rs->fetch_assoc()){
 				$retArr[$r['matSampleID']] = $r;
@@ -122,7 +122,6 @@ class OmMaterialSample{
 				if($value === '') $value = null;
 				elseif($value){
 					if(strtolower($field) == 'preparationdate') $value = OccurrenceUtilities::formatDate($value);
-					if(strtolower($field) == 'preparedbyuid') $value = OccurrenceUtilities::verifyUser($value, $this->conn);
 				}
 				$this->parameterArr[$field] = $value;
 				$this->typeStr .= $type;

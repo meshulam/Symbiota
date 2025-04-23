@@ -487,8 +487,8 @@ class OccurrenceIndividual extends Manager{
 	private function setMaterialSamples(){
 		if(isset($this->activeModules['matSample']) && $this->activeModules['matSample']){
 			$sql = 'SELECT m.matSampleID, m.sampleType, m.catalogNumber, m.guid, m.sampleCondition, m.disposition, m.preservationType, m.preparationDetails, m.preparationDate,
-				m.preparedByUid, CONCAT_WS(", ",u.lastname,u.firstname) as preparedBy, m.individualCount, m.sampleSize, m.storageLocation, m.remarks, m.dynamicFields, m.recordID, m.initialTimestamp
-				FROM ommaterialsample m LEFT JOIN users u ON m.preparedByUid = u.uid WHERE m.occid = ?';
+				m.preparedBy, m.individualCount, m.sampleSize, m.storageLocation, m.remarks, m.dynamicFields, m.recordID, m.initialTimestamp
+				FROM ommaterialsample m WHERE m.occid = ?';
 			if($stmt = $this->conn->prepare($sql)){
 				$stmt->bind_param('i', $this->occid);
 				$stmt->execute();

@@ -30,6 +30,7 @@ $controlTermArr = $materialSampleManager->getMSTypeControlValues();
 <script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-3.7.1.min.js" type="text/javascript"></script>
 <script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-ui.min.js" type="text/javascript"></script>
 <script>
+	/* mbaenrm: disabling since we have migrated to a free-text preparedBy field
 	var collid = <?php echo $collid; ?>;
 	$(document).ready(function() {
 		$(".ms_preparedBy").autocomplete({
@@ -49,6 +50,7 @@ $controlTermArr = $materialSampleManager->getMSTypeControlValues();
 			}
 		});
 	});
+	*/
 </script>
 <link href="<?= $CSS_BASE_PATH ?>/jquery-ui.css" type="text/css" rel="stylesheet" />
 <link href="<?= $CSS_BASE_PATH ?>/symbiota/collections/editor/occureditormaterialsample.css?ver=2" type="text/css" rel="stylesheet" >
@@ -217,7 +219,6 @@ $controlTermArr = $materialSampleManager->getMSTypeControlValues();
 							<label><?php echo $MS_LABEL_ARR['preparedBy']; ?>: </label>
 							<span class="edit-elem">
 								<input class="ms_preparedBy" name="ms_preparedBy" type="text" value="<?php echo isset($msArr['preparedBy'])?$msArr['preparedBy']:''; ?>" />
-								<input name="ms_preparedByUid" type="hidden" value="<?php echo isset($msArr['preparedByUid'])?$msArr['preparedByUid']:''; ?>" />
 							</span>
 						</div>
 						<div class="smPreparationDetailsDiv">

@@ -38,7 +38,7 @@ class DwcArchiverMaterialSample extends DwcArchiverBaseManager{
 		$termArr['preparationDate'] = 'http://data.ggbn.org/schemas/ggbn/terms/preparationDate';
 		$columnArr['preparationDate'] = 'm.preparationDate';
 		$termArr['preparedBy'] = 'http://data.ggbn.org/schemas/ggbn/terms/preparedBy';
-		$columnArr['preparedBy'] = 'CONCAT_WS(", ", u.lastname, u.firstname) AS preparedBy';
+		$columnArr['preparedBy'] = 'm.preparedBy'; // mbaenrm
 		$termArr['individualCount'] = 'http://rs.tdwg.org/dwc/terms/individualCount';
 		$columnArr['individualCount'] = 'm.individualCount';
 		$termArr['sampleSize'] = 'http://gensc.org/ns/mixs/samp_size';
@@ -78,7 +78,7 @@ class DwcArchiverMaterialSample extends DwcArchiverBaseManager{
 			foreach($this->fieldArr['fields'] as $colName){
 				if($colName && $colName != 'msDynamicField') $sqlFrag .= ', '.$colName;
 			}
-			$this->sqlBase = 'SELECT '.trim($sqlFrag,', ').' FROM ommaterialsample m LEFT JOIN users u ON m.preparedByUid = u.uid ';
+			$this->sqlBase = 'SELECT '.trim($sqlFrag,', ').' FROM ommaterialsample m ';
 		}
 	}
 

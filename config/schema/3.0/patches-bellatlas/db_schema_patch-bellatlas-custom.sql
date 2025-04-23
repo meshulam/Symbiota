@@ -10,3 +10,7 @@ ALTER TABLE `uploadspectemp`
   CHANGE COLUMN `eventID` `eventID` varchar(150) DEFAULT NULL,
   CHANGE COLUMN `waterBody` `waterBody` varchar(75) DEFAULT NULL,
   CHANGE COLUMN `georeferenceRemarks` `georeferenceRemarks` varchar(500) DEFAULT NULL;
+
+
+-- 2025-04-23 Add text preparedBy column, replaces preparedByUid
+ALTER TABLE `ommaterialsample` ADD COLUMN `preparedBy` VARCHAR(45) DEFAULT NULL AFTER `preparedByUid`;
