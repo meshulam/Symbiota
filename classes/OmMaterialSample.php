@@ -115,14 +115,14 @@ class OmMaterialSample{
 			$postField = '';
 			if(isset($inputArr[$field])) $postField = $field;
 			elseif(isset($inputArr[strtolower($field)])) $postField = strtolower($field);
-			// ms_ prefix on Material Sample tab of occurrenceeditor.php
+			// ms_ prefix on materialsampleinclude.php included from occurrenceeditor.php
 			elseif(isset($inputArr['ms_'.$field])) $postField = 'ms_'.$field;
 			if($postField){
 				$value = trim($inputArr[$postField]);
 				if($value === '') $value = null;
 				elseif($value){
-					if(strtolower($postField) == 'preparationdate') $value = OccurrenceUtilities::formatDate($value);
-					if(strtolower($postField) == 'preparedbyuid') $value = OccurrenceUtilities::verifyUser($value, $this->conn);
+					if(strtolower($field) == 'preparationdate') $value = OccurrenceUtilities::formatDate($value);
+					if(strtolower($field) == 'preparedbyuid') $value = OccurrenceUtilities::verifyUser($value, $this->conn);
 				}
 				$this->parameterArr[$field] = $value;
 				$this->typeStr .= $type;
@@ -142,13 +142,6 @@ class OmMaterialSample{
 			$retArr[$r->tableName][$r->fieldName]['l'] = $r->limitToList;
 		}
 		return $retArr;
-	}
-
-	//Misc support functions
-	public function cleanFormData(&$postArr){
-		foreach($postArr as $k => $v){
-			if(substr($k,0,3) == 'ms_') $postArr[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE);
-		}
 	}
 
 	//Setters and getters

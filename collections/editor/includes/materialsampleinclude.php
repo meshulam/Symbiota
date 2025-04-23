@@ -16,7 +16,6 @@ $materialSampleManager = new OmMaterialSample();
 if(!is_numeric($occid)) $occid = 0;
 if(!is_numeric($collid)) $collid = 0;
 if(!is_numeric($occIndex)) $occIndex = 0;
-$materialSampleManager->cleanFormData($_POST);
 
 $materialSampleManager->setOccid($occid);
 
