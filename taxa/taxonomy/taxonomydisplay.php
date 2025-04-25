@@ -150,15 +150,11 @@ if($IS_ADMIN || array_key_exists('Taxonomy', $USER_RIGHTS)){
 							<input id="limittooccurrences" name="limittooccurrences" type="checkbox" value="1" <?= ($limitToOccurrences ? 'checked' : '') ?> />
 							<label for="limittooccurrences"> <?= $LANG['LIMIT_TO_OCCURRENCES'] ?> </label>
 						</div>
+						<input name="taxauthid" type="hidden" value="<?= $taxAuthId; ?>" />
 					</div>
-					<div class="flex-form" style="margin: 10px">
-						<div>
-							<button class="inverse-color" name="tdsubmit" type="submit" value="displayTaxonTree"><?= $LANG['DISP_TAX_TREE'] ?></button>
-							<input name="taxauthid" type="hidden" value="<?= $taxAuthId; ?>" />
-						</div>
-						<div style="float: right">
-							<button name="tdsubmit" type="submit" value="exportTaxonTree"><?= $LANG['EXPORT_TREE'] ?></button>
-						</div>
+					<div class="top-breathing-room-rel">
+						<button name="tdsubmit" type="submit" value="displayTaxonTree"><?= $LANG['DISP_TAX_TREE'] ?></button>
+						<button class="inverse-color" name="tdsubmit" type="submit" value="exportTaxonTree"><?= $LANG['EXPORT_TREE'] ?></button>
 					</div>
 				</fieldset>
 			</form>
