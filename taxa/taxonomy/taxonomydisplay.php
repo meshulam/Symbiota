@@ -54,7 +54,10 @@ if($IS_ADMIN || array_key_exists('Taxonomy', $USER_RIGHTS)){
 		$(document).ready(function() {
 			$("#taxontarget").autocomplete({
 				source: function( request, response ) {
-					$.getJSON( "rpc/gettaxasuggest.php", { term: request.term, taid: document.tdform.taxauthid.value }, response );
+					$.getJSON( "rpc/gettaxasuggest.php", { term: request.term, taid: document.tdform.taxauthid.value }, function(data) {
+						// Populate tid as the input value, so TaxonomyDisplayManager->setTargetStr can pick it up for an exact taxon match 
+						response(data.map(({ id, label }) => ({ value: id, label })));
+					});
 				},
 				autoFocus: true,
 				minLength: 3 }
