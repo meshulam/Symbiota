@@ -120,7 +120,7 @@ if($isEditor && $action){
 <!DOCTYPE html>
 <html lang="<?php echo $LANG_TAG ?>">
 <head>
-	<title><?php echo $DEFAULT_TITLE . ' ' . $LANG['TAXON_EDITOR'] .': ' . $tEditor->getSciName(); ?></title>
+	<title><?php echo $DEFAULT_TITLE . ' ' . $LANG['TAX_PROF_EDITOR'] .': ' . $tEditor->getSciName(); ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $CHARSET;?>" />
 	<link href="<?php echo $CSS_BASE_PATH; ?>/jquery-ui.css" type="text/css" rel="stylesheet">
 	<?php
@@ -194,7 +194,9 @@ if($isEditor && $action){
 		if($tEditor->getTid()){
 			if($isEditor){
 				if($tEditor->isForwarded()) echo '<div id="redirectedfrom">' . $LANG['REDIRECTED_FROM'] . ': <i>' . $tEditor->getSubmittedValue('sciname') . '</i></div>';
-				echo '<div id="taxonDiv"><a href="../index.php?taxon=' . htmlspecialchars($tEditor->getTid(), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">' . $LANG['VIEW_PUBLIC_TAXON'] . '</a> ';
+				echo '<div id="taxonDiv">';
+				echo '<a href="../taxonomy/taxoneditor.php?tid=' . htmlspecialchars($tEditor->getTid(), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">' . $LANG['TAXON_EDITOR'] . '</a> <br />';
+				echo '<a href="../index.php?taxon=' . htmlspecialchars($tEditor->getTid(), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">' . $LANG['VIEW_PUBLIC_TAXON'] . '</a> ';
 				if($tEditor->getRankId() > 140) echo "&nbsp;<a href='tpeditor.php?tid=" . htmlspecialchars($tEditor->getParentTid(), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . "'><img class='icon-img' src='../../images/toparent.png' title='" . htmlspecialchars($LANG['GO_TO_PARENT'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . "' /></a>";
 				echo "</div>\n";
 				if($tEditor->getFamily()) echo '<div id="familyDiv"><b>' . $LANG['FAMILY'] . ':</b> ' . $tEditor->getFamily() . '</div>' . "\n";
