@@ -1,4 +1,8 @@
 <?php
+// mbaenrm - hiding collections RSS, we only want to publish individual collection archives
+header('HTTP/1.0 404 Not Found');
+return;
+/*
 include_once('../../config/symbini.php');
 include_once($SERVER_ROOT.'/classes/DwcArchiverCore.php');
 
@@ -14,4 +18,5 @@ header("Cache-Control: no-cache");
 header("Pragma: no-cache");
 
 echo $dwcaManager->getFullRss();
+*/
 ?>

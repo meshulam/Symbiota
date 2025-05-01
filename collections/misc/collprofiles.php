@@ -923,10 +923,7 @@ if ($SYMB_UID) {
 		} elseif($collectionData) {
 			?>
 			<h2><?= $DEFAULT_TITLE . ' ' . $LANG['COLLECTION_PROJECTS']  ?></h2>
-			<div>
-				<a href="../datasets/rsshandler.php" target="_blank" rel="noopener noreferrer"><?= $LANG['RSS_FEED'] ?></a>
-				<hr />
-			</div>
+			<hr />
 			<div class="gridlike-form">
 				<?php
 				foreach ($collectionData as $cid => $collArr) {
