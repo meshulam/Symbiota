@@ -25,11 +25,13 @@ if(!$activeCollArr && strpos($collid, ',')) $collid = 0;
 $cleanManager->setCollId($IS_ADMIN?$collid:implode(',',$activeCollArr));
 
 $isEditor = false;
+$isCollAdmin = false;
 if($IS_ADMIN){
 	$isEditor = true;
 }
 elseif($activeCollArr){
-	$isEditor = true;
+	// mbaenrm: don't allow collection admins to modify taxonomy directly
+	$isCollAdmin = true;
 }
 ?>
 <!DOCTYPE html>
@@ -326,6 +328,18 @@ elseif($activeCollArr){
 						</section>
 					</div>
 					<?php
+				}
+				elseif ($isCollAdmin){
+					// Collection admin, disallow tool but show counts
+					echo '<h1 class="page-heading">Taxonomy Cleaning Tool: ' . $collMap[$collid]['collectionname'].' ('.$collMap[$collid]['code'].')</h1>';
+					echo '<p>You don\'t have permission to run the taxonomy cleaning tool. If the counts below show unmatched specimens, please contact museum-atlas@umn.edu for assistance.</p>';
+					$badTaxaCount = $cleanManager->getBadTaxaCount();
+					$badSpecimenCount = $cleanManager->getBadSpecimenCount();
+					echo '<p>'. $LANG['SPECS_NOT_INDEXED'] . ':</p>';
+					echo '<ul>';
+					echo '<li>'.$LANG['SPECS'].': '.$cleanManager->getBadSpecimenCount() . '</li> ';
+					echo '<li>'.$LANG['SCINAMES'].': '.$cleanManager->getBadTaxaCount() . '</li> ';
+					echo '</ul>';
 				}
 				else{
 					echo '<div><b>'.$LANG['NO_PERM'].'</b></div>';
