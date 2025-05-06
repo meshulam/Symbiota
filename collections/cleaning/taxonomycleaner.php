@@ -4,7 +4,10 @@ include_once($SERVER_ROOT.'/classes/TaxonomyCleaner.php');
 if($LANG_TAG != 'en' && file_exists($SERVER_ROOT.'/content/lang/collections/cleaning/taxonomycleaner.'.$LANG_TAG.'.php')) include_once($SERVER_ROOT.'/content/lang/collections/cleaning/taxonomycleaner.'.$LANG_TAG.'.php');
 else include_once($SERVER_ROOT.'/content/lang/collections/cleaning/taxonomycleaner.en.php');
 header("Content-Type: text/html; charset=".$CHARSET);
-if(!$SYMB_UID) header('Location: ../../profile/index.php?refurl=../collections/cleaning/taxonomycleaner.php?'.htmlspecialchars($_SERVER['QUERY_STRING'], ENT_QUOTES));
+if(!$SYMB_UID) {
+	header('Location: ../../profile/index.php?refurl=../collections/cleaning/taxonomycleaner.php?'.htmlspecialchars($_SERVER['QUERY_STRING'], ENT_QUOTES));
+	return;
+}
 
 $collid = array_key_exists('collid',$_REQUEST)?$_REQUEST["collid"]:0;
 $autoClean = array_key_exists('autoclean',$_POST)?$_POST['autoclean']:0;
@@ -32,6 +35,11 @@ if($IS_ADMIN){
 elseif($activeCollArr){
 	// mbaenrm: don't allow collection admins to modify taxonomy directly
 	$isCollAdmin = true;
+}
+
+if($action === 'downloadcsv' && $isEditor){
+	$cleanManager->downloadUnmatchedSpecimenCsv();
+	return;
 }
 ?>
 <!DOCTYPE html>
@@ -135,8 +143,8 @@ elseif($activeCollArr){
 				}
 			}
 
-			function verifyCleanerForm(f){
-				if(f.targetkingdom.value == ""){
+			function verifyCleanerForm(evt){
+				if(evt.target.targetkingdom.value == "" && evt.submitter.value !== 'downloadcsv'){
 					alert("<?php echo $LANG['SELECT_KINGDOM']; ?>");
 					return false;
 				}
@@ -251,13 +259,14 @@ elseif($activeCollArr){
 					<div class="top-breathing-room-rel-sm">
 						<section class="fieldset-like">
 							<h2> <span> <?php echo (isset($LANG['ACTION_MENU']) ? $LANG['ACTION_MENU'] : 'Action Menu'); ?> </span> </h2>
-							<form name="maincleanform" action="taxonomycleaner.php" method="post" onsubmit="return verifyCleanerForm(this)">
+							<form name="maincleanform" action="taxonomycleaner.php" method="post" onsubmit="return verifyCleanerForm(event)">
 								<div style="margin-bottom:15px;">
 									<b><?php echo $LANG['SPECS_NOT_INDEXED']; ?></b>
-									<div style="margin-left:10px;">
+									<div style="margin-left:10px;" class="bottom-breathing-room">
 										<?php echo '<span class="underlined-text">'.$LANG['SPECS'].'</span>: '.$badSpecimenCount.'<br/>'; ?>
 										<?php echo '<span class="underlined-text">'.$LANG['SCINAMES'].'</span>: '.$badTaxaCount.'<br/>'; ?>
 									</div>
+									<button name="submitaction" type="submit" value="downloadcsv">Download CSV</button>
 								</div>
 								<hr/>
 								<div style="margin:20px 10px">

@@ -62,6 +62,29 @@ class TaxonomyCleaner extends Manager{
 		return $retCnt;
 	}
 
+	public function downloadUnmatchedSpecimenCsv(){
+		if(!$this->collid) { 
+			echo "collection ID not set";
+			return;
+		}
+		$fileName = 'unmatched_coll'.$this->collid.'_'.date('Ymd').'.csv';
+		header ('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header ('Content-Type: text/csv');
+		header ("Content-Disposition: attachment; filename=\"$fileName\"");
+		$outFH = fopen('php://output', 'w');
+		$headerArr = array('occid', 'catalogNumber', 'sciname', 'dateentered', 'dateLastModified');
+		fputcsv($outFH, $headerArr);
+		$sql = 'SELECT '.implode(', ', $headerArr).' '.$this->getSqlFragment();
+		if($rs = $this->conn->query($sql)){
+			while($row = $rs->fetch_assoc()){
+				fputcsv($outFH, $row);
+			}
+			$rs->free();
+		} else {
+			echo $this->conn->error;
+		}
+	}
+
 	public function analyzeTaxa($taxResource, $startIndex, $limit = 50){
 		set_time_limit(1800);
 		$isTaxonomyEditor = false;
