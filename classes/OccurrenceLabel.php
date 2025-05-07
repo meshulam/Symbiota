@@ -29,6 +29,7 @@ class OccurrenceLabel{
 		}
 		$retArr = array();
 		if($this->collid){
+			$sqlSelect = '';
 			$sqlWhere = '';
 			$sqlOrderBy = '';
 			if($postArr['taxa']){
@@ -51,6 +52,7 @@ class OccurrenceLabel{
 				if($date2) $sqlWhere .= 'AND (DATE(o.'.$dateTarget.') BETWEEN "'.$date1.'" AND "'.$date2.'") ';
 				else $sqlWhere .= 'AND (DATE(o.'.$dateTarget.') = "'.$date1.'") ';
 				$sqlOrderBy .= ',o.'.$dateTarget;
+				$sqlSelect .= ', o.'.$dateTarget;
 			}
 			if($postArr['recordnumber']){
 				$rnArr = explode(',',$this->cleanInStr($postArr['recordnumber']));
@@ -120,6 +122,7 @@ class OccurrenceLabel{
 				}
 				$sqlWhere .= 'AND ('.substr($iWhere,3).') ';
 				$sqlOrderBy .= ',i.identifiervalue,o.catalogNumber,o.otherCatalogNumbers';
+				$sqlSelect .= ',i.identifiervalue,o.catalogNumber,o.otherCatalogNumbers';
 			}
 			if($this->collArr['colltype'] == 'General Observations'){
 				$sqlWhere .= 'AND (o.collid = '.$this->collid.') ';
@@ -130,6 +133,7 @@ class OccurrenceLabel{
 			}
 			$sql = 'SELECT DISTINCT o.occid, o.collid, IFNULL(o.duplicatequantity,1) AS q, CONCAT_WS(" ",o.recordedby,IFNULL(o.recordnumber,o.eventdate)) AS collector, o.observeruid, '.
 				'o.family, o.sciname, CONCAT_WS("; ",o.country, o.stateProvince, o.county, o.locality) AS locality, IFNULL(o.localitySecurity,0) AS localitySecurity '.
+				$sqlSelect . ' ' .
 				'FROM omoccurrences o LEFT JOIN omoccuridentifiers i ON o.occid = i.occid ';
 			if(strpos($sqlWhere,'MATCH(f.recordedby)') || strpos($sqlWhere,'MATCH(f.locality)')){
 				$sql.= 'INNER JOIN omoccurrencesfulltext f ON o.occid = f.occid ';
