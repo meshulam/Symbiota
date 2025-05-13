@@ -296,6 +296,8 @@ class ImageShared{
 		if($p = strrpos($fName,'.')){
 			$this->sourceIdentifier = 'filename: '.$fName;
 			if(!$this->imgExt) $this->imgExt = strtolower(substr($fName,$p));
+			// mbaenrm: fix mismatched file extensions 
+			if($this->imgExt === '.jpeg') $this->imgExt = '.jpg';
 			$fName = substr($fName,0,$p);
 		}
 

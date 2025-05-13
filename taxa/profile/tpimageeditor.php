@@ -280,6 +280,10 @@ if($tid){
 										}
 										?>
 										<div style='margin:60px 0px 10px 10px;clear:both;'>
+											<div>
+												<b><?php echo $LANG['IMG_ID']; ?>:</b>
+												<?php echo $imgArr["imgid"];?>
+											</div>
 											<?php
 											if($imgArr["tid"] != $tid){
 												?>
