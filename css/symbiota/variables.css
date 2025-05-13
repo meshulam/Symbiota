@@ -1,25 +1,30 @@
 /* Variables
    ========================================================================== */
 :root {
-  --header-bg-image: url("../../images/layout/jonathan-borba-Ui73wdp0wok-unsplash.jpg");
-  --header-bg-color: #2f6e5378; /** Transparent color if adding header bg-image **/
+  --brand-primary: #085473;
+  --brand-primary-rgb: 8, 84, 115; /* for composing into rgba() values */
+
+  --header-bg-image: url("../../images/layout/MNBiodiversityAtlas_hero7a.jpg");
+  --header-bg-color: rgba(var(--brand-primary-rgb), 0.1);
   --header-font-color: #fff;
-  --brand-font-size: 1.5rem;
-  --title-font-family: "Averia Serif Libre", serif;
+  --header-outline-color: var(--brand-primary);
+  --brand-font-size: 2.5rem;
+  --title-font-family: "Fira Sans", serif;
   --logo-width: 120px;
-  --menu-top-bg-color: #1b3d2f;
+  --menu-overlay-bg-color: rgba(var(--brand-primary-rgb), 0.7);
+  --menu-bg-color: var(--brand-primary);
   --menu-font-size: 1rem;
-  --body-bg-color: #fafafa;
-  --body-text-color: #000000;
+  --body-bg-color: #ffffff;
+  --body-text-color: #333333;
   --body-font-size: 1rem;
-  --body-font-family: "Arial", sans-serif;
+  --body-font-family: "Fira Sans", sans-serif;
   --footer-bg-color: #f2f0e9;
-  --heading-font-family: "Roboto", sans-serif;
-  --link-color: #2c405e;
-  --darkest-color: #1b3d2f;
-  --medium-color: #5a5a53;
+  --heading-font-family: "Fira Sans", sans-serif;
+  --link-color: var(--brand-primary);
+  --darkest-color: #333333;
+  --medium-color: #6e6259;
   --light-color: #f2f0e9;
-  --bright-color: #b9d432;
-  --danger-color: #b31b1b;
+  --bright-color: #a4d0ef;
+  --danger-color: #d19000;
   --max-innertext-width: 1024px;
 }
