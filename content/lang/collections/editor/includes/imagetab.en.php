@@ -58,5 +58,6 @@ $LANG['DISASSOCIATE_IMG_ALL'] = 'Disassociate Image from all Specimen Records';
 $LANG['DISASSOCIATE_IMG'] = 'Disassociate Image';
 $LANG['IMG_FROM_TAXON'] = 'Image will only be available from Taxon Profile page';
 $LANG['MAKE_REQUEST'] = 'Make an imaging request';
+$LANG['IMG_ID'] = 'Image ID';
 
 ?>

@@ -215,6 +215,10 @@ $photographerArr = $occManager->getPhotographerArr();
 							</div>
 							<div style="margin-top:30px">
 								<div>
+									<b><?php echo $LANG['IMG_ID']; ?>:</b>
+									<?php echo $imgId; ?>
+								</div>
+								<div>
 									<b><?php echo $LANG['CAPTION']; ?>:</b>
 									<?php echo $imgArr["caption"]; ?>
 								</div>
