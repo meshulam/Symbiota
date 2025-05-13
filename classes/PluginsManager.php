@@ -10,6 +10,72 @@ class PluginsManager extends Manager {
  	public function __destruct(){
 	}
 
+	// mbaenrm: hardcoded Image ID slideshow
+	public function createImageIDSlideShow($ids, $width, $interval) {
+		if($width > 800) $width = 800;
+		if($width < 275) $width = 275;
+
+		$files = $this->fetchImagesByIds($ids);
+
+		$showHtml = $this->getSlideshowStyle($width);
+		$showHtml .= '<div id="slideshowcontainer">';
+		$showHtml .= '<div class="container">';
+		$showHtml .= '<div id="slides">';
+		$showHtml .= $this->getImageHtmlByIds($files);
+		$showHtml .= '</div></div></div>';
+		$showHtml .= $this->getSlideshowScript($width,$interval);
+		return $showHtml;
+	}
+
+	private function fetchImagesByIds($ids)
+	{
+		$files = Array();
+		$parameters = str_repeat('?,', count($ids) - 1) . '?'; // placeholders 
+		$sql = 'SELECT i.imgid, i.tid, i.occid, i.url, t.sciname, '.
+			'CONCAT_WS("; ",o.sciname, o.catalognumber, CONCAT_WS(" ",o.recordedby,IFNULL(o.recordnumber,o.eventdate))) AS identifier '.
+			'FROM images i '.
+			'LEFT JOIN omoccurrences o ON i.occid = o.occid '.
+			'LEFT JOIN taxa t ON i.tid = t.tid '.
+			'WHERE i.imgid IN('.$parameters.') '.
+			'ORDER BY i.sortsequence LIMIT 50';
+		
+		$conn = MySQLiConnectionFactory::getCon("readonly");
+		$result = $conn->execute_query($sql, $ids);
+		foreach ($result as $row) {
+			$files[] = $row;
+		}
+		return $files;
+	}
+
+	private function getImageHtmlByIds($imageArr) {
+		$html = '';
+		foreach($imageArr as $imgIdArr){
+			$linkUrl = $GLOBALS['CLIENT_ROOT'];
+			if($imgIdArr['occid']) $linkUrl .= '/collections/individual/index.php?occid='.$imgIdArr['occid'].'&clid=0';
+			elseif($imgIdArr["tid"]) $linkUrl .= '/taxa/index.php?taxon='.str_replace(' ','%20',$imgIdArr['sciname']);
+
+			$html .= '<div class="slideshowDiv">
+				<div class="slideshowImageDiv">
+					<a href="'.$linkUrl.'" target="_blank">
+						<img src="'.$imgIdArr["url"].'" alt="'.$imgIdArr["sciname"].'">
+					</a>
+				</div>';
+			$hideCaptionClick = "$('.slideshowCaptionDiv').hide();$('.slideshowShowLink').show();return false;";
+			$html .= '<div class="slideshowBaseDiv">
+				<div class="slideshowCaptionDiv">
+					<a class="slideshowHideLink" href="#" onclick="' . $hideCaptionClick . '">' . htmlspecialchars((isset($LANG['HIDE_CAPTION'])?$LANG['HIDE_CAPTION']:'HIDE CAPTION'), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '</a>';
+			$html .= '<div class="slideshowCitationDiv">';
+			if($imgIdArr["sciname"] || $imgIdArr["identifier"]){
+				$html .= '<a href="' . htmlspecialchars($linkUrl, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '" target="_blank">' . htmlspecialchars(($imgIdArr["identifier"]?$imgIdArr["identifier"]:$imgIdArr["sciname"]), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '</a>. ';
+			}
+			$html .= "</div></div>\n";
+			$showCaptionClick = "$('.slideshowCaptionDiv').show();$('.slideshowShowLink').hide();return false;";
+			$html .= '<a class="slideshowShowLink" href="#" onclick="' . $showCaptionClick . '">' . htmlspecialchars((isset($LANG['SHOW_CAPTION'])?$LANG['SHOW_CAPTION']:'SHOW CAPTION'), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '</a>';
+			$html .= "</div></div>\n";
+		}
+		return $html;
+	}
+
 	public function createSlideShow($ssid, $numSlides, $width, $numDays, $imageType, $clid, $dayInterval, $interval=7000){
 		if($width > 800) $width = 800;
 		if($width < 275) $width = 275;

@@ -13,6 +13,15 @@ header('Content-Type: text/html; charset=' . $CHARSET);
 	include_once($SERVER_ROOT . '/includes/head.php');
 	include_once($SERVER_ROOT . '/includes/googleanalytics.php');
 	?>
+	<link href="<?= $CSS_BASE_PATH ?>/jquery-ui.css" type="text/css" rel="stylesheet">
+	<style>
+		@media (min-width: 768px) {
+			.body-cols {
+				display: flex;
+				gap: 2rem;
+			}
+		}
+	</style>
 </head>
 <body>
 	<?php
@@ -21,23 +30,42 @@ header('Content-Type: text/html; charset=' . $CHARSET);
 	<div class="navpath"></div>
 	<main id="innertext">
 		<h1 class="page-heading">Welcome to the Minnesota Biodiversity Atlas!</h1>
-		<div>
-			<p>
-				Minnesota is home to the convergence of the three largest ecosystems in North America: broadleaf forest, prairie, and boreal forest. 
-				More than 9,000 different species reside here and records dating from the 19th century up to the present are hosted in the Minnesota 
-				Biodiversity Atlas.
-			</p>
-			<p>
-				This searchable database provides access to biodiversity from all 87 Minnesota counties. Global biodiversity data housed in Minnesota 
-				can also be found here. With more than two million records and 500,000 images this publicly available resource continues to grow.
-			</p>
-			<p>
-				Funding for this <a href="https://www.bellmuseum.umn.edu/" target="_blank">Bell Museum</a> project was provided by the 
-				<a href="https://www.legacy.mn.gov/environment-natural-resources-trust-fund" target="_blank">Minnesota Environment and Natural Resources Trust Fund</a>
-				as recommended by the Legislative-Citizen Commission on Minnesota Resources (LCCMR). The Trust Fund is a permanent fund constitutionally 
-				established by the citizens of Minnesota to assist in the protection, conservation, preservation, and enhancement of the state's 
-				air, water, land, fish, wildlife, and other natural resources.
-			</p>
+		<div class="body-cols">
+			<div>
+				<p>
+					Minnesota is home to the convergence of the three largest ecosystems in North America: broadleaf forest, prairie, and boreal forest. 
+					More than 9,000 different species reside here and records dating from the 19th century up to the present are hosted in the Minnesota 
+					Biodiversity Atlas.
+				</p>
+				<p>
+					This searchable database provides access to biodiversity from all 87 Minnesota counties. Global biodiversity data housed in Minnesota 
+					can also be found here. With more than two million records and 500,000 images this publicly available resource continues to grow.
+				</p>
+				<p>
+					Funding for this <a href="https://www.bellmuseum.umn.edu/" target="_blank">Bell Museum</a> project was provided by the 
+					<a href="https://www.legacy.mn.gov/environment-natural-resources-trust-fund" target="_blank">Minnesota Environment and Natural Resources Trust Fund</a>
+					as recommended by the Legislative-Citizen Commission on Minnesota Resources (LCCMR). The Trust Fund is a permanent fund constitutionally 
+					established by the citizens of Minnesota to assist in the protection, conservation, preservation, and enhancement of the state's 
+					air, water, land, fish, wildlife, and other natural resources.
+				</p>
+			</div>
+			<div class="slidshow-box">
+				<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+				<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-ui.min.js" type="text/javascript"></script>
+				<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery.slides.js"></script>
+				<?php
+					$imgIDs = [645274, 47520, 360790, 360788];
+
+					//Enter width of slideshow window (in pixels, minimum 275, maximum 800)
+					$width = 300;
+
+					//Enter amount of time (in milliseconds) between rotation of images
+					$interval = 5000;
+					include_once($SERVER_ROOT.'/classes/PluginsManager.php');
+					$pluginManager = new PluginsManager();
+					echo $pluginManager->createImageIDSlideShow($imgIDs,$width,$interval);
+				?>
+			</div>
 		</div>
 	</main>
 	<?php
