@@ -58,9 +58,6 @@ class MySQLiConnectionFactory {
 			if (!$connection->real_connect($server['host'], $server['username'], $server['password'], $server['database'], $server['port'])) {
 				throw new Exception('error connecting to DB: '.mysqli_connect_errno().mysqli_connect_error());
 			};
-			if(!$connection->set_charset('utf8')){
-				throw new Exception('Error loading character set utf8: '.$mysqli->error);
-			}
 			$connection->query("SET SESSION sql_mode = '" . MySQLiConnectionFactory::$SQL_MODE . "'");
 			return $connection;
 		}
