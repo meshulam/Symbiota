@@ -24,7 +24,7 @@ $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '
 		<div class="top-wrapper">
 			<div class="top-brand">
 				<div class="brand-name">
-					<h1><a href="<?= $CLIENT_ROOT ?>">Minnesota Biodiversity Atlas</a></h1>
+					<h1><a href="/">Minnesota Biodiversity Atlas</a></h1>
 				</div>
 			</div>
 			<nav class="top-login" aria-label="horizontal-nav">
