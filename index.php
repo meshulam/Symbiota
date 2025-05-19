@@ -49,15 +49,23 @@ header('Content-Type: text/html; charset=' . $CHARSET);
 					air, water, land, fish, wildlife, and other natural resources.
 				</p>
 			</div>
-			<div class="slidshow-box">
+			<div class="slidshow-box bottom-breathing-room">
 				<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-3.7.1.min.js" type="text/javascript"></script>
 				<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-ui.min.js" type="text/javascript"></script>
 				<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery.slides.js"></script>
 				<?php
-					$imgIDs = [645274, 47520, 360790, 360788];
+					$imgIDs = [
+						648344, // hummingbird
+						368820, // Ipomopsis
+						648345, // skull
+						47520, // Prunus
+						360790, // Liriodendron
+						648346, // fish
+						360788, // Pourouma
+					];
 
 					//Enter width of slideshow window (in pixels, minimum 275, maximum 800)
-					$width = 300;
+					$width = 375;
 
 					//Enter amount of time (in milliseconds) between rotation of images
 					$interval = 5000;
