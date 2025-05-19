@@ -37,10 +37,10 @@ class PluginsManager extends Manager {
 			'LEFT JOIN omoccurrences o ON i.occid = o.occid '.
 			'LEFT JOIN taxa t ON i.tid = t.tid '.
 			'WHERE i.imgid IN('.$parameters.') '.
-			'ORDER BY i.sortsequence LIMIT 50';
+			'ORDER BY FIELD(i.imgid,'.$parameters.') LIMIT 50';
 		
 		$conn = MySQLiConnectionFactory::getCon("readonly");
-		$result = $conn->execute_query($sql, $ids);
+		$result = $conn->execute_query($sql, array_merge($ids, $ids));
 		foreach ($result as $row) {
 			$files[] = $row;
 		}
@@ -55,7 +55,7 @@ class PluginsManager extends Manager {
 
 			$html .= '<div class="slideshowDiv">
 				<div class="slideshowImageDiv">
-					<a href="'.$linkUrl.'" target="_blank">
+					<a href="'.$linkUrl.'">
 						<img src="'.$imgIdArr["url"].'" alt="'.$imgIdArr["sciname"].'">
 					</a>
 				</div>';
