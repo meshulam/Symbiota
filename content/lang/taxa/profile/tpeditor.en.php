@@ -7,7 +7,7 @@ Language: English
 
 $LANG['TAXON_EDITOR'] = 'Taxon Editor';
 $LANG['ENTER_SCINAME'] = 'Please enter a scientific name';
-$LANG['IMG_TOO_LARGE'] = 'The image you are trying to upload is too big, please reduce the file size to less than 4MB'; 
+$LANG['IMG_TOO_LARGE'] = 'The image you are trying to upload is too big, please reduce the file size to less than 20MB'; 
 $LANG['HOME'] = 'Home';
 $LANG['TAX_PROF_PUBLIC_DISP'] = 'Taxon Profile Public Display';
 $LANG['TAX_PROF_EDITOR'] = 'Taxon Profile Editor';

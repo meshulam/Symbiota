@@ -150,7 +150,7 @@ if($isEditor && $action){
 		function submitAddImageForm(f){
 			var fileBox = document.getElementById("imgfile");
 			var file = fileBox.files[0];
-			if(file.size>4000000){
+			if(file.size>20000000){
 				alert("<?php echo $LANG['IMG_TOO_LARGE']; ?>");
 				return false;
 			}
