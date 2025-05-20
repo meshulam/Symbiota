@@ -6,7 +6,7 @@
 $DEFAULT_LANG = 'en';			//Default language
 $DEFAULT_PROJ_ID = 1;
 $DEFAULTCATID = 0;
-$DEFAULT_TITLE = 'Bell Atlas';
+$DEFAULT_TITLE = 'Minnesota Biodiversity Atlas';
 $TID_FOCUS = '';
 $ADMIN_EMAIL = '';			//This is the email address used to contact the primary on this portal
 $SYSTEM_EMAIL = 'noreply@umn.edu'; 	//This email address is used for system notifications (password reset requests, etc...) ex: noreply@yourdomain.edu

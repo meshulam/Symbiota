@@ -52,11 +52,10 @@ a.slidesjs-stop {
   overflow: hidden;
   text-indent: -9999px;
   float: left;
-  margin-right:5px;
+  margin-right: 1.5rem;
 }
 
 a.slidesjs-next {
-  margin-right:10px;
   background-position: -12px 0;
 }
 
@@ -117,10 +116,6 @@ a:hover.slidesjs-stop {
 
 .slidesjs-pagination li a:hover {
   background-position: 0 -26px
-}
-
-.slidesjs-control div {
-        background-color: white;
 }
 
 #slides a:link,

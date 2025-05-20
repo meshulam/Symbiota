@@ -1,7 +1,6 @@
 /* Header
 ========================================================================== */
 .header-wrapper {
-  background-color: var(--menu-top-bg-color);
   z-index: 10;
 }
 
@@ -14,93 +13,64 @@ header {
 }
 
 .top-wrapper {
-  background-color: var(--menu-top-bg-color);
+  background-color: var(--menu-bg-color);
   min-width: 0;
+  width: 100%;
 }
 
 .top-login {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 1rem;
-  display: flex;
 }
 
-.top-login > .button {
-  margin-left: 0.4rem;
-  margin-right: 0.4rem;
-}
-
-
-nav.top-login > span > form{
-  display: inline;
-  margin: 0;
-  padding: 0;
-
-}
-
-.top-brand {
-  grid-column: 1;
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.top-brand img {
-  width: var(--logo-width);
-  max-width: 100px;
-  height: auto;
-  object-fit: contain; /* scale image keeping proportions */
-  filter: brightness(1);
-}
-
-.top-brand .brand-name {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.brand-name {
+  color: var(--header-font-color);
+  text-align: center;
+  margin: 1rem 0;
 }
 
 .brand-name h1,
 .brand-name h2 {
-  color: var(--header-font-color);
   margin: 0;
-  letter-spacing: 0.05em;
+  text-shadow: 
+    2px 2px 0px var(--header-outline-color), 
+    -2px 2px 0px var(--header-outline-color), 
+    2px -2px 0px var(--header-outline-color), 
+    -2px -2px 0px var(--header-outline-color);
 }
 
 .brand-name h1 {
   font-size: var(--brand-font-size);
+  font-weight: 700;
+  font-size: calc(var(--brand-font-size) * 0.7);
 }
 
 .brand-name h2 {
-  font-size: calc(var(--brand-font-size) * 0.7);
+  font-size: calc(var(--brand-font-size) * 0.5);
 }
 
 header a {
   color: var(--header-font-color);
   text-decoration: none;
-  font-weight: 500;
 }
 
 header a:hover {
-  color: var(--bright-color);
+  color: var(--header-font-color);
   text-decoration: none;
-}
-
-.image-container {
-  width: 100%;
-}
-
-.image-container img {
-  width: 100%;
-  height: auto;
 }
 
 /* MENU */
 .menu-wrapper {
   position: sticky;
   z-index: 1;
-  background-color: var(--menu-top-bg-color);
+  background-color: var(--menu-bg-color);
   min-width: 0;
   text-align: center;
   width: 100%;
+  border-top: 1px rgba(255, 255, 255, 0.5) solid;
+  padding: 0.75rem 0;
 }
 
 .top-menu {
@@ -110,7 +80,6 @@ header a:hover {
   /*transition: max-height 0.5s ease-out; */
   /* position: fixed; */
   left: 0;
-  background-color: var(--menu-top-bg-color);
   text-align: left;
   display: block;
 }
@@ -252,7 +221,7 @@ ul.menu > ul li{
   nav.top-menu > ul > li:focus-within > ul {
     display: block;
     position: absolute;
-    background-color: var(--menu-top-bg-color);
+    background-color: var(--menu-bg-color);
     box-shadow: 3px 3px 3px #000;
     width: max-content;
   }
@@ -264,7 +233,7 @@ ul.menu > ul li{
   nav.top-menu > ul ul > li:focus-within > ul {
     display: block;
     position:absolute;
-    background-color: var(--menu-top-bg-color);
+    background-color: var(--menu-bg-color);
     box-shadow: 3px 3px 3px #000;
     width: max-content;
   }
@@ -273,17 +242,13 @@ ul.menu > ul li{
   nav.top-menu li > a:after { content:  ' +'; }
   nav.top-menu li > a:only-child:after { content: ''; }
 
-  .header-wrapper > * {
-    min-width: 0;
-    z-index: 10;
-  }
   header {
     grid-template-areas:
       "top"
       "menu";
     grid-template-rows: auto fit-content(100%);
     background-image: var(--header-bg-image);
-    background-position: center;
+    background-position: bottom;
     background-size: cover;
     min-width: 0;
     min-height: 0;
@@ -291,13 +256,10 @@ ul.menu > ul li{
 
   .top-wrapper {
     background-color: var(--header-bg-color);
-    display: grid;
-    grid-template-areas: "brand login";
-    grid-template-columns: 3fr 1fr;
-    align-items: center;
-    min-width: 0;
-    width: 100%;
-    padding: 1rem 0;
+    display: flex;
+
+    justify-content: space-between;
+    padding: 1rem 3rem;
   }
 
   {{/* .top-login {
@@ -305,10 +267,11 @@ ul.menu > ul li{
     grid-template-columns: auto auto auto auto;
   } */}}
 
-  .top-brand {
-    grid-area: brand;
-    justify-self: start;
-    padding-left: 3rem;
+  .brand-name {
+    text-align: left;
+  }
+  .brand-name h1 {
+    font-size: var(--brand-font-size);
   }
 
   .menu-wrapper {
@@ -317,6 +280,7 @@ ul.menu > ul li{
     width: 100%;
     margin: 0;
     padding: 0;
+    background-color: var(--menu-overlay-bg-color);
   }
 
   .hamb {
@@ -348,13 +312,6 @@ ul.menu > ul li{
     margin: 0;
   }
 
-}
-
-/* Medium-large desktop screens and up */
-@media screen and (min-width: 1024px) {
-  .top-brand img {
-    max-width: var(--logo-width);
-  }
 }
 
 /* Huge desktop screens and up */

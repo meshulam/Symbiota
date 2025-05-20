@@ -82,12 +82,12 @@ fieldset legend{
 }
 
 #sciname{ 
-	color: #990000; 
+	color: var(--brand-primary); 
 	font-style: italic;
 }
 
 #taxon{ 
-	color: #990000; 
+	color: var(--brand-primary); 
 	margin-bottom: 10px;
 }
 
