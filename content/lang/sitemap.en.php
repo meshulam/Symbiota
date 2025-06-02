@@ -102,7 +102,7 @@ $LANG['OBSERV'] = 'Observations';
 $LANG['NOEDITCOLL'] = 'You have no explicit editing permissions for a particular collections';
 $LANG['PARA2'] = 'Data management for observation projects is handled in a similar manner to what is described in the Collections paragraph above.
 					One difference is the General Observation project. This project serves two central purposes:
-					1) Allows registered users to submit a image voucherd field observation.
+					1) Allows registered users to submit an image vouchered field observation.
 					2) Allows collectors to enter their own collection data for label printing and to make the data available
 					to the collections obtaining the physical specimens through donations or exchange. Visit the ';
 $LANG['SYMBDOCU'] = 'Symbiota Documentation';
