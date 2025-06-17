@@ -403,7 +403,6 @@
   letter-spacing: 0.8px;
   text-align: center;
   text-decoration: none;
-  text-transform: uppercase;
   vertical-align: middle;
   white-space: nowrap;
   outline: none;
@@ -446,7 +445,6 @@
 
 .inner-search .accordions label.accordion-header {
   font-size: 1.3rem;
-  text-transform: uppercase;
   font-weight: 600;
   text-align: center;
   display: block;
