@@ -87,14 +87,6 @@ if($imgArr){
 	<script>
 		var clientRoot = "<?php echo $CLIENT_ROOT; ?>";
 
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) return;
-			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-
 		function verifyEditForm(f){
 		    if(f.url.value.replace(/\s/g, "") == "" ){
 		        window.alert("<?php echo $LANG['ERROR_FILE_PATH'] ?>");
@@ -126,7 +118,6 @@ if($imgArr){
 	</style>
 </head>
 <body>
-	<div id="fb-root"></div>
 	<?php
 	//$displayLeftMenu = (isset($taxa_imgdetailsMenu)?$taxa_imgdetailsMenu:false);
 	//include($SERVER_ROOT.'/includes/header.php');
@@ -180,22 +171,6 @@ if($imgArr){
 					}
 				}
 				?>
-				<div style="float:right;margin-right:10px;">
-					<a class="twitter-share-button" data-text="<?php echo $imgArr["sciname"]; ?>" href="https://twitter.com/share" data-url="<?php echo htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE). htmlspecialchars($CLIENT_ROOT, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '/imagelib/imgdetails.php?imgid=' . htmlspecialchars($imgId, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE); ?>"><?php echo $LANG['TWEET'] ?></a>
-					<script>
-						window.twttr=(function(d,s,id){
-							var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};
-							if(d.getElementById(id))return;js=d.createElement(s);
-							js.id=id;js.src="https://platform.twitter.com/widgets.js";
-							fjs.parentNode.insertBefore(js,fjs);t._e=[];
-							t.ready=function(f){t._e.push(f);};
-							return t;
-						}(document,"script","twitter-wjs"));
-					</script>
-				</div>
-				<div style="float:right;margin-right:10px;">
-					<div class="fb-share-button" data-href="" data-layout="button_count"></div>
-				</div>
 			</div>
 			<?php
 		}
