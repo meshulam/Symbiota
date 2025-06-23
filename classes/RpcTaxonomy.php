@@ -37,7 +37,7 @@ class RpcTaxonomy extends RpcBase{
 				if($rankLow) $sql .= 'AND (t.rankid > '.$rankLow.' OR t.rankid IS NULL) ';
 				if($rankHigh) $sql .= 'AND (t.rankid < '.$rankHigh.' OR t.rankid IS NULL) ';
 			}
-			$sql .= 'ORDER BY t.sciname';
+			$sql .= 'ORDER BY t.sciname limit 20';
 			$rs = $this->conn->query($sql);
 			while($r = $rs->fetch_object()) {
 				$sciname = $r->sciname.' '.$r->author;
