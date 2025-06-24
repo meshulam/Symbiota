@@ -1405,12 +1405,12 @@ else{
 											<div id="dispositionDiv" class="field-div">
 												<?php echo $LANG['DISPOSITION']; ?>
 												<a href="#" onclick="return dwcDoc('disposition')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="disposition" value="<?php echo array_key_exists('disposition',$occArr)?$occArr['disposition']:''; ?>" onchange="fieldChanged('disposition');" />
+												<input type="text" name="disposition" value="<?php echo array_key_exists('disposition',$occArr)?$occArr['disposition']:''; ?>" onchange="fieldChanged('disposition');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="occurrenceIdDiv" class="field-div" title="If different than institution code">
 												<?php echo $LANG['OCCURRENCE_ID']; ?>
 												<a href="#" onclick="return dwcDoc('occurrenceid')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="occurrenceid" maxlength="255" value="<?php echo array_key_exists('occurrenceid',$occArr)?$occArr['occurrenceid']:''; ?>" onchange="fieldChanged('occurrenceid');" />
+												<input type="text" name="occurrenceid" maxlength="255" value="<?php echo array_key_exists('occurrenceid',$occArr)?$occArr['occurrenceid']:''; ?>" onchange="fieldChanged('occurrenceid');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="fieldNumberDiv" class="field-div" title="An identifier given to the collecting event in the field">
 												<?php echo $LANG['FIELD_NUMBER']; ?>
@@ -1422,39 +1422,39 @@ else{
 											<div id="languageDiv" class="field-div">
 												<?php echo $LANG['LANGUAGE']; ?>
 												<a href="#" onclick="return dwcDoc('language')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="language" maxlength="20" value="<?php echo array_key_exists('language',$occArr)?$occArr['language']:''; ?>" onchange="fieldChanged('language');" />
+												<input type="text" name="language" maxlength="20" value="<?php echo array_key_exists('language',$occArr)?$occArr['language']:''; ?>" onchange="fieldChanged('language');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="labelProjectDiv" class="field-div">
 												<?php echo $LANG['LABEL_PROJECT']; ?>
 												<a href="#" onclick="return dwcDoc('labelproject')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="labelproject" maxlength="45" value="<?php echo array_key_exists('labelproject',$occArr)?$occArr['labelproject']:''; ?>" onchange="fieldChanged('labelproject');" />
+												<input type="text" name="labelproject" maxlength="45" value="<?php echo array_key_exists('labelproject',$occArr)?$occArr['labelproject']:''; ?>" onchange="fieldChanged('labelproject');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="duplicateQuantityDiv" class="field-div" title="aka label quantity">
 												<?php echo $LANG['DUPLICATE_COUNT']; ?>
 												<a href="#" onclick="return dwcDoc('duplicatequantity')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="duplicatequantity" value="<?php echo array_key_exists('duplicatequantity',$occArr)?$occArr['duplicatequantity']:''; ?>" onchange="fieldChanged('duplicatequantity');" />
+												<input type="text" name="duplicatequantity" value="<?php echo array_key_exists('duplicatequantity',$occArr)?$occArr['duplicatequantity']:''; ?>" onchange="fieldChanged('duplicatequantity');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="storageLocationDiv" class="field-div">
 												<?php echo $LANG['STORAGE_LOCATION']; ?>
 												<a href="#" onclick="return dwcDoc('storageLocation')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="storagelocation" value="<?php echo array_key_exists('storagelocation',$occArr)?$occArr['storagelocation']:''; ?>" onchange="fieldChanged('storagelocation');" />
+												<input type="text" name="storagelocation" value="<?php echo array_key_exists('storagelocation',$occArr)?$occArr['storagelocation']:''; ?>" onchange="fieldChanged('storagelocation');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 										</div>
 										<div style="padding:3px;clear:both;">
 											<div id="institutionCodeDiv" class="field-div" title="<?php echo $LANG['INST_CODE_EXPLAIN']; ?>">
 												<?php echo $LANG['INSTITUTION_CODE']; ?>
 												<a href="#" onclick="return dwcDoc('institutionCode')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="institutioncode" maxlength="32" value="<?php echo array_key_exists('institutioncode',$occArr)?$occArr['institutioncode']:''; ?>" onchange="fieldChanged('institutioncode');" />
+												<input type="text" name="institutioncode" maxlength="32" value="<?php echo array_key_exists('institutioncode',$occArr)?$occArr['institutioncode']:''; ?>" onchange="fieldChanged('institutioncode');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="collectionCodeDiv" class="field-div" title="<?php echo $LANG['COLL_CODE_EXPLAIN']; ?>">
 												<?php echo $LANG['COLLECTION_CODE']; ?>
 												<a href="#" onclick="return dwcDoc('collectionCode')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="collectioncode" maxlength="32" value="<?php echo array_key_exists('collectioncode',$occArr)?$occArr['collectioncode']:''; ?>" onchange="fieldChanged('collectioncode');" />
+												<input type="text" name="collectioncode" maxlength="32" value="<?php echo array_key_exists('collectioncode',$occArr)?$occArr['collectioncode']:''; ?>" onchange="fieldChanged('collectioncode');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="ownerInstitutionCodeDiv" class="field-div" title="<?php echo $LANG['OWNER_CODE_EXPLAIN']; ?>">
 												<?php echo $LANG['OWNER_INSTITUTION_CODE']; ?>
 												<a href="#" onclick="return dwcDoc('ownerInstitutionCode')" tabindex="-1"><img class="docimg" src="../../images/qmark.png" /></a><br/>
-												<input type="text" name="ownerinstitutioncode" maxlength="32" value="<?php echo array_key_exists('ownerinstitutioncode',$occArr)?$occArr['ownerinstitutioncode']:''; ?>" onchange="fieldChanged('ownerinstitutioncode');" />
+												<input type="text" name="ownerinstitutioncode" maxlength="32" value="<?php echo array_key_exists('ownerinstitutioncode',$occArr)?$occArr['ownerinstitutioncode']:''; ?>" onchange="fieldChanged('ownerinstitutioncode');" <?php if($isEditor > 2) echo 'disabled'; ?> />
 											</div>
 											<div id="basisOfRecordDiv" class="field-div">
 												<?php echo $LANG['BASIS_OF_RECORD']; ?>
@@ -1471,7 +1471,7 @@ else{
 													elseif($collType == 'spec') $borArr['PreservedSpecimen'] = 1;
 												}
 												?>
-												<select name="basisofrecord" onchange="fieldChanged('basisofrecord');">
+												<select name="basisofrecord" onchange="fieldChanged('basisofrecord');" <?php if($isEditor > 2) echo 'disabled'; ?> >
 													<?php
 													foreach($borArr as $bValue => $statueCode){
 														if($statueCode == 2) echo '<option value="">---'.$LANG['NON_SANCTIONED'].'---</option><option SELECTED>'.$bValue.'</option>';
@@ -1487,7 +1487,7 @@ else{
 												if(!empty($occArr['processingstatus'])) $pStatus = strtolower($occArr['processingstatus']);
 												if(!$pStatus && !$occId) $pStatus = 'pending review';
 												?>
-												<select name="processingstatus" onchange="fieldChanged('processingstatus');">
+												<select name="processingstatus" onchange="fieldChanged('processingstatus');" <?php if($isEditor > 2) echo 'disabled'; ?> >
 													<option value=''><?php echo $LANG['NO_SET_STATUS']; ?></option>
 													<option value=''>-------------------</option>
 													<?php
@@ -1504,7 +1504,7 @@ else{
 													?>
 												</select>
 											</div>
-											<div id="dataGeneralizationsDiv" class="field-div" title="<?php echo $LANG['AKA_GENERAL']; ?>">
+											<div id="dataGeneralizationsDiv" class="field-div" title="<?php echo $LANG['AKA_GENERAL']; ?>" <?php if($isEditor > 2) echo 'disabled'; ?> >
 												<?php echo $LANG['DATA_GENERALIZATIONS']; ?><br/>
 												<input type="text" name="datageneralizations" value="<?php echo array_key_exists('datageneralizations',$occArr)?$occArr['datageneralizations']:''; ?>" onchange="fieldChanged('datageneralizations');" />
 											</div>

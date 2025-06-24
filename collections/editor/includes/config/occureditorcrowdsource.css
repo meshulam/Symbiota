@@ -514,9 +514,9 @@ body{
 	margin-top:2px;
 }
 
-#typeStatusDiv{
+/* #typeStatusDiv{
 	display:none;
-}
+} */
 
 #dispositionDiv{
 	display:none;
@@ -556,6 +556,10 @@ body{
 
 #duplicateQuantityDiv{
 	display:none;
+}
+
+#storageLocationDiv {
+	display: none;
 }
 
 #dataGeneralizationsDiv{
