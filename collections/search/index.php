@@ -153,7 +153,7 @@ $obsArr = (isset($collList['obs'])?$collList['obs']:null);
 								<div class="input-text-container">
 									<label for="country" class="input-text--outlined">
 										<span class="screen-reader-only"><?php echo $LANG['COUNTRY'] ?></span>
-										<input type="text" name="country" id="country" data-chip="<?php echo $LANG['COUNTRY'] ?>" />
+										<input type="text" name="country" id="country" data-chip="<?php echo $LANG['COUNTRY'] ?>" data-1p-ignore />
 										<span class="inset-input-label"><?php echo $LANG['COUNTRY'] ?></span>
 									</label>
 									<span class="assistive-text"><?php echo $LANG['SEPARATE_MULTIPLE_W_COMMA'] ?></span>
@@ -161,7 +161,7 @@ $obsArr = (isset($collList['obs'])?$collList['obs']:null);
 								<div class="input-text-container">
 									<label for="state" class="input-text--outlined">
 										<span class="screen-reader-only"><?php echo $LANG['STATE'] ?></span>
-										<input type="text" name="state" id="state" data-chip="<?php echo $LANG['STATE'] ?>" />
+										<input type="text" name="state" id="state" data-chip="<?php echo $LANG['STATE'] ?>" data-1p-ignore />
 										<span class="inset-input-label"><?php echo $LANG['STATE'] ?></span>
 									</label>
 									<span class="assistive-text"><?php echo $LANG['SEPARATE_MULTIPLE_W_COMMA'] ?></span>
@@ -382,7 +382,7 @@ $obsArr = (isset($collList['obs'])?$collList['obs']:null);
 							<div class="input-text-container">
 								<label for="collector" class="input-text--outlined">
 									<span class="screen-reader-only"><?php echo $LANG['COLLECTOR_LAST_NAME'] ?></span>
-									<input type="text" id="collector" size="32" name="collector" value="" title="<?php echo $LANG['SEPARATE_MULTIPLE']; ?>" data-chip="<?php echo $LANG['COLLECTOR_LAST'] ?>" />
+									<input type="text" id="collector" size="32" name="collector" value="" title="<?php echo $LANG['SEPARATE_MULTIPLE']; ?>" data-chip="<?php echo $LANG['COLLECTOR_LAST'] ?>" data-1p-ignore />
 									<span class="inset-input-label"><?php echo $LANG['COLLECTOR_LASTNAME']; ?>:</span>
 								</label>
 							</div>
