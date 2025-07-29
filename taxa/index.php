@@ -292,6 +292,48 @@ $nonItalicizedScinameComponent = $cultivarEpithet . $tradeName;
 					<td width="300" style="vertical-align: top">
 						<?php
 						if($taxonRank > 140) echo '<div id="family"><b>' . $LANG['FAMILY'] . ':</b> ' . $taxonManager->getTaxonFamily() . '</div>';
+						// mbaenrm: show vernaculars on genus and above
+						if($vernArr = $taxonManager->getVernaculars()){
+							$primerArr = array();
+							$targetLang = $lang;
+							if(!array_key_exists($targetLang, $vernArr)) $targetLang = 'en';
+							if(array_key_exists($targetLang, $vernArr)){
+								$primerArr = $vernArr[$targetLang];
+								unset($vernArr[$targetLang]);
+							}
+							else $primerArr = array_shift($vernArr);
+							$vernStr = array_shift($primerArr);
+							if($primerArr || $vernArr){
+								$vernStr.= ', <span class="verns"><a href="#" onclick="toggle(\'verns\')" title="' . $LANG['CLICK_TO_SHOW_COMMONS'] . '">' . $LANG['MORE'] . '...</a></span>';
+								$vernStr.= '<span class="verns" onclick="toggle(\'verns\');" style="display:none;">';
+								$vernStr.= implode(', ',$primerArr) . ' ';
+								foreach($vernArr as $langName => $vArr){
+									$vernStr.= '(' . $langName . ': ' . implode(', ',$vArr) . '), ';
+								}
+								$vernStr = trim($vernStr,', ').'</span>';
+							}
+							?>
+							<div id="vernacularDiv">
+								<?php echo $vernStr; ?>
+							</div>
+							<?php
+						}
+						if($synArr = $taxonManager->getSynonymArr()){
+							$primerArr = array_shift($synArr);
+							$synStr = '<i>' . $primerArr['sciname'] . '</i>' . (isset($primerArr['author']) && $primerArr['author'] ? ' ' . $primerArr['author'] : '');
+							if($synArr){
+								$synStr .= ', <span class="synSpan"><a href="#" onclick="toggle(\'synSpan\')" title="' . $LANG['CLICK_VIEW_MORE_SYNS'] . '">' . $LANG['MORE'] . '</a></span>';
+								$synStr .= '<span class="synSpan" onclick="toggle(\'synSpan\')" style="display:none">';
+								foreach($synArr as $synKey => $sArr){
+									$synStr .= '<i>' . $sArr['sciname'] . '</i> ' . $sArr['author'] . ', ';
+								}
+								$synStr = trim($synStr,', ') . '</span>';
+							}
+							echo '<div id="synonymDiv" title="' . $LANG['SYNONYMS'] . '">[';
+							echo $synStr;
+							echo ']</div>';
+						}
+
 						if(!$taxonManager->echoImages(0,1,0)){
 							echo "<div class='image' style='width:260px;height:260px;border-style:solid;margin-top:5px;margin-left:20px;text-align:center;'>";
 							if($isEditor){
