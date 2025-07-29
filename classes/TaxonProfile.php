@@ -582,13 +582,21 @@ class TaxonProfile extends Manager {
 
 			if($tids){
 				//Get Images
+				// mbaenrm modification: display thumbnails from child (subspecies) taxa
 				$sql = 'SELECT t.sciname, t.tid, m.mediaID, m.url, m.thumbnailurl, m.caption, m.creator, CONCAT_WS(" ",u.firstname,u.lastname) AS creatorLinked '.
-					'FROM media m INNER JOIN (SELECT ts1.tid, SUBSTR(MIN(CONCAT(LPAD(m.sortsequence,6,"0"),m.mediaID)),7) AS mediaID '.
-					'FROM taxstatus ts1 INNER JOIN taxstatus ts2 ON ts1.tidaccepted = ts2.tidaccepted '.
-					'INNER JOIN media m ON ts2.tid = m.tid '.
-					'WHERE ts1.taxauthid = 1 AND ts2.taxauthid = 1 AND (ts1.tid IN('.implode(',',$tids).')) AND (m.thumbnailurl IS NOT NULL) AND (m.url != "empty") '.
-					'GROUP BY ts1.tid) m2 ON m.mediaID = m2.mediaID '.
-					'INNER JOIN taxa t ON m2.tid = t.tid '.
+					'FROM media m INNER JOIN ('.
+						'SELECT linkedTaxa.sppTid as tid, SUBSTR(MIN(CONCAT(LPAD(m.sortsequence,6,"0"),m.mediaID)),7) AS mediaID FROM ('.
+							'SELECT ts1.tid as sppTid, ts2.tid as ltid FROM taxstatus ts1 ' .
+							'INNER JOIN taxstatus ts2 ON ts1.tidaccepted = ts2.tidaccepted '.
+							'WHERE ts1.taxauthid = 1 AND ts2.taxauthid = 1 AND ts1.tid IN(' . implode(',',$tids) . ')'.
+							'UNION ALL '.
+							'SELECT parenttid as sppTid, tid as ltid FROM taxaenumtree ' .
+							'WHERE taxauthid = 1 AND parenttid IN(' . implode(',',$tids) . ') '.
+						') linkedTaxa INNER JOIN media m ON linkedTaxa.ltid = m.tid '.
+						'WHERE (m.thumbnailurl IS NOT NULL) AND (m.url != "empty") '.
+						'GROUP BY tid' .
+					') sppMedia ON m.mediaID = sppMedia.mediaID '.
+					'INNER JOIN taxa t ON sppMedia.tid = t.tid '.
 					'LEFT JOIN users u ON m.creatorUid = u.uid ';
 				//echo $sql;
 				$rs = $this->conn->query($sql);
