@@ -217,7 +217,9 @@ class OccurrenceIndividual extends Manager{
 				$this->occArr['localsecure'] = 1;
 				$redactArr = array('recordnumber','eventdate','verbatimeventdate','locality','locationid','decimallatitude','decimallongitude','verbatimcoordinates',
 					'locationremarks', 'georeferenceremarks', 'geodeticdatum', 'coordinateuncertaintyinmeters', 'minimumelevationinmeters', 'maximumelevationinmeters',
-					'verbatimelevation', 'habitat', 'associatedtaxa');
+					'verbatimelevation', 'habitat', 'associatedtaxa',
+					'municipality',
+				);
 				$infoWithheld = '';
 				foreach($redactArr as $term){
 					if($this->occArr[$term]){

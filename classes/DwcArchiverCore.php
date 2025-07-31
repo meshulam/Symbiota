@@ -85,7 +85,8 @@ class DwcArchiverCore extends Manager{
 			'recordNumber', 'locality', 'locationRemarks', 'minimumElevationInMeters', 'maximumElevationInMeters', 'verbatimElevation',
 			'decimalLatitude', 'decimalLongitude', 'geodeticDatum', 'coordinateUncertaintyInMeters', 'footprintWKT',
 			'verbatimCoordinates', 'georeferenceRemarks', 'georeferencedBy', 'georeferenceProtocol', 'georeferenceSources',
-			'georeferenceVerificationStatus', 'habitat'
+			'georeferenceVerificationStatus', 'habitat', 
+			'municipality',
 		);
 
 		//ini_set('memory_limit','512M');
