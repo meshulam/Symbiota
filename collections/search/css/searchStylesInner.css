@@ -319,8 +319,8 @@
 }
 
 .inner-search span.text-color-lighter {
-  color: var(--menu-top-bg-color);
-  background-color: var(--medium-color);
+  color: var(--menu-bg-color);
+  background-color: var(--light-color);
   line-height: 0.5em;
 }
 
