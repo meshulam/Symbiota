@@ -3,7 +3,7 @@ header('X-Frame-Options: DENY');
 header('Cache-control: private'); // IE 6 FIX
 session_cache_limiter(''); // Don't automatically set cache headers
 date_default_timezone_set('America/Chicago');
-$CODE_VERSION = '3.3.3';
+$CODE_VERSION = '3.3.4';
 
 set_include_path(get_include_path() . PATH_SEPARATOR . $SERVER_ROOT . PATH_SEPARATOR . $SERVER_ROOT.'/config/' . PATH_SEPARATOR . $SERVER_ROOT.'/classes/');
 
@@ -128,6 +128,8 @@ $ALLOWED_MEDIA_MIME_TYPES = [
 	"image/jpeg", "image/png",
 	"audio/mpeg", "audio/wav", "audio/ogg"
 ];
+
+$MIME_FALL_BACK = 'image/jpeg';
 
 if(!empty($GEO_JSON_LAYERS)) {
 	/* Load GeoJSON Paths */
