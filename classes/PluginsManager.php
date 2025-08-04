@@ -32,13 +32,13 @@ class PluginsManager extends Manager {
 	{
 		$files = Array();
 		$parameters = str_repeat('?,', count($ids) - 1) . '?'; // placeholders 
-		$sql = 'SELECT i.imgid, i.tid, i.occid, i.url, t.sciname, '.
+		$sql = 'SELECT m.mediaID, m.tid, m.occid, m.url, t.sciname, '.
 			'CONCAT_WS("; ",o.sciname, o.catalognumber, CONCAT_WS(" ",o.recordedby,IFNULL(o.recordnumber,o.eventdate))) AS identifier '.
-			'FROM images i '.
-			'LEFT JOIN omoccurrences o ON i.occid = o.occid '.
-			'LEFT JOIN taxa t ON i.tid = t.tid '.
-			'WHERE i.imgid IN('.$parameters.') '.
-			'ORDER BY FIELD(i.imgid,'.$parameters.') LIMIT 50';
+			'FROM media m '.
+			'LEFT JOIN omoccurrences o ON m.occid = o.occid '.
+			'LEFT JOIN taxa t ON m.tid = t.tid '.
+			'WHERE m.mediaID IN('.$parameters.') '.
+			'ORDER BY FIELD(m.mediaID,'.$parameters.') LIMIT 50';
 		
 		$conn = MySQLiConnectionFactory::getCon("readonly");
 		$result = $conn->execute_query($sql, array_merge($ids, $ids));
