@@ -112,11 +112,9 @@ $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '
 				</ul>
 			</nav>
 		</div>
-		<!--
 		<div style="background-color: black; width: 100%; padding: 0.3rem; text-align: center;">
-			The Atlas will be down for scheduled maintenance on Wednesday, August 6 beginning at 1pm.
+			The Biodiversity Atlas will be down for scheduled maintenance on Wednesday, August 6 beginning around 9:30 AM.
 		</div>
-		-->
 		<div id="end-nav"></div>
 	</header>
 </div>
