@@ -18,7 +18,7 @@ ini_set('max_execution_time', 180); //180 seconds = 3 minutes
 $distFromMe = array_key_exists('distFromMe', $_REQUEST) ? filter_var($_REQUEST['distFromMe'], FILTER_SANITIZE_NUMBER_FLOAT) : '';
 $gridSize = !empty($_REQUEST['gridSizeSetting']) ? filter_var($_REQUEST['gridSizeSetting'], FILTER_SANITIZE_NUMBER_INT) : 60;
 $minClusterSize = !empty($_REQUEST['minClusterSetting']) ? filter_var($_REQUEST['minClusterSetting'], FILTER_SANITIZE_NUMBER_INT) : 10;
-$clusterOff = !empty($_REQUEST['clusterSwitch']) ? $_REQUEST['clusterSwitch'] : 'y';
+$clusterOff = !empty($_REQUEST['clusterSwitch']) ? $_REQUEST['clusterSwitch'] : '';
 $menuClosed = array_key_exists('menuClosed',$_REQUEST)? true: false;
 $recLimit = array_key_exists('recordlimit', $_REQUEST) ? filter_var($_REQUEST['recordlimit'], FILTER_SANITIZE_NUMBER_INT) : 15000;
 $catId = array_key_exists('catid',$_REQUEST) ? filter_var($_REQUEST['catid'], FILTER_SANITIZE_NUMBER_INT) : 0;
@@ -2124,7 +2124,7 @@ $serverHost = GeneralUtil::getDomain();
 		</div>
 		<div id='map' style='width:100vw;height:100vh;z-index:1'></div>
 		<div id="defaultpanel" class="sidepanel"  <?= $menuClosed? 'style="width: 0"': ''?>>
-			<div class="menu" style="display:flex; align-items: center; background-color: var(--menu-top-bg-color); height: 2rem">
+			<div class="menu" style="display:flex; align-items: center; background-color: var(--menu-bg-color); height: 2rem">
 				<a style="text-decoration: none; margin-left: 0.5rem;" href="<?= $CLIENT_ROOT ?>/index.php">
 					<?= $LANG['HOME'] ?>
 				</a>
@@ -2259,10 +2259,10 @@ $serverHost = GeneralUtil::getDomain();
 									}
 									?>
 									<div>
-										<?= $LANG['COUNTRY'] ?>: <input data-role="none" type="text" id="country" style="width:225px;" name="country" value="<?= $mapManager->getSearchTerm('country') ?>" title="<?= $LANG['SEPARATE_MULTIPLE'] ?>" />
+										<?= $LANG['COUNTRY'] ?>: <input data-role="none" type="text" id="country" style="width:225px;" name="country" value="<?= $mapManager->getSearchTerm('country') ?>" title="<?= $LANG['SEPARATE_MULTIPLE'] ?>" data-1p-ignore />
 									</div>
 									<div style="margin-top:5px;">
-										<?= $LANG['STATE'] ?>: <input data-role="none" type="text" id="state" style="width:150px;" name="state" value="<?= $mapManager->getSearchTerm('state') ?>" title="<?= $LANG['SEPARATE_MULTIPLE'] ?>" />
+										<?= $LANG['STATE'] ?>: <input data-role="none" type="text" id="state" style="width:150px;" name="state" value="<?= $mapManager->getSearchTerm('state') ?>" title="<?= $LANG['SEPARATE_MULTIPLE'] ?>" data-1p-ignore />
 									</div>
 									<div style="margin-top:5px;">
 										<?= $LANG['COUNTY'] ?>: <input data-role="none" type="text" id="county" style="width:225px;"  name="county" value="<?= $mapManager->getSearchTerm('county') ?>" title="<?= $LANG['SEPARATE_MULTIPLE'] ?>" />
@@ -2308,7 +2308,7 @@ $serverHost = GeneralUtil::getDomain();
 									<div style="margin:5 0 5 0;"><hr /></div>
 									<div>
 										<?= $LANG['COLLECTOR_LASTNAME'] ?>:
-										<input data-role="none" type="text" id="collector" style="width:125px;" name="collector" value="<?php echo $mapManager->getSearchTerm('collector'); ?>" title="" />
+										<input data-role="none" type="text" id="collector" style="width:125px;" name="collector" value="<?php echo $mapManager->getSearchTerm('collector'); ?>" title="" data-1p-ignore />
 									</div>
 									<div style="margin-top:5px;">
 										<?= $LANG['COLLECTOR_NUMBER'] ?>:
@@ -2359,7 +2359,7 @@ $serverHost = GeneralUtil::getDomain();
 
 									<span style="display: flex; align-items:center">
 										<label for="cluster-radius"><?= $LANG['CLUSTER_RADIUS'] ?>: 1 </label>
-										<input style="margin: 0 1rem;"type="range" value="1" id="cluster-radius" name="cluster-radius" min="1" max="100">100
+										<input style="margin: 0 1rem;"type="range" value="20" id="cluster-radius" name="cluster-radius" min="1" max="100">100
 									</span>
 								</fieldset>
 								<br/>
