@@ -404,6 +404,12 @@ $traitArr = $indManager->getTraitArr();
 					</div>
 					<div  id="occur-div">
 						<?php
+						if($occArr['recordsecurity'] == 5 && !isset($occArr['localsecure'])){
+							echo '<div class="notice-span bottom-breathing-room-rel-sm">Full record security applied';
+							if($occArr['securityreason'] && substr($occArr['securityreason'],0,1) != '<') echo ': ' . $occArr['securityreason'];
+							echo '<br/>'. $LANG['ACCESS_GRANTED'];
+							echo '</div>';
+						}
 						if(array_key_exists('loan',$occArr)){
 							?>
 							<div id="loan-div" title="<?php echo 'Loan #'.$occArr['loan']['identifier']; ?>">
