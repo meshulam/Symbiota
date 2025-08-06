@@ -76,6 +76,11 @@ if($SYMB_UID){
 <?php
 $displayLeftMenu = false;
 include($SERVER_ROOT.'/includes/header.php');
+
+$splitSciname = $taxonManager->splitSciname();
+$cultivarEpithet = !empty($splitSciname['cultivarEpithet']) ? (' ' . $taxonManager->standardizeCultivarEpithet($splitSciname['cultivarEpithet'])) . ' ' : '';
+$tradeName = !empty($splitSciname['tradeName']) ? ($taxonManager->standardizeTradeName($splitSciname['tradeName']) . ' ') : '';
+$nonItalicizedScinameComponent = $cultivarEpithet . $tradeName;
 ?>
 <div id="popup-innertext">
 	<h1 class="page-heading screen-reader-only"><?= $taxonManager->getTaxonName() ?></h1>
@@ -102,7 +107,18 @@ include($SERVER_ROOT.'/includes/header.php');
 						}
 						?>
 						<div id="scinameDiv">
-							<?php echo '<span id="'.($taxonManager->getRankId() > 179?'sciname':'taxon').'">'.$taxonManager->getTaxonName().'</span>'; ?>
+							<?php 
+								$splitSciname = $taxonManager->splitSciname();
+								$sciName = $splitSciname['base'];
+								$taxonRankId = $taxonManager->getRankId();
+								if($taxonRankId >= 180) $sciName = '<i>'.$sciName.'</i>';
+								$cultivarEpithet = !empty($splitSciname['cultivarEpithet']) ? (' ' . $taxonManager->standardizeCultivarEpithet($splitSciname['cultivarEpithet'])) . ' ' : '';
+								$tradeName = !empty($splitSciname['tradeName']) ? ($taxonManager->standardizeTradeName($splitSciname['tradeName']) . ' ') : '';
+								$nonItalicizedScinameComponent = $cultivarEpithet . $tradeName;
+								$sciName .= $nonItalicizedScinameComponent;
+								$taxonToDisplay = $taxonRankId > 179 ? $sciName : $taxonManager->getTaxonName();
+								echo '<span id="'.($taxonRankId > 179 ? 'sciname':'taxon').'">' . $taxonToDisplay . '</span>'; 
+							?>
 							<span id="author"><?php echo $taxonManager->getTaxonAuthor(); ?></span>
 							<?php
 							$parentLink = 'index.php?tid='.$taxonManager->getParentTid().'&clid=' . htmlspecialchars($clid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '&pid=' . htmlspecialchars($pid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '&taxauthid='.$taxAuthId;
@@ -276,6 +292,48 @@ include($SERVER_ROOT.'/includes/header.php');
 					<td width="300" style="vertical-align: top">
 						<?php
 						if($taxonRank > 140) echo '<div id="family"><b>' . $LANG['FAMILY'] . ':</b> ' . $taxonManager->getTaxonFamily() . '</div>';
+						// mbaenrm: show vernaculars on genus and above
+						if($vernArr = $taxonManager->getVernaculars()){
+							$primerArr = array();
+							$targetLang = $lang;
+							if(!array_key_exists($targetLang, $vernArr)) $targetLang = 'en';
+							if(array_key_exists($targetLang, $vernArr)){
+								$primerArr = $vernArr[$targetLang];
+								unset($vernArr[$targetLang]);
+							}
+							else $primerArr = array_shift($vernArr);
+							$vernStr = array_shift($primerArr);
+							if($primerArr || $vernArr){
+								$vernStr.= ', <span class="verns"><a href="#" onclick="toggle(\'verns\')" title="' . $LANG['CLICK_TO_SHOW_COMMONS'] . '">' . $LANG['MORE'] . '...</a></span>';
+								$vernStr.= '<span class="verns" onclick="toggle(\'verns\');" style="display:none;">';
+								$vernStr.= implode(', ',$primerArr) . ' ';
+								foreach($vernArr as $langName => $vArr){
+									$vernStr.= '(' . $langName . ': ' . implode(', ',$vArr) . '), ';
+								}
+								$vernStr = trim($vernStr,', ').'</span>';
+							}
+							?>
+							<div id="vernacularDiv">
+								<?php echo $vernStr; ?>
+							</div>
+							<?php
+						}
+						if($synArr = $taxonManager->getSynonymArr()){
+							$primerArr = array_shift($synArr);
+							$synStr = '<i>' . $primerArr['sciname'] . '</i>' . (isset($primerArr['author']) && $primerArr['author'] ? ' ' . $primerArr['author'] : '');
+							if($synArr){
+								$synStr .= ', <span class="synSpan"><a href="#" onclick="toggle(\'synSpan\')" title="' . $LANG['CLICK_VIEW_MORE_SYNS'] . '">' . $LANG['MORE'] . '</a></span>';
+								$synStr .= '<span class="synSpan" onclick="toggle(\'synSpan\')" style="display:none">';
+								foreach($synArr as $synKey => $sArr){
+									$synStr .= '<i>' . $sArr['sciname'] . '</i> ' . $sArr['author'] . ', ';
+								}
+								$synStr = trim($synStr,', ') . '</span>';
+							}
+							echo '<div id="synonymDiv" title="' . $LANG['SYNONYMS'] . '">[';
+							echo $synStr;
+							echo ']</div>';
+						}
+
 						if(!$taxonManager->echoImages(0,1,0)){
 							echo "<div class='image' style='width:260px;height:260px;border-style:solid;margin-top:5px;margin-left:20px;text-align:center;'>";
 							if($isEditor){
@@ -365,15 +423,15 @@ include($SERVER_ROOT.'/includes/header.php');
 
 										if(array_key_exists("url",$subArr)){
 											$imgUrl = $subArr["url"];
-											if(array_key_exists('IMAGE_DOMAIN', $GLOBALS) && substr($imgUrl, 0, 1) == '/'){
-												$imgUrl = $GLOBALS['IMAGE_DOMAIN'] . $imgUrl;
+											if(array_key_exists('MEDIA_DOMAIN', $GLOBALS) && substr($imgUrl, 0, 1) == '/'){
+												$imgUrl = $GLOBALS['MEDIA_DOMAIN'] . $imgUrl;
 											}
 											echo "<a href='index.php?tid=" . htmlspecialchars($subArr["tid"], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . "&taxauthid=" . htmlspecialchars($taxAuthId, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . "&clid=" . htmlspecialchars($clid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . "'>";
 
 											if($subArr["thumbnailurl"]){
 												$imgUrl = $subArr["thumbnailurl"];
-												if(array_key_exists('IMAGE_DOMAIN',$GLOBALS) && substr($subArr["thumbnailurl"],0,1)=="/"){
-													$imgUrl = $GLOBALS['IMAGE_DOMAIN'] . $subArr["thumbnailurl"];
+												if(array_key_exists('MEDIA_DOMAIN',$GLOBALS) && substr($subArr["thumbnailurl"],0,1)=="/"){
+													$imgUrl = $GLOBALS['MEDIA_DOMAIN'] . $subArr["thumbnailurl"];
 												}
 											}
 											elseif($image = exif_thumbnail($imgUrl)){
@@ -381,7 +439,7 @@ include($SERVER_ROOT.'/includes/header.php');
 											}
 											echo '<img src="' . $imgUrl . '" title="' . $subArr['caption'] . '" alt="' . $LANG['IMAGE_OF'] . ' ' . $sciNameKey . '" style="z-index:-1" />';
 											echo '</a>';
-											echo '<div style="text-align:right;position:relative;top:-26px;left:5px;" title="' . $LANG['PHOTOGRAPHER'] . ': ' . $subArr['photographer'] . '">';
+											echo '<div style="text-align:right;position:relative;top:-26px;left:5px;" title="' . $LANG['CREATOR'] . ': ' . $subArr['creator'] . '">';
 											echo '</div>';
 										}
 										elseif($isEditor){
