@@ -188,7 +188,7 @@ if($isEditor){
 									<b><?php echo (isset($LANG['CURRENT_PWORD'])?$LANG['CURRENT_PWORD']:'Current Password'); ?>:</b>
 								</td>
 								<td>
-									<input id="oldpwd" name="oldpwd" type="password"/>
+									<input id="oldpwd" name="oldpwd" type="password" autocomplete="current-password"/>
 								</td>
 							</tr>
 							<?php
@@ -199,7 +199,7 @@ if($isEditor){
 								<b><?php echo (isset($LANG['NEW_PWORD'])?$LANG['NEW_PWORD']:'New Password'); ?>:</b>
 							</td>
 							<td>
-								<input id="newpwd" name="newpwd" type="password"/>
+								<input id="newpwd" name="newpwd" type="password" autocomplete="new-password"/>
 							</td>
 						</tr>
 						<tr>
@@ -207,7 +207,7 @@ if($isEditor){
 								<b><?php echo (isset($LANG['PWORD_AGAIN'])?$LANG['PWORD_AGAIN']:'New Password Again'); ?>:</b>
 							</td>
 							<td>
-								<input id="newpwd2" name="newpwd2" type="password"/>
+								<input id="newpwd2" name="newpwd2" type="password" autocomplete="new-password"/>
 							</td>
 						</tr>
 						<tr>
