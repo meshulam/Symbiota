@@ -87,13 +87,13 @@ $collManager->cleanOutArr($collData);
 			selector: '#full-description',
 			plugins: 'code link lists image',
 			menubar: '',
-			toolbar: ['undo redo | bold italic underline | link | alignleft aligncenter alignright | formatselect | bullist numlist | indent outdent | blockquote | image | code | charmap'],
+			toolbar: ['undo redo | bold italic underline | link | alignleft aligncenter alignright | formatselect | bullist numlist | indent outdent | blockquote | code | charmap'],
 			branding: false,
 			default_link_target: "_blank",
 			paste_as_text: false,
 			block_unsupported_drop: true,
-			images_file_types: 'jpg,jpeg,png,gif',
-			images_upload_url: 'tinymceimagehandler.php',
+			// images_file_types: 'jpg,jpeg,png,gif',
+			// images_upload_url: 'tinymceimagehandler.php',
 			a11y_advanced_options: true,
 			init_instance_callback: function (editor) {
 				var iframeBody = editor.getBody();

@@ -7,6 +7,7 @@ $DEFAULT_LANG = 'en';			//Default language
 $DEFAULT_PROJ_ID = 1;
 $DEFAULTCATID = 0;
 $DEFAULT_TITLE = 'Minnesota Biodiversity Atlas';
+$EXTENDED_LANG = 'en';		//Add all languages you want to support separated by commas (e.g. en,es); currently supported languages: en,es
 $TID_FOCUS = '';
 $ADMIN_EMAIL = '';			//This is the email address used to contact the primary on this portal
 $SYSTEM_EMAIL = 'noreply@umn.edu'; 	//This email address is used for system notifications (password reset requests, etc...) ex: noreply@yourdomain.edu
@@ -23,13 +24,10 @@ $LOG_PATH = '/var/log/symbiota';					//Must be writable by Apache; will use <SYM
 //Path to CSS files
 $CSS_BASE_PATH = $CLIENT_ROOT . '/css';
 
-//Path to user uploaded images files.  Used by tinyMCE. This is NOT for collection images. See section immediatly below for collection image location
-$PUBLIC_IMAGE_UPLOAD_ROOT = '/content/imglib';
-
 //the root for the collection image directory
-$IMAGE_DOMAIN = '';				//Domain path to images, if different from portal
-$IMAGE_ROOT_URL = 'https://s3.msi.umn.edu/mbaenrms3fs/images/'; //URL path to images
-$IMAGE_ROOT_PATH = 's3://mbaenrms3fs/images/';                  //Writable path to images, especially needed for downloading images
+$MEDIA_DOMAIN = '';				//Domain path to images, if different from portal
+$MEDIA_ROOT_URL = 'https://s3.msi.umn.edu/mbaenrms3fs/images/'; //URL path to images
+$MEDIA_ROOT_PATH = 's3://mbaenrms3fs/images/';                  //Writable path to images, especially needed for downloading images
 $IMAGE_S3_ACCESS_KEY_ID = '';
 $IMAGE_S3_ACCESS_KEY_SECRET = '';
 $S3CMD_CONFIG_PATH = '';
@@ -101,14 +99,26 @@ $SHOULD_INCLUDE_CULTIVATED_AS_DEFAULT=false;
 $AUTH_PROVIDER = 'oid';
 $LOGIN_ACTION_PAGE = 'openIdAuth.php';
 $SHOULD_USE_HARVESTPARAMS = false;
+$THIRD_PARTY_OID_AUTH_ENABLED = false;
 
 $SHOULD_USE_MINIMAL_MAP_HEADER = false;
+
+$DATE_DEFAULT_TIMEZONE = NULL; // This should be set if server default timezone isn't populated correctly by deafult (e.g., $DATE_DEFAULT_TIMEZONE = 'America/Phoenix';)
 
 $COOKIE_SECURE = false;
 if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
 	header('strict-transport-security: max-age=600');
 	$COOKIE_SECURE = true;
 }
+
+// Creates Togglable Overlay for GeoJSON file
+// Only Support with Leaflet Map
+// Supports of an area with the following properties:
+// filename : String - should be the name of the geoJSON located in the `content/geoJSON` directory.
+// label : String - Short text label to describe the overlay toggle
+// popup_template: String - Html string for what label should be generated on a GeoJSON feature. Will replace text like `[Property_name]` with a features property value if present
+// template_properties: Array[String] - List of property names to used in popup generation
+$GEO_JSON_LAYERS = [];
 
 // Override global variables above with env-specific values
 include_once('/etc/bellatlas/symbini_local.php');
