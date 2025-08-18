@@ -43,7 +43,7 @@ $collectionSearchPage = $SHOULD_USE_HARVESTPARAMS ? '/collections/index.php' : '
 					<?php
 				} else {
 					?>
-					<form id="login" name="loginForm" method="post" action="<?= $CLIENT_ROOT . "/profile/index.php" ?>">
+					<form id="login-button-form" name="loginForm" method="post" action="<?= $CLIENT_ROOT . "/profile/index.php" ?>">
 						<input name="refurl" type="hidden" value="<?= htmlspecialchars($_SERVER['SCRIPT_NAME'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . "?" . htmlspecialchars($_SERVER['QUERY_STRING'], ENT_QUOTES) ?>">
 						<button class="button button-secondary left-breathing-room-rel" name="loginButton" type="submit"><?= $LANG['H_LOGIN'] ?></button>
 					</form>
