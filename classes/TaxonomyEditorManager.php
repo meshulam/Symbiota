@@ -679,7 +679,7 @@ class TaxonomyEditorManager extends Manager{
 			}
 
 			//Link new name to existing specimens
-			$sqlUpdate1 = 'UPDATE omoccurrences o INNER JOIN taxa t ON o.sciname = t.sciname SET o.TidInterpreted = t.tid WHERE (o.sciname = ?)';
+			$sqlUpdate1 = 'UPDATE omoccurrences o INNER JOIN taxa t ON o.sciname = t.sciname SET o.tidInterpreted = t.tid WHERE (o.sciname = ? AND o.tidInterpreted IS NULL)';
 			if($stmt = $this->conn->prepare($sqlUpdate1)){
 				$stmt->bind_param('s', $dataArr["sciname"]);
 				$stmt->execute();

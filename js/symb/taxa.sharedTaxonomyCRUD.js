@@ -131,37 +131,36 @@ function checkNameExistence(f, silent = false) {
       document.getElementById("error-display").textContent = processTextContent(translations.SCI_NAME_RANK_REQUIRED);
       resolve(false);
     } else {
+      // mbaenrm: Don't include author when checking for duplicates
+      const includeAuthor = false;
+
+      const data = {
+        sciname: f.sciname.value,
+        rankid: f.rankid.value,
+      };
+      if (includeAuthor) data.author = f.author.value;
+
       $.ajax({
         type: "POST",
         url: "rpc/gettid.php",
-        data: {
-          sciname: f.sciname.value,
-          rankid: f.rankid.value,
-          author: f.author.value,
-        },
+        data: data,
         success: function (msg) {
           if (msg != "0") {
-            if (!silent) {
-              alert(
-                  translations.TAXON +
-                  " " +
-                  f.sciname.value +
-                  " " +
-                  f.author.value +
-                  " (" +
-                  msg +
-                  ") " + translations.ALREADY_EXISTS
-              );
+            let fullMsg;
+            if (includeAuthor) {
+              fullMsg = `${translations.TAXON} ${f.sciname.value} ${f.author.value} (${msg}) ${translations.ALREADY_EXISTS}`;
+            } else {
+              fullMsg = `${translations.TAXON} ${f.sciname.value} (${msg}) ${translations.ALREADY_EXISTS}`;
             }
-            document.getElementById("error-display").textContent =
-              processTextContent(translations.TAXON +
-              " " +
-              f.sciname.value +
-              " " +
-              f.author.value +
-              " (" +
-              msg +
-              ") " + translations.ALREADY_EXISTS);
+            fullMsg = processTextContent(fullMsg);
+            if (!silent) {
+              alert(fullMsg);
+            }
+            const linkNode = document.createElement('a');
+            linkNode.href = `/taxa/index.php?taxon=${msg}`;
+            linkNode.textContent = fullMsg;
+            linkNode.target = '_blank';
+            document.getElementById("error-display").replaceChildren(linkNode);
             resolve(false);
           } else {
             resolve(true);

@@ -42,7 +42,7 @@ if($isEditor){
 	?>
 	<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-3.7.1.min.js" type="text/javascript"></script>
 	<script src="<?php echo $CLIENT_ROOT; ?>/js/jquery-ui.min.js" type="text/javascript"></script>
-	<script src="<?php echo $CLIENT_ROOT; ?>/js/symb/taxa.sharedTaxonomyCRUD.js?ver=5"></script>
+	<script src="<?php echo $CLIENT_ROOT; ?>/js/symb/taxa.sharedTaxonomyCRUD.js?ver=6"></script>
 	<script src="<?php echo $CLIENT_ROOT; ?>/js/symb/taxa.taxonomyloader.js?ver=5"></script>
 	<style>
 		.search-bar-long {
