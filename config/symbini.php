@@ -26,8 +26,8 @@ $CSS_BASE_PATH = $CLIENT_ROOT . '/css';
 
 //the root for the collection image directory
 $MEDIA_DOMAIN = '';				//Domain path to images, if different from portal
-$MEDIA_ROOT_URL = 'https://s3.msi.umn.edu/mbaenrms3fs/images/'; //URL path to images
-$MEDIA_ROOT_PATH = 's3://mbaenrms3fs/images/';                  //Writable path to images, especially needed for downloading images
+$MEDIA_ROOT_URL = 'https://bellatlas-images.s3.msi.umn.edu/'; //URL path to images
+$MEDIA_ROOT_PATH = 's3://bellatlas-images/';                  //Writable path to images, especially needed for downloading images
 $IMAGE_S3_ACCESS_KEY_ID = '';
 $IMAGE_S3_ACCESS_KEY_SECRET = '';
 $S3CMD_CONFIG_PATH = '';
