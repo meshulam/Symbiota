@@ -634,6 +634,38 @@ class TaxonProfile extends Manager {
 		return $this->sppArray;
 	}
 
+	// Corresponds to getSppArray above, returns total species count
+	public function getSppCount($pid, $clid) {
+		$sql = '';
+		if ($clid && is_numeric($clid)) {
+			$sql = 'SELECT COUNT(DISTINCT t.tid) as count ' .
+				'FROM taxa t INNER JOIN taxaenumtree te ON t.tid = te.tid ' .
+				'INNER JOIN fmchklsttaxalink ctl ON ctl.TID = t.tid ' .
+				'WHERE (ctl.clid IN('.$this->getChildrenClid($clid).')) AND t.rankid = 220 AND (te.taxauthid = 1) AND (te.parenttid = '.$this->tid.') ';
+		// not sure where we actually use pid, getSppArray above seems to always fall back to the general query
+		// } elseif ($pid && is_numeric($pid)) {
+		// 	$sql = 'SELECT COUNT(DISTINCT t.tid) as count '.
+		// 		'FROM taxa t INNER JOIN taxaenumtree te ON t.tid = te.tid '.
+		// 		'INNER JOIN taxstatus ts ON t.tid = ts.tidaccepted '.
+		// 		'INNER JOIN fmchklsttaxalink ctl ON ts.Tid = ctl.TID '.
+		// 		'INNER JOIN fmchklstprojlink cpl ON ctl.clid = cpl.clid '.
+		// 		'WHERE (ts.taxauthid = 1) AND (te.taxauthid = 1) AND (cpl.pid = '.$pid.') '.
+		// 		'AND (te.parenttid = '.$this->tid.') AND (t.rankid = 220) ';
+		} else {
+			$sql = 'SELECT COUNT(DISTINCT t.tid) as count '.
+				'FROM taxa t INNER JOIN taxaenumtree te ON t.tid = te.tid '.
+				'INNER JOIN taxstatus ts ON t.Tid = ts.tidaccepted '.
+				'WHERE (te.taxauthid = 1) AND (ts.taxauthid = 1) AND (t.rankid = 220) AND (te.parenttid = '.$this->tid.') ';
+		}
+		$result = $this->conn->query($sql);
+		$row = $result->fetch_object();
+		$result->free();
+		if ($row) {
+			return $row->count;
+		}
+		return null;
+	}
+
 	//Misc functions
 	private function getChildrenClid($clid){
 		$clidArr = array($clid);

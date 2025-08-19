@@ -356,13 +356,14 @@ $nonItalicizedScinameComponent = $cultivarEpithet . $tradeName;
 					<td colspan="2">
 						<?php
 						if($sppArr = $taxonManager->getSppArray($page, $taxaLimit, $pid, $clid)){
+							$sppTotalCount = $taxonManager->getSppCount($pid, $clid);
 							?>
 							<fieldset style="padding:10px 2px 10px 2px;">
 								<?php
 								$legendStr = '';
 								if($clid){
 									if($checklistName = $taxonManager->getClName($clid)){
-										$legendStr .= $LANG['SPECIES_CHECKLIST'] . ': <b>' . $checklistName . '</b>';
+										$legendStr .= $LANG['SPECIES_CHECKLIST'] . ': <b>' . $checklistName . '</b> (' . $sppTotalCount . ')';
 									}
 									if($parentChecklistArr = $taxonManager->getParentChecklist($clid)){
 										$titleStr = $LANG['GO_TO'] . ': ' . current($parentChecklistArr);
@@ -381,7 +382,7 @@ $nonItalicizedScinameComponent = $cultivarEpithet . $tradeName;
 								}
 								elseif($pid){
 									$projName = $taxonManager->getProjName($pid);
-									if($projName) $legendStr .= $LANG['WITHIN_INVENTORY'] . ': <b>' . $projName . '</b>';
+									if($projName) $legendStr .= $LANG['WITHIN_INVENTORY'] . ': <b>' . $projName . '</b> (' . $sppTotalCount . ')';
 									else $legendStr = $LANG['SHOW_ALL_TAXA'];
 									$titleStr = $LANG['SHOW_ALL_TAXA'];
 									$legendStr .= ' <a href="index.php?tid=' . htmlspecialchars($tid, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '&clid=0&pid=0&taxauthid=' . htmlspecialchars($taxAuthId, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '" title="' . htmlspecialchars($titleStr, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">';
@@ -400,7 +401,7 @@ $nonItalicizedScinameComponent = $cultivarEpithet . $tradeName;
 									else $navStr .= '&lt;&lt;';
 									$upperCnt = ($page+1)*$taxaLimit;
 									if($taxonCnt < $taxaLimit) $upperCnt = ($page*$taxaLimit)+$taxonCnt;
-									$navStr .= ' ' . (($page*$taxaLimit)+1) . ' - ' . $upperCnt . ' taxa ';
+									$navStr .= ' ' . (($page*$taxaLimit)+1) . ' - ' . $upperCnt . ' taxa (' . $sppTotalCount . ' total) ';
 									if($taxonCnt > $taxaLimit) $navStr .= '<a href="index.php?' . htmlspecialchars($dynLink, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '&page=' . htmlspecialchars(($page+1), ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE) . '">&gt;&gt;</a>';
 									else $navStr .= '&gt;&gt;';
 									$navStr .= '</span>';
