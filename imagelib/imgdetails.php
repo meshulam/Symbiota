@@ -329,6 +329,7 @@ if ($imgArr) {
 							<div style="font-weight:bold;">
 								<?php echo $LANG['TRANSFER_TO_TAXON'] ?>:
 								<input type="text" id="taxa" name="targettaxon" size="40" />
+								<input type="hidden" id="taxontype" name="taxontype" value="2" /> <!-- Ensure autocomplete is only based on sciname, as assumed by verifyChangeTaxonForm() -->
 								<input type="hidden" id="tid" name="targettid" value="" />
 								<input type="hidden" name="sourcetid" value="<?php echo $imgArr["tid"]; ?>" />
 								<input type="hidden" name="mediaid" value="<?php echo $mediaID; ?>" />
