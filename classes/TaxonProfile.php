@@ -208,7 +208,8 @@ class TaxonProfile extends Manager {
 
 			$tidStr = implode(",",$tidArr);
 			$sortSequnceLimit = 500;
-			if($this->rankId < 220 && count($tidArr) > 50) $sortSequnceLimit = 20;
+			// mbaenrm: revert optimization since we don't always have a low sort order image
+			// if($this->rankId < 220 && count($tidArr) > 50) $sortSequnceLimit = 20;
 			$sql = 'SELECT t.sciname, m.mediaID, m.mediaType, m.format, m.url, m.thumbnailurl, m.originalurl, m.caption, m.occid, m.creator, CONCAT_WS(" ",u.firstname,u.lastname) AS creatorLinked
 				FROM media m LEFT JOIN users u ON m.creatorUid = u.uid
 				INNER JOIN taxstatus ts ON m.tid = ts.tid
