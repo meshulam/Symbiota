@@ -11,7 +11,7 @@
    crossorigin="">
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
+<script src="<?php echo $CLIENT_ROOT?>/js/OverlappingMarkerSpiderfier-Leaflet-0.2.6/oms.min.js"></script>
 
 <!-- Importing Leaflet Draw Plugin --> 
 <link 
@@ -24,7 +24,7 @@
 </script>
 
 <!-- Importing Leaflet Draw Drag --> 
-<script src="https://cdn.jsdelivr.net/npm/leaflet-path-drag@1.9.5/dist/index.min.js"></script>
+<script src="<?php echo $CLIENT_ROOT?>/js/leaflet-path-drag/index.min.js"></script>
 <script 
    src="<?php echo $CLIENT_ROOT?>/js/leaflet-draw-drag/src/Edit.SimpleShape.Drag.js"
    type="text/javascript">
