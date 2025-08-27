@@ -20,31 +20,30 @@ $genusStr = $taxonEditorObj->cleanOutStr($genusStr);
 	$(document).ready(function() {
 
 		$("#remapvalue").autocomplete({
-				source: "rpc/gettaxasuggest.php",
-				minLength: 2
-			}
-		);
+			source: 'rpc/gettaxasuggest.php',
+			minLength: 3,
+			response: function(event, { content }) {
+				// response is an array of { id, label } objects
+				content.forEach(entry => {
+					entry.value = entry.label;
+					entry.label = `${entry.value} (${entry.id})`; // display sciName and TID in select list
+				});
+			},
+			change: function(event, ui) {
+				$('#remaptid').val(ui?.item?.id); 
+			},
+			select: function(event, ui) {
+				$('#remaptid').val(ui?.item?.id); 
+			},
+		});
 	});
 
 	function submitRemapTaxonForm(f){
-		if(f.remapvalue.value == ""){
-			alert("<?php echo $LANG['NO_TARGET_TAXON'] ?>");
+		if(f.remaptid.value == ""){
+			alert("<?php echo $LANG['TAXON_NOT_FOUND'] ?>");
 			return false;
 		}
-		$.ajax({
-			type: "POST",
-			url: "rpc/gettid.php",
-			data: { sciname: f.remapvalue.value }
-		}).done(function( msg ) {
-			if(msg == 0){
-				alert("<?php echo $LANG['TAXON_NOT_FOUND']; ?>");
-				f.remaptid.value = "";
-			}
-			else{
-				f.remaptid.value = msg;
-				f.submit();
-			}
-		});
+		f.submit();
 	}
 </script>
 <div style="min-height:400px; height:auto !important; height:400px; ">
@@ -284,8 +283,12 @@ $genusStr = $taxonEditorObj->cleanOutStr($genusStr);
 				<span style="color:red;"><?= $LANG['WARNING_REMAP'] ?></span>
 				<div style="margin-top:5px;margin-bottom:5px;">
 					<?php echo $LANG['TARGET_TAXON']; ?>:
-					<input id="remapvalue" name="remapvalue" type="text" value="" style="width:550px;" /><br/>
-					<input name="remaptid" type="hidden" value="" />
+					<input id="remapvalue" name="remapvalue" type="text" value="" style="width:500px;" />
+					<label style="margin-left:0.5em;">
+						TID: 
+						<input id="remaptid" name="remaptid" type="text" readonly style="background-color:#ccc; border: 0px;" />
+					</label>
+					<br />
 				</div>
 				<div>
 					<button name="submitbutton" type="button" onclick="submitRemapTaxonForm(this.form)"><?php echo $LANG['REMAP_TAXON']; ?></button>
