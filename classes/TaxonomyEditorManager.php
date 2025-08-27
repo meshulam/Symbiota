@@ -844,10 +844,54 @@ class TaxonomyEditorManager extends Manager{
 		return $retArr;
 	}
 
+	/**
+	 * Modified from TaxonomyCleaner->remapOccurrenceTaxon
+	 */
+	public function transferOccurrences($targetTid) {
+		//Get new name and author
+		$newSciname = null;
+		$newAuthor = null;
+		$newFamily = null;
+		$sql = 'SELECT t.sciname, t.author, ts.family FROM taxa t INNER JOIN taxstatus ts ON t.tid = ts.tid WHERE (t.tid = ?) AND (ts.taxauthid = 1)';
+		$stmt = $this->conn->prepare($sql);
+		$stmt->bind_param('i', $targetTid);
+		$stmt->execute();
+		$stmt->bind_result($newSciname, $newAuthor, $newFamily);
+		$stmt->fetch();
+		$stmt->close();
+
+		if (!$newSciname) {
+			$this->warningArr[] = "Could not retrieve target taxa info, occurrences have been left with a blank tidInterpreted";
+			return false;
+		}
+
+		$stmt = $this->conn->prepare(
+			'INSERT INTO omoccuredits(occid, fieldName, fieldValueNew, fieldValueOld, uid, reviewStatus, appliedStatus, editType) ' .
+			'(SELECT occid, "tidInterpreted", ?, ?, ?, 1, 1, 1 FROM omoccurrences WHERE tidInterpreted = ?)');
+		$stmt->bind_param('iiii', $targetTid, $this->tid, $GLOBALS['SYMB_UID'], $this->tid);
+		$stmt->execute();
+		$stmt->close();
+
+		$updateStmt = $this->conn->prepare(
+			'UPDATE omoccurrences SET tidInterpreted = ?, sciName = ?, scientificNameAuthorship = ?, family = ? ' .
+			'WHERE tidInterpreted = ?');
+		$updateStmt->bind_param('isssi', $targetTid, $newSciname, $newAuthor, $newFamily, $this->tid);
+		$updateStmt->execute();
+		$updateStmt->close();
+
+		// media not associated with an occurrence are updated in transferResources
+		$mediaStmt = $this->conn->prepare('UPDATE media SET tid = ? WHERE occid IS NOT NULL and tid = ?');
+		$mediaStmt->bind_param('ii', $targetTid, $this->tid);
+		$mediaStmt->execute();
+		$mediaStmt->close();
+		return true;
+	}
+
 	public function transferResources($targetTid){
 		$status = false;
 		if(is_numeric($targetTid)){
-			//Set occurrence and determination tids to NULL within delete function function below
+			// mbaenrm: transferOccurrences is called first if the checkbox is selected when submitting the Remap Taxon form. Otherwise 
+			// Occurrence and determination tids are set to NULL within delete function function below
 
 			//Field images; specimen images set to null within delete function
 			$sql ='UPDATE IGNORE media SET tid = '.$targetTid.' WHERE occid IS NULL AND tid = '.$this->tid;

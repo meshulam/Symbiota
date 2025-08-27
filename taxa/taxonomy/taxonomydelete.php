@@ -289,6 +289,12 @@ $genusStr = $taxonEditorObj->cleanOutStr($genusStr);
 						<input id="remaptid" name="remaptid" type="text" readonly style="background-color:#ccc; border: 0px;" />
 					</label>
 					<br />
+					<label>
+						<input id="remapoccs" name="remapoccs" type="checkbox" /> 
+						Remap occurrences? If left unchecked, occurrences will be disconnected from taxa and 
+						can be re-associated through the collection's taxonomy cleaner.
+					</label>
+					<br />
 				</div>
 				<div>
 					<button name="submitbutton" type="button" onclick="submitRemapTaxonForm(this.form)"><?php echo $LANG['REMAP_TAXON']; ?></button>

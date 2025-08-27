@@ -50,6 +50,9 @@ if ($isEditor) {
 	} elseif ($submitAction == 'updatehierarchy') {
 		$statusStr = $taxonEditorObj->rebuildHierarchy($tid);
 	} elseif ($submitAction == 'remapTaxon') {
+		if ($_REQUEST['remapoccs']) {
+			$remapOccStatus = $taxonEditorObj->transferOccurrences($_REQUEST['remaptid']);
+		}
 		$remapStatus = $taxonEditorObj->transferResources($_REQUEST['remaptid']);
 		if ($taxonEditorObj->getWarningArr()) $statusStr = $LANG['FOLLOWING_WARNINGS'] . ': ' . implode(';', $taxonEditorObj->getWarningArr());
 		if ($remapStatus) {
