@@ -787,6 +787,14 @@ function verifyFullFormEdits(f) {
   return true;
 }
 
+function confirmClone(f) {
+  if (f.editedfields && f.editedfields.value) {
+    return confirm('There may be unsaved changes in the occurrence editor (' + f.editedfields.value + ').' +
+      'These changes will only be applied to the cloned record, NOT THE CURRENT ONE. Proceed with cloning?');
+  }
+  return true;
+}
+
 function prePopulateCatalogNumbers() {
   $("#cloneCatalogNumber-Fieldset").show();
   var catCnt = document.getElementById("clonecount").value;

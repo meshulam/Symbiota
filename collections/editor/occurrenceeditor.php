@@ -1707,7 +1707,7 @@ else{
 															<div id="cloneCatalogNumberDiv" class="fieldGroup-div"></div>
 														</fieldset>
 														<div style="margin:10px">
-															<button name="submitaction" class="button" type="submit" value="cloneRecord"><?php echo $LANG['CREATE_RECORD']; ?></button>
+															<button name="submitaction" class="button" type="submit" value="cloneRecord" onclick="return confirmClone(this.form)"><?php echo $LANG['CREATE_RECORD']; ?></button>
 														</div>
 													</fieldset>
 												</div>
