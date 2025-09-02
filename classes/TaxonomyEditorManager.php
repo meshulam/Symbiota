@@ -865,6 +865,7 @@ class TaxonomyEditorManager extends Manager{
 			return false;
 		}
 
+		// Record history for fields before we change them
 		$stmt = $this->conn->prepare(
 			'INSERT INTO omoccuredits(occid, fieldName, fieldValueNew, fieldValueOld, uid, reviewStatus, appliedStatus, editType) ' .
 			'(SELECT occid, "tidInterpreted", ?, ?, ?, 1, 1, 1 FROM omoccurrences WHERE tidInterpreted = ?)');
@@ -872,6 +873,28 @@ class TaxonomyEditorManager extends Manager{
 		$stmt->execute();
 		$stmt->close();
 
+		$stmt = $this->conn->prepare(
+			'INSERT INTO omoccuredits(occid, fieldName, fieldValueNew, fieldValueOld, uid, reviewStatus, appliedStatus, editType) ' .
+			'(SELECT occid, "sciName", ?, sciName, ?, 1, 1, 1 FROM omoccurrences WHERE tidInterpreted = ? and sciName != ?)');
+		$stmt->bind_param('siis', $newSciname, $GLOBALS['SYMB_UID'], $this->tid, $newSciname);
+		$stmt->execute();
+		$stmt->close();
+
+		$stmt = $this->conn->prepare(
+			'INSERT INTO omoccuredits(occid, fieldName, fieldValueNew, fieldValueOld, uid, reviewStatus, appliedStatus, editType) ' .
+			'(SELECT occid, "scientificNameAuthorship", ?, scientificNameAuthorship, ?, 1, 1, 1 FROM omoccurrences WHERE tidInterpreted = ? and scientificNameAuthorship != ?)');
+		$stmt->bind_param('siis', $newAuthor, $GLOBALS['SYMB_UID'], $this->tid, $newAuthor);
+		$stmt->execute();
+		$stmt->close();
+
+		$stmt = $this->conn->prepare(
+			'INSERT INTO omoccuredits(occid, fieldName, fieldValueNew, fieldValueOld, uid, reviewStatus, appliedStatus, editType) ' .
+			'(SELECT occid, "family", ?, family, ?, 1, 1, 1 FROM omoccurrences WHERE tidInterpreted = ? and family != ?)');
+		$stmt->bind_param('siis', $newFamily, $GLOBALS['SYMB_UID'], $this->tid, $newFamily);
+		$stmt->execute();
+		$stmt->close();
+
+		// Actually
 		$updateStmt = $this->conn->prepare(
 			'UPDATE omoccurrences SET tidInterpreted = ?, sciName = ?, scientificNameAuthorship = ?, family = ? ' .
 			'WHERE tidInterpreted = ?');
