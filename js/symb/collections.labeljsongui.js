@@ -139,7 +139,7 @@ const fieldProps = [
     id: 'associatedtaxa',
     group: 'taxon',
   },
-  // { block: 'labelBlock', name: 'Dynamic Properties', id: 'dynamicProperties' },
+  { block: 'labelBlock', name: 'Dynamic Properties', id: 'dynamicProperties', group: 'specimen' },
   {
     block: 'labelBlock',
     name: 'Verbatim Attributes',
