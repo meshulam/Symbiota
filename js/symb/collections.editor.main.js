@@ -89,6 +89,12 @@ $(document).ready(function () {
     source: "rpc/getspeciessuggest.php",
     minLength: 3,
     autoFocus: true,
+    select: function (event, ui) {
+      event.target.value = ui.item.value;
+      // immediately unfocus input, to trigger change handler below
+      event.target.blur();
+      event.target.focus();
+    },
     change: function (event, ui) {
       $("#tidinterpreted").val("");
       $("input[name=scientificnameauthorship]").val("");
