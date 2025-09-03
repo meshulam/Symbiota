@@ -40,16 +40,18 @@ class OccurrenceCollectionProfileCustom extends OccurrenceCollectionProfile {
 $logPath = $GLOBALS['SERVER_ROOT'] . (substr($GLOBALS['SERVER_ROOT'], -1) == '/' ? '' : '/') . "content/logs/publish_dwca_" . date('Y-m-d') . ".log";
 
 $dwcaManager = new DwcArchiverScheduledPublisher($logPath);
+$dwcaManager->setTargetPath($SERVER_ROOT . (substr($SERVER_ROOT, -1) == '/' ? '' : '/') . 'content/dwca/');
+$dwcaManager->setLimitToGuids(true);
+
 $collManager = new OccurrenceCollectionProfileCustom($logPath);
 
-$dwcaManager->setLimitToGuids(true);
 
 function getCollids() {
     $collids = [];
     $conn =  MySQLiConnectionFactory::getCon('readonly');
 
     // $scheduledPublishColls = 'MIN-Algae,MIN-Bryophytes,MIN-Lichens';
-    $scheduledPublishColls = GLOBALS['SCHEDULED_PUBLISH_COLLECTIONS'];
+    $scheduledPublishColls = $GLOBALS['SCHEDULED_PUBLISH_COLLECTIONS'] ?? '';
 
     $trimmed = str_replace(['"', "'", ' ', '(', ')'], '', $scheduledPublishColls);
     $collKeys = explode(',', $trimmed);
