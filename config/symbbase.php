@@ -1,16 +1,19 @@
 <?php
 header('X-Frame-Options: DENY');
 header('Cache-control: private'); // IE 6 FIX
+if($GLOBALS['HTTPS_ONLY'] ?? true) {
+	header('strict-transport-security: max-age=600');
+}
 session_cache_limiter(''); // Don't automatically set cache headers
 date_default_timezone_set('America/Chicago');
-$CODE_VERSION = '3.3.4';
+$CODE_VERSION = '3.3.6';
 
 set_include_path(get_include_path() . PATH_SEPARATOR . $SERVER_ROOT . PATH_SEPARATOR . $SERVER_ROOT.'/config/' . PATH_SEPARATOR . $SERVER_ROOT.'/classes/');
 
 session_start(array(
 	'gc_maxlifetime' => 3600, // Use default probalistic session GC to cleanup sessions older than 1 hour
 	'cookie_path' => (empty($CLIENT_ROOT) ? '/' : $CLIENT_ROOT),
-	'cookie_secure' => !!$COOKIE_SECURE,
+	'cookie_secure' => true,
 	'cookie_httponly' => true,
 	'cookie_samesite' => 'Lax',
 	'use_strict_mode' => true,
@@ -125,7 +128,7 @@ $CSS_VERSION = '16';
 
 // Used for what media is allowed to be uploaded. Does not restrict external links
 $ALLOWED_MEDIA_MIME_TYPES = [
-	"image/jpeg", "image/png",
+	"image/jpeg", "image/png", "image/gif",
 	"audio/mpeg", "audio/wav", "audio/ogg"
 ];
 
