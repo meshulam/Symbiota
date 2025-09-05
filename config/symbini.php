@@ -105,11 +105,8 @@ $SHOULD_USE_MINIMAL_MAP_HEADER = false;
 
 $DATE_DEFAULT_TIMEZONE = NULL; // This should be set if server default timezone isn't populated correctly by deafult (e.g., $DATE_DEFAULT_TIMEZONE = 'America/Phoenix';)
 
-$COOKIE_SECURE = false;
-if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
-	header('strict-transport-security: max-age=600');
-	$COOKIE_SECURE = true;
-}
+$PRIVATE_VIEWING_ONLY = false; // Setting to true sets all content to be password protected besides below pages
+$PRIVATE_VIEWING_OVERRIDES = ['/index.php', '/misc/contacts.php','/misc/aboutproject.php', '/profile/newprofile.php', '/profile/index.php'];  //These pages will always be accessible to public viewing.  Add to as needed.
 
 // Creates Togglable Overlay for GeoJSON file
 // Only Support with Leaflet Map
@@ -119,6 +116,10 @@ if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERV
 // popup_template: String - Html string for what label should be generated on a GeoJSON feature. Will replace text like `[Property_name]` with a features property value if present
 // template_properties: Array[String] - List of property names to used in popup generation
 $GEO_JSON_LAYERS = [];
+
+// Toggles `strict-transport-security` header
+// Do not turn off for production portals
+$HTTPS_ONLY = true;
 
 // Override global variables above with env-specific values
 include_once('/etc/bellatlas/symbini_local.php');
