@@ -58,7 +58,7 @@ if($collMap){
 						'occid' => $occid
 					],
 					$file, 
-					new LocalStorage($path)
+					new S3Storage($path)
 				);
 				
 				if($errors = Media::getErrors()) {

@@ -526,8 +526,6 @@ class Media {
 					$width = $size[0];
 					$height = $size[1];
 
-					$storage->upload($file);
-
 					$urls = [ 
 						'thumbnailUrl' => [
 							'name' => self::addToFilename($file['name'], '_tn'),
@@ -540,11 +538,12 @@ class Media {
 							'height' => 0
 						]
 					];
-
+					
 					foreach($urls as $url => $data) {
 						if(!($media_metadata[$url] ?? false)) {
-							self::create_image(
-								$file['name'],
+							// mbaenrm - change call signature to access tmp_name
+							self::create_image_mbaenrm(
+								$file,
 								$data['name'],
 								$storage,
 								$data['width'],
@@ -555,9 +554,12 @@ class Media {
 								$metadata[$url] = $storage->getUrlPath($data['name']);
 								$createdFilepaths[] = $url;
 							}
-
+							
 						}
 					}
+					// mbaenrm: upload original file after resized versions, since upload() deletes the tmp_name file
+					$storage->upload($file);
+
 					self::update_metadata($metadata, $media_metadata['mediaID'], $conn);
 				} elseif($media_type === MediaType::Audio) {
 					$storage->upload($file);
@@ -828,6 +830,37 @@ class Media {
 		}
 	}
 
+	public static function create_image_mbaenrm($src_filearr, $new_filename, StorageStrategy $storage, $new_width, $new_height): void {
+		$src_path = $src_filearr['tmp_name'];
+		$tempOutPath = sys_get_temp_dir() . '/temp-' . microtime(true);
+
+		if($new_height === 0 && $new_width === 0) {
+			throw new Exception('Must have width or height as non zero values');
+		} else if($new_height === 0) {
+			$new_height = $new_width;
+		} else if($new_width === 0) {
+			$new_width = $new_height;
+		}
+
+		$qualityRating = self::DEFAULT_JPG_COMPRESSION;
+
+		if($new_width < 300) {
+			$ct = system('convert '. $src_path . ' -thumbnail ' . $new_width .' x ' . ($new_width * 1.5).' ' . $tempOutPath);
+		} else {
+			$ct = system('convert '. $src_path . ' -resize ' . $new_width.'x' . ($new_width * 1.5) . ($qualityRating?' -quality '.$qualityRating:'') . ' ' . $tempOutPath);
+		}
+
+		if(!file_exists($tempOutPath)){
+			error_log('ERROR: Image failed to be created in Imagick function (target path: '.$tempOutPath.')');
+		}
+
+		if(!$storage->file_exists($new_file)) {
+			$storage->upload([
+				'name' => $new_filename,
+				'tmp_name' => $tempOutPath,
+			]);
+		}
+	}
 	/*
 	 * While the function does create an image it does so to resize it
 	 *

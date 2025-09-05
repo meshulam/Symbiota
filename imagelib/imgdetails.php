@@ -25,10 +25,10 @@ $status = '';
 
 if ($isEditor) {
 	if ($action == 'Submit Image Edits') {
-		Media::update($mediaID, $_POST, new LocalStorage());
+		Media::update($mediaID, $_POST, new S3Storage());
 	} elseif ($action == 'Transfer Image') {
 		if($targettid = $_REQUEST['targettid'] ?? false) {
-			Media::update($mediaID, ['tid' => $targettid ], new LocalStorage());
+			Media::update($mediaID, ['tid' => $targettid ], new S3Storage());
 
 			if($errors = Media::getErrors()) {
 				$status = 'Errors:<br/>' . implode('<br/>', $errors);

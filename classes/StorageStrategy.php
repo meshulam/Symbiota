@@ -1,6 +1,7 @@
 <?php
 include_once($SERVER_ROOT . "/classes/MediaException.php");
 include_once($SERVER_ROOT . "/classes/MediaType.php");
+include_once($SERVER_ROOT . "/classes/S3Cmd.php");
 
 abstract class StorageStrategy {
 	/**
@@ -55,6 +56,9 @@ class LocalStorage extends StorageStrategy {
 	private string $path;
 
 	public function __construct($path = '') {
+		if (str_starts_with($GLOBALS['MEDIA_ROOT_PATH'], 's3://')) {
+			throw new Exception('S3 is configured, must use S3StorageStragegy');
+		}
 		$this->path = $path ?? '';
 	}
 
@@ -192,5 +196,76 @@ class LocalStorage extends StorageStrategy {
 		} else {
 			rename($dir_path . $filepath, $dir_path . $new_filepath);
 		}
+	}
+}
+
+/**
+ * Storage implementation that uses S3 API via the 'S3Cmd' class instead of local filesystem storage.
+ */
+class S3Storage extends StorageStrategy {
+	private string $path;
+
+	public function __construct($path = '') {
+		$this->path = $path ?? '';
+	}
+
+	public function getDirPath($file = null): string {
+		$file_name = is_array($file)? $file['name']: $file;
+
+		return $GLOBALS['MEDIA_ROOT_PATH'] .
+			(substr($GLOBALS['MEDIA_ROOT_PATH'],-1) != "/"? '/': '') .
+			$this->path . $file_name;
+	}
+
+	public function getUrlPath($file = null): string {
+		$file_name = is_array($file)? $file['name']: $file;
+		return $GLOBALS['MEDIA_ROOT_URL'] .
+		   	(substr($GLOBALS['MEDIA_ROOT_URL'],-1) != "/"? '/': '') .
+		   	$this->path . $file_name;
+	}
+
+	/**
+	 * Private help function for interal use that holds logic for how storage paths are created.
+	 * @return string
+	 */
+
+	public function file_exists($file): bool {
+		$filename = is_array($file)? $file['name']: $file;
+
+		if(str_contains($filename, $this->getUrlPath())) {
+			$filename = str_replace($this->getUrlPath(), '', $filename);
+		}
+
+		return S3Cmd::exists($this->getDirPath() . $filename);
+	}
+
+	/**
+	 * Upload implemenation stores files on the server and expect duplicate files to be handled by the caller
+	 */
+	public function upload(array $file): bool {
+		$dir_path = $this->getDirPath();
+		$file_path = $dir_path . $file['name'];
+
+		if(S3Cmd::exists($file_path)) {
+			throw new MediaException(MediaException::DuplicateMediaFile);
+		}
+
+		if (S3Cmd::copyTo($file['tmp_name'], $file_path)) {
+			unlink($file['tmp_name']);
+			error_log('SUCCESS S3 copying ' . $file['tmp_name'] . ' to ' . $file_path );
+		} else {
+			error_log('ERROR S3 copying ' . $file['tmp_name'] . ' to ' . $file_path );
+			return false;
+		}
+
+		return true;
+	}
+
+	public function remove(string $filename): bool {
+		return S3Cmd::unlink($this->getDirPath($filename));
+	}
+
+	public function rename(string $filepath, string $new_filepath): void {
+		throw new MediaException('not implemented');
 	}
 }

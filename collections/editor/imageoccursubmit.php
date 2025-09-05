@@ -43,7 +43,7 @@ if($isEditor){
 				Media::uploadAndInsert(
 					$_POST,
 					$_FILES['imgfile'],
-					new LocalStorage($path)
+					new S3Storage($path)
 				);
 
 				if($errors = Media::getErrors()) {
